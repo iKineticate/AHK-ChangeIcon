@@ -16,14 +16,23 @@ Right click the row of the shortcut to be modified
 ## AHK_ChangIcon 的右键菜单功能
 
 1.`更换`桌面快捷方式图标
+
 `Change` desktop shortcut icons
+
 2.支持恢复桌面快捷方式`默认`图标
+
 Restoring `default` icons of desktop shortcuts
+
 3.支持`重命名`桌面快捷方式
+
 `Rename` desktop shortcuts
+
 4.支持`打开`快捷方式的目标目录
+
 `Opening` the target directory of shortcut
+
 5.支持`运行`桌面快捷方式
+
 `Run` desktop shortcuts
 
 
@@ -31,9 +40,14 @@ Restoring `default` icons of desktop shortcuts
 ## 注意 (Warn)：
 
 1.暂不支持更换`我的电脑`、`回收站`、`.url`、`.exe`、`.pdf`等图标
+
 `My Computer`、`Recycle Bin`、`.url`、`.exe`、`.pdf` and other icons cannot be changed temporarily
+
 2.UWP应用的快捷方式只支持更换图标功能，其他功能均不支持
+
 The shortcut of UWP application only supports the icon replacement function, and other functions do not support
+
 3.AHK的列表暂不支持显示快捷方式图标（除了系统图标）
+
 The listview of AHK does not support the display of shortcut icons（except system icons）
 
