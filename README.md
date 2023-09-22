@@ -42,9 +42,9 @@ Restoring **default** icons of desktop shortcuts
 ![image name](https://raw.githubusercontent.com/iKineticate/AHK_ChangeIcon/main/Picture/AHK_ChangIcon_2.png)
 ## 注意 (Warn)：
 
-1.暂不支持更换**我的电脑**、**回收站**、**.url**、**.exe**、**.pdf**等图标
+1.暂不支持更换`我的电脑`、`回收站`、`.url`、`.exe`、`.pdf`等图标
 
-**My Computer**、**Recycle Bin**、**.url**、**.exe**、**.pdf** and other icons cannot be changed temporarily
+`My Computer`、`Recycle Bin`、`.url`、`.exe`、`.pdf` and other icons cannot be changed temporarily
 
 2.UWP应用的快捷方式只支持更换图标功能，其他功能均不支持
 
