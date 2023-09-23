@@ -1,43 +1,43 @@
 ## AHK_ChangeIcon 简介
 
-这是一款用 AHK 编写的软件，它可以快速更换桌面快捷方式图标的软件。当需要更换大量的桌面快捷方式图标时，AHK 可以帮你减少操作来节约时间。
+这是一款用 AHK 编写的软件，它可以快速的批量更换桌面快捷方式图标的软件。当需要更换大量的桌面快捷方式图标时，AHK 可以帮你减少操作来节约时间，约减少**3n-1步**（n为需要更换图标的数量）
 
-This is a software written with AHK, which can quickly change desktop shortcut icons.When a large number of desktop shortcut icons need to be replaced, AHK_ChangeIcon can help you reduce operations to save time.
+This is a software written with AHK, which can quickly batch change the software of desktop shortcut icons.When a large number of desktop shortcut icons need to be replaced, AHK can help you save time by reducing operations by about **"3n-1"** steps ("n" is the number of icons to be replaced)
 
 
-![image name](https://raw.githubusercontent.com/iKineticate/AHK_ChangeIcon/main/Picture/AHK_ChangIcon_1.png)
+![image name](https://raw.githubusercontent.com/iKineticate/AHK_ChangeIcon/main/Picture/AHK_ChangIcon_3.png)
 
 ## AHK_ChangIcon 的使用
 
-1.左键双击需要修改的快捷方式的行
+1.左键双击需要修改的项目，并选择图片修改
 
-Double left click the row of the shortcut to be modified
+Double left click the item to be modified, and select the image replacement icon
 
-2.右键点击需要修改的快捷方式的行
+2.右键点击需要修改的项目，根据右键菜单栏内容选择需要的功能
 
-Right click the row of the shortcut to be modified
+Right click the item to be modified, and select the required function according to the context of the right-click menu bar
 
 ## AHK_ChangIcon 的右键菜单功能
 
-1.<font color=Red>更换</font>桌面快捷方式图标
+1.**更换**桌面快捷方式图标
 
-<font color=Red>Change</font> desktop shortcut icons
+**Change** desktop shortcut icons
 
-2.支持恢复桌面快捷方式<font color=Red>默认</font>图标
+2.支持恢复桌面快捷方式**默认**图标
 
-Restoring <font color=Red>default</font> icons of desktop shortcuts
+Restoring **default** icons of desktop shortcuts
 
-3.支持<font color=Red>重命名</font>桌面快捷方式
+3.支持**重命名**桌面快捷方式
 
-<font color=Red>Rename</font> desktop shortcuts
+**Rename** desktop shortcuts
 
-4.支持<font color=Red>打开</font>快捷方式的<font color=Red>目标目录</font>
+4.支持**打开**快捷方式的**目标目录**
 
-<font color=Red>Open the target directory</font> of shortcut
+**Open the target directory** of shortcut
 
-5.支持<font color=Red>运行</font>桌面快捷方式
+5.支持**运行**桌面快捷方式
 
-<font color=Red>Run</font> desktop shortcuts
+**Run** desktop shortcuts
 
 
 ![image name](https://raw.githubusercontent.com/iKineticate/AHK_ChangeIcon/main/Picture/AHK_ChangIcon_2.png)
@@ -47,11 +47,13 @@ Restoring <font color=Red>default</font> icons of desktop shortcuts
 
 `My Computer`、`Recycle Bin`、`.url`、`.exe`、`.pdf` and other icons cannot be changed temporarily
 
-2.UWP应用的快捷方式只支持更换图标功能，其他功能均不支持
+2.UWP应用和WSA应用的快捷方式只支持更换图标功能，其他功能均不支持
 
-The shortcut of UWP application only supports the icon replacement function, and other functions do not support
+The shortcut of UWP application and WSA application only supports the icon replacement function, and other functions do not support
 
 3.AHK的列表暂不支持显示快捷方式图标（除了系统图标）
 
 The listview of AHK does not support the display of shortcut icons（except system icons）
 
+## 更新内容
+v1.05：在底部添加了显示选中项目的图标，缩减了部分代码长度

@@ -1,5 +1,7 @@
 ;———————————————————————————————————— 酷安：林琼雅 —————————————————————————————————————————
 ;————————————————————————————————— Github：Leen_Joan ——————————————————————————————————————
+#Requires AutoHotkey >=v2.0
+
 ; 以管理员身份运行AHK
 full_command_line := DllCall("GetCommandLine", "str")
 if not (A_IsAdmin or RegExMatch(full_command_line, " /restart(?!\S)")) {
@@ -11,7 +13,6 @@ if not (A_IsAdmin or RegExMatch(full_command_line, " /restart(?!\S)")) {
     }
     ExitApp
 }
-
 
 ; 创建名为Change_Icon_Gui的窗口并允许重绘窗口大小,添加窗口标题
 Change_Icon_Gui := Gui("+Resize", "更改文件图标(Change Icon)————by Leen_Joan(Github)")
@@ -25,9 +26,11 @@ Change_Icon_Gui.OnEvent("Close", (*) => ExitApp())
 Change_Icon_Gui.OnEvent("Size", Change_Icon_Gui_Size)
 
 
-; 创建黑色背景列表，添加5个名为“Name、TargetPath、Path、TargetDir、Dir”的标题，其中Paht和Dir不显示，设置“关闭重绘”来加快列表的加载速度
+; 创建黑色背景列表，添加5个名为“Name、TargetPath、TargetDir、Path、Dir”的标题，后三项不显示，设置“关闭重绘”来加快列表的加载速度
 Link_LV := Change_Icon_Gui.AddListView("x6 y6 r15 w700 -Redraw -E0X200 Background1f1f1f"
-        , ["Name", "TargetPath", "Path", "TargetDir", "Dir"])
+        , ["Name", "TargetPath", "TargetDir", "Path", "Dir"])
+; 创建列表单击事件
+Link_LV.OnEvent("Click", Link_Clink)
 ; 创建列表双击事件
 Link_LV.OnEvent("DoubleClick", Link_DC)
 ; 创建列表右键菜单
@@ -44,23 +47,39 @@ For Desktop in pathArr
 Loop Files, Desktop "\*.lnk" {
     ; Link_Name存储去掉.lnk的快捷方式名称
     Link_Name := StrReplace(A_LoopFileName, ".lnk")
-    ; 获取快捷方式的目标路径、目标目录
-    FileGetShortcut(A_LoopFilePath, &Link_TargetPath, &Link_TargetDir)
     ; 获取快捷方式的目录
     SplitPath(A_LoopFilePath, , &Link_Dir)
+    ; 获取快捷方式的属性
+    Link_Attrib := ComObject("WScript.Shell").CreateShortcut(A_LoopFilePath)
     ; 将快捷方式的名称、目标路径、目标目录、lnk路径、lnk目录添加至列表中
-    Link_LV.Add(, Link_Name, Link_TargetPath, Link_TargetDir, A_LoopFilePath, Link_Dir)
+    Link_LV.Add(
+        , Link_Name
+        , Link_Attrib.TargetPath
+        , Link_Attrib.WorkingDirectory
+        , A_LoopFilePath
+        , Link_Dir)
 }
-
 
 Link_LV.Opt("+Redraw")              ; 允许列表重绘大小
 Link_LV.ModifyCol(1, "160 +Sort")   ; 第一列宽度限制为160，并将两次Loop Files结果重新排序
 Link_LV.ModifyCol(2, 520)           ; 第二列宽度限制为500
-Link_LV.ModifyCol(3,0)              ; 隐藏第三列
-Link_LV.ModifyCol(4,0)              ; 隐藏第四列
-Link_LV.ModifyCol(5,0)              ; 隐藏第五列
+Link_LV.ModifyCol(3, 0)             ; 隐藏第三列
+Link_LV.ModifyCol(4, 0)             ; 隐藏第四列
+Link_LV.ModifyCol(5, 0)             ; 隐藏第五列
+
+
+; 底部添加图标（调用Base64PNG_to_HICON）
+Bottom_Base64PNG := '
+(
+    iVBORw0KGgoAAAANSUhEUgAAABkAAAACCAYAAACt+Hc7AAAAFElEQVQI12OUl5f/z0BjwMRABwAAEE8BYEdKF/AAAAAASUVORK5CYII=
+)'
+Bottom_Picture := Change_Icon_Gui.AddPicture("x6 w700 h56", "HICON:" Base64PNG_to_HICON(Bottom_Base64PNG))
+; 创建ICO显示区域
+Show_Icon := Change_Icon_Gui.AddPicture("x6 w56 h56 ")
 
 Change_Icon_Gui.Show()
+
+
 
 ; 窗口标题栏暗黑模式
 DllCall("dwmapi\DwmSetWindowAttribute", "ptr", Change_Icon_Gui.Hwnd, "int", 20, "int*", true, "int", 4)
@@ -73,6 +92,23 @@ Class darkMode {
     )
 }
 
+
+; 单击在对应位置显示图标
+Link_Clink(Link_LV, Item) {
+    Click_fileinfo := Buffer(Click_fisize := A_PtrSize + 688)
+    if DllCall("shell32\SHGetFileInfoW"
+        , "WStr", Link_LV.GetText(Item, 4)
+        , "UInt", 0
+        , "Ptr", Click_fileinfo
+        , "UInt", Click_fisize
+        , "UInt", 0x100)
+    {
+        Click_Hicon := NumGet(Click_fileinfo, 0, "Ptr")
+        Show_Icon.Value := "HICON:" Click_Hicon
+        DllCall("DestroyIcon", "Ptr", Click_fileinfo)
+    }
+}
+
 ; 双击更换图标设置
 Link_DC(Link_LV, Item) {
     ; 获取双击行的lnk属性
@@ -80,15 +116,19 @@ Link_DC(Link_LV, Item) {
     ; 选择ICO图标
     Link_Icon_Select := FileSelect(3, , "更换" . Link_LV.GetText(Item, 1) . "的图标", "Icon files(*.ico)")
     ; 若选择了图标，则更换快捷方式图标、保存修改、清空Icon_Select变量
-    If (Link_Icon_Select != "") {
-        Link_DC_Attrib.IconLocation := Link_Icon_Select
-        Link_DC_Attrib.Save()
-        Link_Icon_Select := ""
-    }
+    If (Link_Icon_Select = "")
+        Return
+    Link_DC_Attrib.IconLocation := Link_Icon_Select
+    Link_DC_Attrib.Save()
+    Link_Icon_Select := ""
+    ; 刷新图标
+    Link_Clink(Link_LV, Item)
 }
 
 ; 右键打开菜单设置
 Link_LV_Menu(Link_LV, Item, IsRightClick, X, Y) {
+    ; 显示图标
+    Link_Clink(Link_LV, Item)
     ; 创建菜单
     Link_ContextMenu := Menu()
     ; 添加菜单选项及功能
@@ -115,27 +155,19 @@ Link_LV_Menu(Link_LV, Item, IsRightClick, X, Y) {
         Link_ContextMenu.SetIcon("运行当前文件(Run)", "HICON:" hicon)
     }
 
-    ; 在菜单栏第二~五项添加对应图标，点击可执行对应操作
-    Link_ContextMenu.SetIcon("更改文件图标(Change)", "HICON:" Change_Base64PNG_to_HICON(Change_Base64PNG))
-    Link_ContextMenu.SetIcon("恢复默认图标(Default)", "HICON:" Default_Base64PNG_to_HICON(Default_Base64PNG))
-    Link_ContextMenu.SetIcon("打开目标目录(TargetDir)", "HICON:" Folders_Base64PNG_to_HICON(Folders_Base64PNG))
-    Link_ContextMenu.SetIcon("重新命名文件(Rename)", "HICON:" Rename_Base64PNG_to_HICON(Rename_Base64PNG))
+    ; 在菜单栏第二~五项添加对应图标
+    Link_ContextMenu.SetIcon("更改文件图标(Change)", "HICON:" Base64PNG_to_HICON(Change_Base64PNG))
+    Link_ContextMenu.SetIcon("恢复默认图标(Default)", "HICON:" Base64PNG_to_HICON(Default_Base64PNG))
+    Link_ContextMenu.SetIcon("打开目标目录(TargetDir)", "HICON:" Base64PNG_to_HICON(Folders_Base64PNG))
+    Link_ContextMenu.SetIcon("重新命名文件(Rename)", "HICON:" Base64PNG_to_HICON(Rename_Base64PNG))
 
     ; 在鼠标位置展示菜单
     Link_ContextMenu.Show(X, Y)
 
     ; 更改它的图标
     Link_Change(*) {
-        ; 获取lnk的属性
-        Link_DC_Attrib := ComObject("WScript.Shell").CreateShortcut(Link_LV.GetText(Item, 4))
-        ; 选择ICO图标
-        Link_Icon_Select := FileSelect(3, , "更换" . Link_LV.GetText(Item, 1)  . "的图标", "Icon file(*.ico)")
-        ; 若选择了图标，则更换快捷方式图标、保存修改、清空Icon_Select变量
-        If (Link_Icon_Select != "") {
-            Link_DC_Attrib.IconLocation := Link_Icon_Select
-            Link_DC_Attrib.Save()
-            Link_Icon_Select := ""
-        }  
+        ; 调用前面的函数
+        Link_DC(Link_LV, Item)
     }
 
     ; 恢复快捷方式的默认图标（将目标目录的图标粘贴到快捷方式图标上）
@@ -143,6 +175,8 @@ Link_LV_Menu(Link_LV, Item, IsRightClick, X, Y) {
         Link_ContextMenu_Attrib := ComObject("WScript.Shell").CreateShortcut(Link_LV.GetText(Item, 4))
         Link_ContextMenu_Attrib.IconLocation := Link_LV.GetText(Item, 2)
         Link_ContextMenu_Attrib.Save()
+        ; 刷新图标
+        Link_Clink(Link_LV, Item)
     }
 
     ; 重命名快捷方式名称
@@ -153,8 +187,11 @@ Link_LV_Menu(Link_LV, Item, IsRightClick, X, Y) {
         if IB.Result="CANCEL" 
             Return
         Link_Rename_Name := Link_LV.GetText(Item, 5) . "\" . IB.Value . ".lnk"
+        ; 重命名
         FileMove(Link_LV.GetText(Item, 4), Link_Rename_Name)
-        Reload  ; 重启应用
+        ; 刷新显示(修改)命名行所在的lnk名称、lnk路径
+        Link_LV.Modify(Item,, IB.Value,,, Link_Rename_Name)
+        
     }
 }
 
@@ -162,15 +199,37 @@ Link_LV_Menu(Link_LV, Item, IsRightClick, X, Y) {
 Change_Icon_Gui_Size(thisGui, MinMax, Width, Height) { 
     if MinMax = -1 
     return
-    ;Change_Icon_Tab.Move(, , Width -20, Height - 20)
-    Link_LV.Move(, , Width - 12, Height - 12)
+    Link_LV.Move(, , Width - 12, Height - 74)
     Link_LV.ModifyCol(2, Width - 190)
-    ;Link_LV.ModifyCol(1, Width - 560)
-    ;Folder_LV.Move(, , (Width -20), (Height - 20))
+    ; y = 6+(h-74)+6 = h-62
+    Show_Icon.Move(,Height - 62)
+    Bottom_Picture.Move(,Height - 62,Width - 12)
 } 
 
+; Base64转PNG函数
+Base64PNG_to_HICON(Base64PNG, height := 24) {
+    size := StrLen( RTrim(Base64PNG, '=') )*3//4
+    if DllCall('Crypt32\CryptStringToBinary'
+        , 'Str', Base64PNG
+        , 'UInt', StrLen(Base64PNG)
+        , 'UInt', 1
+        , 'Ptr', buf := Buffer(size)
+        , 'UIntP', &size
+        , 'Ptr', 0
+        , 'Ptr', 0)
+    return DllCall('CreateIconFromResourceEx'
+        , 'Ptr', buf
+        , 'UInt', size
+        , 'UInt', true
+        , 'UInt', 0x30000
+        , 'Int', height
+        , 'Int', height
+        , 'UInt', 0)
+    return 0
+}
 
-; 将Base64字符串转化为PNG图标
+
+; PNG的Base64字符
 Change_Base64PNG := ' 
 (
     iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAYAAACohjseAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAOxElEQVRoQ9Wabcye5VnHf8fdu3369OVpH
@@ -223,29 +282,6 @@ Change_Base64PNG := '
     2A1dCAAAAAElFTkSuQmCC
 )'
 
-Change_Base64PNG_to_HICON(Change_Base64PNG, Change_height := 64) {
-    Change_size := StrLen( RTrim(Change_Base64PNG, '=') )*3//4
-    if DllCall('Crypt32\CryptStringToBinary'
-        , 'Str', Change_Base64PNG
-        , 'UInt', StrLen(Change_Base64PNG)
-        , 'UInt', 1
-        , 'Ptr', Change_buf := Buffer(Change_size)
-        , 'UIntP', &Change_size
-        , 'Ptr', 0
-        , 'Ptr', 0)
-    return DllCall('CreateIconFromResourceEx'
-        , 'Ptr', Change_buf
-        , 'UInt', Change_size
-        , 'UInt', true
-        , 'UInt', 0x30000
-        , 'Int', Change_height
-        , 'Int', Change_height
-        , 'UInt', 0)
-    return 0
-}
-
-
-
 Default_Base64PNG := ' 
 (
     iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAYAAACohjseAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAA3YAAAN2AX3V
@@ -280,29 +316,6 @@ Default_Base64PNG := '
     ZVHHQp236qKkdZo6y7/5ZfLIxVjVMCUQsxTEruv4L4fsSbCYfeXpAAAAAElFTkSuQmCC
 )'
 
-Default_Base64PNG_to_HICON(Default_Base64PNG, Default_height := 64) {
-    Default_size := StrLen( RTrim(Default_Base64PNG, '=') )*3//4
-    if DllCall('Crypt32\CryptStringToBinary'
-        , 'Str', Default_Base64PNG
-        , 'UInt', StrLen(Default_Base64PNG)
-        , 'UInt', 1
-        , 'Ptr', Default_buf := Buffer(Default_size)
-        , 'UIntP', &Default_size
-        , 'Ptr', 0
-        , 'Ptr', 0)
-    return DllCall('CreateIconFromResourceEx'
-        , 'Ptr', Default_buf
-        , 'UInt', Default_size
-        , 'UInt', true
-        , 'UInt', 0x30000
-        , 'Int', Default_height
-        , 'Int', Default_height
-        , 'UInt', 0)
-    return 0
-}
-
-
-
 Folders_Base64PNG := '
 (
     iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAA7EAAAOxAGVKw4bAAAB5ElEQVRIS
@@ -315,29 +328,6 @@ Folders_Base64PNG := '
     /j9U3WPcXWa+zHvmSSO5w5R3+JuCJ3o130b+ipVgsJAiUXz8w2L4QEqOY++Ed/oSx7qoX87ITePb0xfTG1bM3
     BWFKklBqJisg0U7Kxs9TF4+DDClP4ldvvk85tf/CfgOFKUnEl05T0gAAAABJRU5ErkJggg==
 )' 
-    
-Folders_Base64PNG_to_HICON(Folders_Base64PNG, Folders_height := 36) {
-    Folders_size := StrLen( RTrim(Folders_Base64PNG, '=') )*3//4
-    if DllCall('Crypt32\CryptStringToBinary'
-        , 'Str', Folders_Base64PNG
-        , 'UInt', StrLen(Folders_Base64PNG)
-        , 'UInt', 1
-        , 'Ptr', Folders_buf := Buffer(Folders_size)
-        , 'UIntP', &Folders_size
-        , 'Ptr', 0
-        , 'Ptr', 0)
-    return DllCall('CreateIconFromResourceEx'
-        , 'Ptr', Folders_buf
-        , 'UInt', Folders_size
-        , 'UInt', true
-        ,'UInt', 0x30000
-        , 'Int', Folders_height
-        , 'Int', Folders_height
-        , 'UInt', 0)
-    return 0
-}
-
-
 
 Rename_Base64PNG := '
 (
@@ -363,24 +353,4 @@ Rename_Base64PNG := '
     rwOytfelA+f15gZfoGsjqPQ81mpuPWHTtGMh3Xv4wHat2xVJXaW+Q/snENzzaCXdO2RmAIjedVli/L6NWPHMD4mYfOeN7+BZydN4R8YURWo+
     Q+JNqR/wDs/24y8f+F3U2GnREqNVZYLSAEYoDwKvEB2kpHL8WiSQCTzXOb4KIm+9FwwaIuFfcR+NJ9nbyBAAAAAASUVORK5CYII=
 )' 
-    
-Rename_Base64PNG_to_HICON(Rename_Base64PNG, Rename_height := 64) {
-    Rename_size := StrLen( RTrim(Rename_Base64PNG, '=') )*3//4
-    if DllCall('Crypt32\CryptStringToBinary'
-        , 'Str', Rename_Base64PNG
-        , 'UInt', StrLen(Rename_Base64PNG)
-        , 'UInt', 1
-        , 'Ptr', Rename_buf := Buffer(Rename_size)
-        , 'UIntP', &Rename_size
-        , 'Ptr', 0
-        , 'Ptr', 0)
-    return DllCall('CreateIconFromResourceEx'
-        , 'Ptr', Rename_buf
-        , 'UInt', Rename_size
-        , 'UInt', true
-        ,'UInt', 0x30000
-        , 'Int', Rename_height
-        , 'Int', Rename_height
-        , 'UInt', 0)
-    return 0
-}
+
