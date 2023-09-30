@@ -14,34 +14,54 @@ if not (A_IsAdmin or RegExMatch(full_command_line, " /restart(?!\S)")) {
     ExitApp
 }
 
-; 创建名为Change_Icon_Gui的窗口并允许重绘窗口大小,添加窗口标题
-Change_Icon_Gui := Gui("+Resize", "更改文件图标(Change Icon)————by Leen_Joan(Github)")
+
+; 创建窗口、添加标题、允许重绘窗口大小
+MyGui := Gui("+Resize", "更改文件图标(Change_Icon)————by Leen_Joan(Github)")
 ; 窗口背景颜色为黑色
-Change_Icon_Gui.BackColor := "343434"
-; 窗口内的字体为12号大小、加粗、橙色
-Change_Icon_Gui.SetFont("s12 Bold cd47a38", "Microsoft YaHei")
+MyGui.BackColor := "343434"
+; 窗口内的字体为12号大小、加粗、橙色、微软雅黑
+MyGui.SetFont("s12 Bold cd47a38", "Microsoft YaHei")
 ; 创建窗口关闭事件
-Change_Icon_Gui.OnEvent("Close", (*) => ExitApp())
+MyGui.OnEvent("Close", (*) => ExitApp())
 ; 创建窗口大小改变事件
-Change_Icon_Gui.OnEvent("Size", Change_Icon_Gui_Size)
+MyGui.OnEvent("Size", MyGui_Size)
+
+; 创建搜索列表,禁止换行
+Link_Edit := MyGui.AddEdit("x68 y12 w646 h19", "")
+Link_Edit.SetFont("cblack s8")
+; 文本框不是焦点时显示搜索，焦点时清空文本框内容
+Link_Edit.OnEvent("LoseFocus", Link_Edit_LoseFocus)
+Link_Edit.OnEvent("Focus", Link_Edit_Focus)
+; 创建暂时隐藏搜索按钮
+Link_Button := MyGui.AddButton("w0 h0 Default", "item").OnEvent("Click", Search)
+
+; 
+Link_Text := MyGui.AddText("x68 y38 w646 h19 Background212121","Hellow")
+Link_Text.SetFont("s8")
+Link_Text.OnEvent("DoubleClick", (*) => Run(Link_Text.Value))
+
+; 顶部添加存在边界、无标题的黑色列表（用Listview当背景）
+Top_Backgroud_Area := MyGui.AddListView("x62 y6 w646 h56 -Hdr +E0x200 0x4000000 Background1c1c1c")
+; 创建存在边界的ICO显示区域
+Show_Icon_Area := MyGui.AddPicture("x6 y6 w56 h56 +E0x200 Background1c1c1c")
 
 
-; 创建黑色背景列表，添加5个名为“Name、TargetPath、TargetDir、Path、Dir”的标题，后三项不显示，设置“关闭重绘”来加快列表的加载速度
-Link_LV := Change_Icon_Gui.AddListView("x6 y6 r15 w700 -Redraw -E0X200 Background1f1f1f"
+; 创建黑色背景列表，添加“名称、目标路径、目标目录、lnk路径、lnk目录”的标题，其中后三项不显示
+; -Redraw：“关闭重绘”增加列表加载速度；-E0x200：去除边框；+LV0x10000：通过双缓冲绘图, 减少闪烁
+Link_LV := MyGui.AddListView("x6 r15 w700 -Redraw -E0x200 +LV0x10000 Background1f1f1f"
         , ["Name", "TargetPath", "TargetDir", "Path", "Dir"])
-; 创建列表单击事件
-Link_LV.OnEvent("Click", Link_Clink)
+; 创建列表焦点更新图标事件
+Link_LV.OnEvent("ItemFocus", Link_Focus)
 ; 创建列表双击事件
-Link_LV.OnEvent("DoubleClick", Link_DC)
+Link_LV.OnEvent("DoubleClick", Link_Change)
 ; 创建列表右键菜单
-Link_LV.OnEvent("ContextMenu", Link_LV_Menu)
+Link_LV.OnEvent("ContextMenu", Link_ContextMenu)
 
 
-; 创建一个名为pathArr的数组，其内包含两个路径（当前用户和所有用户桌面路径）
+; 添加当前用户和所有用户的桌面快捷方式至列表
+; 创建一个名为pathArr的数组，其内包含两个路径
 pathArr := [A_Desktop, A_DesktopCommon]
-; 初始化Desktop
-Desktop := ""
-; 从数组中枚举数组所有的对象至Desktop
+; 从数组中枚举所有对象至Desktop
 For Desktop in pathArr
 ; 从循环到的对象中查找快捷方式（pathArr[A_Index]:循环到的对象）
 Loop Files, Desktop "\*.lnk" {
@@ -67,80 +87,106 @@ Link_LV.ModifyCol(3, 0)             ; 隐藏第三列
 Link_LV.ModifyCol(4, 0)             ; 隐藏第四列
 Link_LV.ModifyCol(5, 0)             ; 隐藏第五列
 
-
-; 底部添加图标（调用Base64PNG_to_HICON）
-Bottom_Base64PNG := '
-(
-    iVBORw0KGgoAAAANSUhEUgAAABkAAAACCAYAAACt+Hc7AAAAFElEQVQI12OUl5f/z0BjwMRABwAAEE8BYEdKF/AAAAAASUVORK5CYII=
-)'
-Bottom_Picture := Change_Icon_Gui.AddPicture("x6 w700 h56", "HICON:" Base64PNG_to_HICON(Bottom_Base64PNG))
-; 创建ICO显示区域
-Show_Icon := Change_Icon_Gui.AddPicture("x6 w56 h56 ")
-
-Change_Icon_Gui.Show()
+MyGui.Show()
 
 
+; 窗口标题栏深色模式
+DllCall("dwmapi\DwmSetWindowAttribute", "ptr", MyGui.Hwnd, "int", 20, "int*", true, "int", 4)
 
-; 窗口标题栏暗黑模式
-DllCall("dwmapi\DwmSetWindowAttribute", "ptr", Change_Icon_Gui.Hwnd, "int", 20, "int*", true, "int", 4)
 
 ; 菜单栏深色模式
-Class darkMode {   
-    Static __New(Mode := 1) => (  
-        DllCall(DllCall("GetProcAddress", "ptr", DllCall("GetModuleHandle", "str", "uxtheme", "ptr"), "ptr", 135, "ptr"), "int", 2),
-        DllCall(DllCall("GetProcAddress", "ptr", DllCall("GetModuleHandle", "str", "uxtheme", "ptr"), "ptr", 136, "ptr"))
-    )
-}
+DllCall(DllCall("GetProcAddress", "ptr", DllCall("GetModuleHandle", "str", "uxtheme", "ptr"), "ptr", 135, "ptr"), "int", 2),
+DllCall(DllCall("GetProcAddress", "ptr", DllCall("GetModuleHandle", "str", "uxtheme", "ptr"), "ptr", 136, "ptr"))
 
 
-; 单击在对应位置显示图标
-Link_Clink(Link_LV, Item) {
-    Click_fileinfo := Buffer(Click_fisize := A_PtrSize + 688)
-    if DllCall("shell32\SHGetFileInfoW"
-        , "WStr", Link_LV.GetText(Item, 4)
-        , "UInt", 0
-        , "Ptr", Click_fileinfo
-        , "UInt", Click_fisize
-        , "UInt", 0x100)
-    {
-        Click_Hicon := NumGet(Click_fileinfo, 0, "Ptr")
-        Show_Icon.Value := "HICON:" Click_Hicon
-        DllCall("DestroyIcon", "Ptr", Click_fileinfo)
+; 搜索关键词项目
+Search(*) {
+    ; 若文本框无文本则不执行（用"!="和"return"可以避免报错）
+    If Link_Edit.Value = ""
+        Return
+    ; 取消列表中其他项目的选择与焦点
+    Link_LV.Modify(0, "-Select -Focus")
+    Loop Link_LV.GetCount() {
+        If(InStr(Link_LV.GetText(A_Index), Link_Edit.Value)) {
+            ; 添加延迟：更直观了解具体多个选项位置
+            Sleep(180)
+            ; 列表和搜索关键词项目为焦点，并选择显示   
+            Link_LV.Modify(A_Index, "+Select +Focus +Vis")
+            ; 显示图标
+            Link_Focus(Link_LV, A_Index)
+        }
     }
 }
 
-; 双击更换图标设置
-Link_DC(Link_LV, Item) {
-    ; 获取双击行的lnk属性
-    Link_DC_Attrib := ComObject("WScript.Shell").CreateShortcut(Link_LV.GetText(Item, 4))
+
+; Edit为非焦点时，若未输入任何内容则添加提示词“搜素...”
+Link_Edit_LoseFocus(*) {
+    If Link_Edit.Value = ""
+    Link_Edit.Value := "搜索(Search)......"
+}
+
+
+; Edit为焦点时，若未输入任何内容则清空提示词“搜素...”
+Link_Edit_Focus(*) {
+    If Link_Edit.Value = "搜索(Search)......"
+    Link_Edit.Value := ""
+}
+
+
+; 在ICO区域显示焦点项目的图标
+Link_Focus(Link_LV, Item) {
+    ; 避免在Edit为焦点时点击列表而列表为非焦点状态
+    Link_LV.Focus()
+    Focus_info := Buffer(Focus_size := A_PtrSize + 688)
+    DllCall("shell32\SHGetFileInfoW"
+        , "WStr", Link_LV.GetText(Item, 4)
+        , "UInt", 0
+        , "Ptr", Focus_info
+        , "UInt", Focus_size
+        , "UInt", 0x100)
+    Focus_Hicon := NumGet(Focus_info, 0, "Ptr")
+    ; 给予响应时间
+    Sleep(20)
+    ; 添加/更换ICON显示区域的图片
+    Show_Icon_Area.Value := "HICON:" Focus_Hicon
+    Link_Text.Value := Link_LV.GetText(Item, 3)
+}
+
+
+; 更换图标设置
+Link_Change(Link_LV, Item) {
+    ; 获取lnk属性
+    Change_Item_Attrib := ComObject("WScript.Shell").CreateShortcut(Link_LV.GetText(Item, 4))
     ; 选择ICO图标
     Link_Icon_Select := FileSelect(3, , "更换" . Link_LV.GetText(Item, 1) . "的图标", "Icon files(*.ico)")
     ; 若选择了图标，则更换快捷方式图标、保存修改、清空Icon_Select变量
     If (Link_Icon_Select = "")
         Return
-    Link_DC_Attrib.IconLocation := Link_Icon_Select
-    Link_DC_Attrib.Save()
+    Change_Item_Attrib.IconLocation := Link_Icon_Select
+    Change_Item_Attrib.Save()
     Link_Icon_Select := ""
-    ; 刷新图标
-    Link_Clink(Link_LV, Item)
+    ; 调用焦点函数，刷新图标
+    Link_Focus(Link_LV, Item)
 }
 
+
 ; 右键打开菜单设置
-Link_LV_Menu(Link_LV, Item, IsRightClick, X, Y) {
-    ; 显示图标
-    Link_Clink(Link_LV, Item)
+Link_ContextMenu(Link_LV, Item, IsRightClick, X, Y) {
+    ; 避免多行选择呼出菜单时的不适
+    Link_LV.Modify(0, "-Select -Focus")
+    Link_LV.Modify(Item, "+Select +Focus")
     ; 创建菜单
-    Link_ContextMenu := Menu()
+    Link_Menu := Menu()
     ; 添加菜单选项及功能
-    Link_ContextMenu.Add("运行当前文件(Run)", (*) => Run(Link_LV.GetText(Item, 2)))
-    Link_ContextMenu.Add ;————————————————————————————————————————
-    Link_ContextMenu.Add("更改文件图标(Change)",Link_Change)
-    Link_ContextMenu.Add ;————————————————————————————————————————
-    Link_ContextMenu.Add("恢复默认图标(Default)", Link_Default)
-    Link_ContextMenu.Add ;————————————————————————————————————————
-    Link_ContextMenu.Add("打开目标目录(TargetDir)", (*) => Run(Link_LV.GetText(Item, 3)))
-    Link_ContextMenu.Add ;————————————————————————————————————————
-    Link_ContextMenu.Add("重新命名文件(Rename)", Link_Rename)
+    Link_Menu.Add("运行当前文件(Run)", (*) => Run(Link_LV.GetText(Item, 2)))
+    Link_Menu.Add ;————————————————————————————————————————
+    Link_Menu.Add("更改文件图标(Change)", (*) => Run(Link_Change(Link_LV, Item)))
+    Link_Menu.Add ;————————————————————————————————————————
+    Link_Menu.Add("恢复默认图标(Default)", Link_Default)
+    Link_Menu.Add ;————————————————————————————————————————
+    Link_Menu.Add("打开目标目录(TargetDir)", (*) => Run(Link_LV.GetText(Item, 3)))
+    Link_Menu.Add ;————————————————————————————————————————
+    Link_Menu.Add("重新命名文件(Rename)", Link_Rename)
 
     ; 在菜单第一选项添加文件图标，点击可运行该文件
     fileinfo := Buffer(fisize := A_PtrSize + 688)
@@ -152,59 +198,58 @@ Link_LV_Menu(Link_LV, Item, IsRightClick, X, Y) {
         , "UInt", 0x100)
     {
         hicon := NumGet(fileinfo, 0, "Ptr")
-        Link_ContextMenu.SetIcon("运行当前文件(Run)", "HICON:" hicon)
+        Link_Menu.SetIcon("运行当前文件(Run)", "HICON:" hicon)
+        DllCall("DestroyIcon", "Ptr", fileinfo)
     }
 
-    ; 在菜单栏第二~五项添加对应图标
-    Link_ContextMenu.SetIcon("更改文件图标(Change)", "HICON:" Base64PNG_to_HICON(Change_Base64PNG))
-    Link_ContextMenu.SetIcon("恢复默认图标(Default)", "HICON:" Base64PNG_to_HICON(Default_Base64PNG))
-    Link_ContextMenu.SetIcon("打开目标目录(TargetDir)", "HICON:" Base64PNG_to_HICON(Folders_Base64PNG))
-    Link_ContextMenu.SetIcon("重新命名文件(Rename)", "HICON:" Base64PNG_to_HICON(Rename_Base64PNG))
-
+    ; 调用后面的Base64转PNG函数，在菜单栏第二~五项添加对应图标
+    Link_Menu.SetIcon("更改文件图标(Change)", "HICON:" Base64PNG_to_HICON(Change_Base64PNG))
+    Link_Menu.SetIcon("恢复默认图标(Default)", "HICON:" Base64PNG_to_HICON(Default_Base64PNG))
+    Link_Menu.SetIcon("打开目标目录(TargetDir)", "HICON:" Base64PNG_to_HICON(Folders_Base64PNG))
+    Link_Menu.SetIcon("重新命名文件(Rename)", "HICON:" Base64PNG_to_HICON(Rename_Base64PNG))
+    
     ; 在鼠标位置展示菜单
-    Link_ContextMenu.Show(X, Y)
-
-    ; 更改它的图标
-    Link_Change(*) {
-        ; 调用前面的函数
-        Link_DC(Link_LV, Item)
-    }
+    Link_LV.Focus()
+    Link_Menu.Show()
 
     ; 恢复快捷方式的默认图标（将目标目录的图标粘贴到快捷方式图标上）
     Link_Default(*) {
-        Link_ContextMenu_Attrib := ComObject("WScript.Shell").CreateShortcut(Link_LV.GetText(Item, 4))
-        Link_ContextMenu_Attrib.IconLocation := Link_LV.GetText(Item, 2)
-        Link_ContextMenu_Attrib.Save()
-        ; 刷新图标
-        Link_Clink(Link_LV, Item)
+        Default_Item_Attrib := ComObject("WScript.Shell").CreateShortcut(Link_LV.GetText(Item, 4))
+        Default_Item_Attrib.IconLocation := Link_LV.GetText(Item, 2)
+        Default_Item_Attrib.Save()
+        ; 调用焦点函数，刷新图标
+        Link_Focus(Link_LV, Item)
     }
 
     ; 重命名快捷方式名称
     Link_Rename(*) {
+        ; 创建重命名输入框
         IB := InputBox("请输入新的文件名(不包含.lnk):"
             , "重命名" . Link_LV.GetText(Item, 1)
-            , "W300 H100", Link_LV.GetText(Item, 1))
+            , "W300 H100"
+            , Link_LV.GetText(Item, 1))
         if IB.Result="CANCEL" 
             Return
-        Link_Rename_Name := Link_LV.GetText(Item, 5) . "\" . IB.Value . ".lnk"
+        Link_Rename_Path := Link_LV.GetText(Item, 5) . "\" . IB.Value . ".lnk"
         ; 重命名
-        FileMove(Link_LV.GetText(Item, 4), Link_Rename_Name)
-        ; 刷新显示(修改)命名行所在的lnk名称、lnk路径
-        Link_LV.Modify(Item,, IB.Value,,, Link_Rename_Name)
-        
+        FileMove(Link_LV.GetText(Item, 4), Link_Rename_Path)
+        ; 重新显示、排序命名行所在的lnk名称、lnk路径
+        Link_LV.Modify(Item,, IB.Value,,, Link_Rename_Path)
     }
 }
 
+
 ; ListView和第二列的大小随窗口大小改变而改变
-Change_Icon_Gui_Size(thisGui, MinMax, Width, Height) { 
+MyGui_Size(thisGui, MinMax, Width, Height) { 
     if MinMax = -1 
     return
-    Link_LV.Move(, , Width - 12, Height - 74)
+    Link_Edit.Move(,, Width - 80)
+    Link_Text.Move(,, Width - 80)
+    Top_Backgroud_Area.Move(,, Width - 68)
+    Link_LV.Move(,, Width - 12, Height - 77)
     Link_LV.ModifyCol(2, Width - 190)
-    ; y = 6+(h-74)+6 = h-62
-    Show_Icon.Move(,Height - 62)
-    Bottom_Picture.Move(,Height - 62,Width - 12)
 } 
+
 
 ; Base64转PNG函数
 Base64PNG_to_HICON(Base64PNG, height := 24) {
@@ -353,4 +398,3 @@ Rename_Base64PNG := '
     rwOytfelA+f15gZfoGsjqPQ81mpuPWHTtGMh3Xv4wHat2xVJXaW+Q/snENzzaCXdO2RmAIjedVli/L6NWPHMD4mYfOeN7+BZydN4R8YURWo+
     Q+JNqR/wDs/24y8f+F3U2GnREqNVZYLSAEYoDwKvEB2kpHL8WiSQCTzXOb4KIm+9FwwaIuFfcR+NJ9nbyBAAAAAASUVORK5CYII=
 )' 
-
