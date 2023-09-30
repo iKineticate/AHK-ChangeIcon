@@ -61,6 +61,7 @@ The listview of AHK does not support the display of shortcut icons（except syst
 
 ## 更新内容
 v1.05：在底部添加了显示选中项目的图标，缩减了部分代码长度
+
 v1.2：
     （1）优化、缩减代码
 
