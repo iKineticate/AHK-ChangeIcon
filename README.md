@@ -44,7 +44,7 @@ Restoring **default** icons of desktop shortcuts
 **Run** desktop shortcuts
 
 
-![image](https://raw.githubusercontent.com/iKineticate/AHK_ChangeIcon/main/Introduction/Menu.png)
+![image](https://github.com/iKineticate/AHK_ChangeIcon/blob/main/Introduction/Menu.png)
 ## 注意 (Warn)：
 
 1.暂不支持更换`我的电脑`、`回收站`、`.url`、`.exe`、`.pdf`等图标
