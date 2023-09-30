@@ -60,9 +60,8 @@ The shortcut of UWP application and WSA application only supports the icon repla
 The listview of AHK does not support the display of shortcut icons（except system icons）
 
 ## 更新内容
-v1.05：在底部添加了显示选中项目的图标，缩减了部分代码长度
-
 v1.2：
+
     （1）优化、缩减代码
 
     （2）添加了搜索功能
