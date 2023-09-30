@@ -5,7 +5,7 @@
 This is a software written with AHK, which can quickly batch change the software of desktop shortcut icons.When a large number of desktop shortcut icons need to be replaced, AHK can help you save time by reducing operations by about **"3n-1" steps** ("n" is the number of icons to be replaced)
 
 
-![image](https://raw.githubusercontent.com/iKineticate/AHK_ChangeIcon/main/Introduction/Usege.gif)
+![image](https://github.com/iKineticate/AHK_ChangeIcon/blob/main/Introduction/Usage.gif)
 
 ## AHK_ChangIcon 的使用
 
