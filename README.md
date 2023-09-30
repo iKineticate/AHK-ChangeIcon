@@ -5,7 +5,7 @@
 This is a software written with AHK, which can quickly batch change the software of desktop shortcut icons.When a large number of desktop shortcut icons need to be replaced, AHK can help you save time by reducing operations by about **"3n-1" steps** ("n" is the number of icons to be replaced)
 
 
-![image](https://raw.githubusercontent.com/iKineticate/AHK_ChangeIcon/main/Picture/Usege.gif)
+![image](https://raw.githubusercontent.com/iKineticate/AHK_ChangeIcon/main/Introduction/Usege.gif)
 
 ## AHK_ChangIcon 的使用
 
@@ -44,7 +44,7 @@ Restoring **default** icons of desktop shortcuts
 **Run** desktop shortcuts
 
 
-![image](https://raw.githubusercontent.com/iKineticate/AHK_ChangeIcon/main/Picture/Menu.png)
+![image](https://raw.githubusercontent.com/iKineticate/AHK_ChangeIcon/main/Introduction/Menu.png)
 ## 注意 (Warn)：
 
 1.暂不支持更换`我的电脑`、`回收站`、`.url`、`.exe`、`.pdf`等图标
