@@ -232,7 +232,8 @@ Link_ContextMenu(Link_LV, Item, IsRightClick, X, Y) {
     Link_Menu.SetIcon("重新命名文件(Rename)", "HICON:" Base64PNG_to_HICON(Rename_Base64PNG))
     
     ; 若为UWP应用则不支持恢复默认图标和打开目标目录
-    If (Link_LV.GetText(Item, 2) = "——————————————————————————————") {
+    If ((Link_LV.GetText(Item, 2) = "——————————————————————————————") or
+        InStr(Link_LV.GetText(Item, 2), "Local\Microsoft\WindowsApps")) {
         Link_Menu.Disable("恢复默认图标(Default)")
         Link_Menu.Disable("打开目标目录(TargetDir)")
     }
