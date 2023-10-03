@@ -8,17 +8,17 @@ This is a software written with AHK, which can quickly batch change the software
 ![image](https://github.com/iKineticate/AHK_ChangeIcon/blob/main/Introduction/Usage.gif)
 
 ## AHK_ChangIcon 的使用
-1.鼠标滚轮键/F2键更换图标：
+1.**鼠标滚轮键/F2键**更换图标：
 
-Replacing icons with mouse scroll or F2 keys
+Replacing icons with **mouse wheel button**/**F2**
 
-    （1）打开AHK_ChangIco，并打开存放ICO图片的文件夹/桌面，软件和文件夹最好都各自在屏幕的一边，方便查看
+    （1）打开AHK_ChangIco，并打开存放ICO图片的文件夹，软件和文件夹最好都各自在屏幕的一边，方便查看
 
-    Open the AHK_ChangIco and open the folder/desktop where ICO images are stored. It is best to have both the AHK_ChangIco and folder on one side of the screen for easy viewing
+    Open the AHK_ChangIco and open the folder where ICO images are stored. It is best to have both the AHK_ChangIco and folder on one side of the screen for easy viewing
 
     （2）在AHK_ChangIco中选中需要更换图标的项目，然后在文件夹中鼠标滚轮键/F2键点击更换的图标
 
-    Select the item in the AHK_ChangIco that needs to be replaced with an icon, and then click on the icon with the mouse scroll wheel or F2 key in the folder
+    Select the item in the AHK_ChangIco that needs to be replaced with an icon, and then click on the icon with the mouse scroll wheel/F2 key in the folder
 
 2.**左键双击**需要修改的项目，并选择图片修改
 
@@ -29,9 +29,9 @@ Replacing icons with mouse scroll or F2 keys
 **Right click** the item to be modified, and select the required function according to the context of the right-click menu bar
 
 
-4.推荐一个方便将其他照片转化为ICO图标的软件
+4.推荐一个方便将其他照片转化为ICO图标的软件(拖拽进软件即可转化)
 
-Recommend a software that facilitates converting other photos into ICO icons
+Recommend a software that facilitates converting other photos into ICO icons(Drag and drop into the software to convert)
 
 https://github.com/genesistoxical/drop-icons
 
