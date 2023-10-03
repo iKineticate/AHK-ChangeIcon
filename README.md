@@ -8,18 +8,32 @@ This is a software written with AHK, which can quickly batch change the software
 ![image](https://github.com/iKineticate/AHK_ChangeIcon/blob/main/Introduction/Usage.gif)
 
 ## AHK_ChangIcon 的使用
+1.鼠标滚轮键/F2键更换图标：
 
-1.左键双击需要修改的项目，并选择图片修改
+Replacing icons with mouse scroll or F2 keys
 
-Double left click the item to be modified, and select the image replacement icon
+    （1）打开AHK_ChangIco，并打开存放ICO图片的文件夹/桌面，软件和文件夹最好都各自在屏幕的一边，方便查看
 
-2.右键点击需要修改的项目，根据右键菜单栏内容选择需要的功能
+    Open the AHK_ChangIco and open the folder/desktop where ICO images are stored. It is best to have both the AHK_ChangIco and folder on one side of the screen for easy viewing
 
-Right click the item to be modified, and select the required function according to the context of the right-click menu bar
+    （2）在AHK_ChangIco中选中需要更换图标的项目，然后在文件夹中鼠标滚轮键/F2键点击更换的图标
 
-3.搜索指定项目并按照上述操作修改
+    Select the item in the AHK_ChangIco that needs to be replaced with an icon, and then click on the icon with the mouse scroll wheel or F2 key in the folder
 
-Search for the specified item and follow the above steps to modify it
+2.**左键双击**需要修改的项目，并选择图片修改
+
+**Double left click** the item to be modified, and select the image replacement icon
+
+3.**右键点击**需要修改的项目，根据右键菜单栏内容选择需要的功能
+
+**Right click** the item to be modified, and select the required function according to the context of the right-click menu bar
+
+
+4.推荐一个方便将其他照片转化为ICO图标的软件
+
+Recommend a software that facilitates converting other photos into ICO icons
+
+https://github.com/genesistoxical/drop-icons
 
 ## AHK_ChangIcon 的右键菜单功能
 
@@ -45,27 +59,37 @@ Restoring **default** icons of desktop shortcuts
 
 
 ![image](https://github.com/iKineticate/AHK_ChangeIcon/blob/main/Introduction/Menu.png)
+
 ## 注意 (Warn)：
 
 1.暂不支持更换`我的电脑`、`回收站`、`.url`、`.exe`、`.pdf`等图标
 
 Replacing icons such as' My Computer ',' Recycle Bin ','. URL ','. exe ', and'. pdf 'is currently not supported
 
-2.UWP应用和WSA应用的快捷方式只支持更换图标功能，其他功能均不支持
+2.UWP应用和WSA应用的快捷方式不支持恢复默认图标和打开目标目录
 
-The shortcut of UWP application and WSA application only supports the icon replacement function, and other functions do not support
+Shortcuts for UWP and WSA applications do not support restoring default icons and opening target directories
 
 3.AHK的列表暂不支持显示快捷方式图标（除了系统图标）
 
 The listview of AHK does not support the display of shortcut icons（except system icons）
 
 ## 更新内容
+
+v1.3
+
+    （1）添加了鼠标右键/F2键在文件夹中将对应的快捷方式图标替换为鼠标所在的图标
+
+    Added replacing the corresponding shortcut icon in the folder with the icon selected by the MButton/F2
+
+    （2）优化了部分细节（Optimized some details）
+    
 v1.2：
 
-    （1）优化、缩减代码
+    （1）添加了搜索功能（Added search function）
 
-    （2）添加了搜索功能
+    （2）更换软件图标（Replace software icon
 
-    （3）更改图标显示区域
+    （3）更改图标显示区域（Change icon display area）
 
-    （4）更换软件图标
+    （4）优化、缩减代码（Optimize and reduce code）
