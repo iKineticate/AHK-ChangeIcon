@@ -1,8 +1,8 @@
 ## AHK_ChangeIcon 简介
 
-这是一款用 AHK 编写的软件，它可以快速的批量更换桌面快捷方式图标的软件。当需要更换大量的桌面快捷方式图标时，AHK 可以帮你减少操作来节约时间，约减少**3n-1步**（n为需要更换图标的数量）
+这是一款用 AHK 编写的软件，它可以快速地**更换大量**桌面快捷方式图标来帮你**减少操作**和**节约时间**
 
-This is a software written with AHK, which can quickly batch change the software of desktop shortcut icons.When a large number of desktop shortcut icons need to be replaced, AHK can help you save time by reducing operations by about **"3n-1" steps** ("n" is the number of icons to be replaced)
+This is a software written with AHK, which can quickly **replace a large number of** desktop shortcut icons to help you **reduce operations** and **save time**
 
 
 ![image](https://github.com/iKineticate/AHK_ChangeIcon/blob/main/Introduction/Usage.gif)
@@ -12,9 +12,9 @@ This is a software written with AHK, which can quickly batch change the software
 
 Replacing icons with **mouse wheel button**/**F2**
 
-    （1）打开AHK_ChangIco，并打开存放ICO图片的文件夹，软件和文件夹最好都各自在屏幕的一边，方便查看
+    （1）打开AHK_ChangIco，并打开存放ICO图片的文件夹，软件和文件夹最好都各自在屏幕的一边(方便查看)
 
-    Open the AHK_ChangIco and open the folder where ICO images are stored. It is best to have both the AHK_ChangIco and folder on one side of the screen for easy viewing
+    Open the AHK_ChangIco and open the folder where ICO images are stored. It is best to have both the AHK_ChangIco and folder on one side of the screen(easy viewing)
 
     （2）在AHK_ChangIco中选中需要更换图标的项目，然后在文件夹中鼠标滚轮键/F2键点击更换的图标
 
@@ -62,7 +62,7 @@ Restoring **default** icons of desktop shortcuts
 
 ## 注意 (Warn)：
 
-1.暂不支持更换`我的电脑`、`回收站`、`.url`、`.exe`、`.pdf`等图标
+1.暂不支持更换`我的电脑`、`回收站`、`.url`、`.exe`、`.pdf`等文件图标
 
 Replacing icons such as' My Computer ',' Recycle Bin ','. URL ','. exe ', and'. pdf 'is currently not supported
 
@@ -70,11 +70,14 @@ Replacing icons such as' My Computer ',' Recycle Bin ','. URL ','. exe ', and'. 
 
 Shortcuts for UWP and WSA applications do not support restoring default icons and opening target directories
 
-3.AHK的列表暂不支持显示快捷方式图标（除了系统图标）
+3.暂不支持更换图标后刷新列表中的图标（列表上面的图标区域可以刷新）
 
-The listview of AHK does not support the display of shortcut icons（except system icons）
+Refreshing icons in the list after replacing icons is currently not supported(The icon area on the list can be refreshed)
 
 ## 更新内容
+v1.4
+    （1）在项目左侧添加了图标显示
+    （2）优化了部分细节
 
 v1.3
 
