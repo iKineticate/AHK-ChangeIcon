@@ -5,7 +5,7 @@
 This is a software written with AHK, which can quickly **replace a large number of** desktop shortcut icons to help you **reduce operations** and **save time**
 
 
-![image](https://github.com/iKineticate/AHK_ChangeIcon/blob/main/Introduction/Usage.gif)
+![image](https://github.com/iKineticate/AHK_ChangeIcon/blob/main/Introduction/AHK_ChangIcon.png)
 
 ## AHK_ChangIcon 的使用
 1.**鼠标滚轮键/F2键**更换图标：
@@ -20,6 +20,9 @@ Replacing icons with **mouse wheel button**/**F2**
 
     Select the item in the AHK_ChangIco that needs to be replaced with an icon, and then click on the icon with the mouse scroll wheel/F2 key in the folder
 
+![image](https://github.com/iKineticate/AHK_ChangeIcon/blob/main/Introduction/MButtom&F2.gif)
+
+
 2.**左键双击**需要修改的项目，并选择图片修改
 
 **Double left click** the item to be modified, and select the image replacement icon
@@ -28,6 +31,7 @@ Replacing icons with **mouse wheel button**/**F2**
 
 **Right click** the item to be modified, and select the required function according to the context of the right-click menu bar
 
+![image](https://github.com/iKineticate/AHK_ChangeIcon/blob/main/Introduction/LButtom&Menu.gif)
 
 4.推荐一个方便将其他照片转化为ICO图标的软件(拖拽进软件即可转化)
 
