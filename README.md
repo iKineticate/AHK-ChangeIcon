@@ -4,7 +4,6 @@
 
 This is a software written with AHK, which can quickly **replace a large number of** desktop shortcut icons to help you **reduce operations** and **save time**
 
-
 ![image](https://github.com/iKineticate/AHK_ChangeIcon/blob/main/Introduction/AHK_ChangIcon.png)
 
 ## AHK_ChangIcon 的使用
@@ -60,9 +59,6 @@ Restoring **default** icons of desktop shortcuts
 5.支持**运行**桌面快捷方式
 
 **Run** desktop shortcuts
-
-
-![image](https://github.com/iKineticate/AHK_ChangeIcon/blob/main/Introduction/Menu.png)
 
 ## 注意 (Warn)：
 
