@@ -75,9 +75,13 @@ Shortcuts for UWP and WSA applications do not support restoring default icons an
 Refreshing icons in the list after replacing icons is currently not supported(The icon area on the list can be refreshed)
 
 ## 更新内容
+
 v1.4
-    （1）在项目左侧添加了图标显示
-    （2）优化了部分细节
+
+    （1）在项目左侧添加了图标显示（Added icon display on the left side of the list item）
+
+    （2）优化了部分细节（Optimized some details）
+
 
 v1.3
 
@@ -95,4 +99,4 @@ v1.2：
 
     （3）更改图标显示区域（Change icon display area）
 
-    （4）优化、缩减代码（Optimize and reduce code）
+    （4）优化了部分细节（Optimized some details）
