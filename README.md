@@ -1,10 +1,10 @@
-## AHK_ChangeIcon 简介
+## AHK ChangeIcon 简介
 
 这是一款用 AHK 编写的软件，它可以快速地**更换大量**桌面快捷方式图标来帮你**减少操作**和**节约时间**
 
 This is a software written with AHK, which can quickly **replace a large number of** desktop shortcut icons to help you **reduce operations** and **save time**
 
-![image](https://github.com/iKineticate/AHK_ChangeIcon/blob/main/Introduction/AHK_ChangeIcon.png)
+![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/Introduction/AHK_ChangeIcon.png)
 
 ## AHK_ChangIcon 的使用
 
@@ -16,23 +16,18 @@ Please grant software administrator permission to complete the operation of chan
 
 Click on the button named 'One-Click Change'
 
-    （1）单选按钮：手动（Radio Button：Manual）
 
-        需要一个一个的确认是否更换图标，可以避免匹配错误而导致更换错误的现象
-        We need to confirm one by one whether to replace the icons, which can avoid the phenomenon of replacement errors caused by matching errors
+    （1）可快速地自动更换快捷方式的图标为文件夹中名字匹配的ICON
 
-    （2）单选按钮：自动（Radio Button：Auto）
+        Quickly and automatically replace ICON images with matching names in ICO folders
 
-        默认开启，无需手动确认即可快速更换ICO文件夹包含的、且匹配的图片
-        Default on, quick replacement of matching ICONS contained in ICO folders without manual confirmation
+    （2）选择存放ICO的文件夹（Select A Folder with Icons）
 
-    （3）选择ICO文件夹（Select A Folder with Icons）
-
-    （4）注意：这个功能只支持替换包含有快捷方式名称的Icon图标，如名为"Excel"的快捷方式图标可以替换名为"Microsoft Excel"的Icon图片，但不能名为"Microsoft Edge"的快捷方式图标可以替换名为"Edge"的Icon图片
+    （3）注意：这个功能只支持替换包含有快捷方式名称的Icon图标，如名为"Excel"的快捷方式图标可以替换名为"Microsoft Excel"的Icon图片，但不能名为"Microsoft Edge"的快捷方式图标可以替换名为"Edge"的Icon图片
 
         Note: This feature only supports replacing Icon icons with shortcut names. For example, a shortcut icon named 'Excel' can be repalced with an Icon named 'Microsoft Excel', but a shortcut icon named 'Microsoft Edge' cannot be replaced with an Icon named 'Edge'
 
-![image](https://github.com/iKineticate/AHK_ChangeIcon/blob/main/Introduction/Auto_Change.gif)
+![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/Introduction/Auto_Change.gif)
 
 2.打开ICON文件夹后，使用**鼠标滚轮键/F2键**更换图标：
 
@@ -46,7 +41,7 @@ After Opening a Folder With Icons, click the mouse wheel button or F2 key to cha
 
     Select the item in the AHK_ChangIco that needs to be changed with an icon, and then click on the icon with the mouse scroll wheel or F2 key in the folder
 
-![image](https://github.com/iKineticate/AHK_ChangeIcon/blob/main/Introduction/MButtom&F2.gif)
+![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/Introduction/MButtom&F2.gif)
 
 3.**左键双击**需要修改的项目，并选择图片修改
 
@@ -56,7 +51,7 @@ After Opening a Folder With Icons, click the mouse wheel button or F2 key to cha
 
 **Right click** the item to be modified, and select the required function according to the context of the right-click menu bar
 
-![image](https://github.com/iKineticate/AHK_ChangeIcon/blob/main/Introduction/LButtom&Menu.gif)
+![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/Introduction/LButtom&Menu.gif)
 
 ## AHK_ChangIcon 的右键菜单功能
 
@@ -86,9 +81,9 @@ Supports **viewing** and **copying** attributes of shortcuts
 
 ## 已知问题 (ISSUES)：
 
-1.暂不支持更换`我的电脑`、`回收站`、`.url`、`.exe`、`.pdf`等文件图标
+1.仅支持更换快捷方式图标，暂不支持更换`我的电脑`、`回收站`、`.url`、`.exe`、`.pdf`等文件图标
 
-Replacing icons such as' My Computer ',' Recycle Bin ','. URL ','. exe ', and'. pdf 'is currently not supported
+Only supports replacing shortcut icons，replacing icons such as' My Computer ',' Recycle Bin ','. URL ','. exe ', and'. pdf 'is currently not supported
 
 2.UWP应用和WSA应用的快捷方式不支持恢复默认图标和打开目标目录
 
@@ -105,6 +100,22 @@ Recommend a software that facilitates converting other photos into ICO icons(Dra
 https://github.com/genesistoxical/drop-icons
 
 ## 更新内容
+
+v2.1
+
+    （1）扁平风格
+
+    （2）部分按钮添加了动画
+
+    （3）添加了标签页（主页、其他、日志、主题、语言、关于）
+
+    （3）支持中文、英文语言（机器翻译的英文）
+
+    （4）去除原窗口标题栏，重新自绘标题栏
+
+    （5）删除了自动选择和手动选择单项选项，默认为自动更换
+
+    （5）优化了部分细节
 
 v2.0
 
