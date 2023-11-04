@@ -6,26 +6,31 @@ This is a software written with AHK, which can quickly **replace a large number 
 
 ![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/Introduction/AHK_ChangeIcon.png)
 
-## AHK_ChangIcon 的使用
+## AHK ChangIcon 的使用
 
 为了更好的更换图标，使用前请授予软件管理员权限
 
 Please grant software administrator permission to complete the operation of changing icons before use
 
-1.点击一键更换的按钮：
+1.一键更换（恢复默认）图标按钮：
 
-Click on the button named 'One-Click Change'
+One-click Change(restore) all shortcut icon buttons
 
+    （1）一键更换所有快捷方式的图标：
 
-    （1）可快速地自动更换快捷方式的图标为文件夹中名字匹配的ICON
+        存在于“主页”的右上角的按钮，它可快速地自动更换快捷方式的图标为选中文件夹中名字匹配的ICON图标
 
-        Quickly and automatically replace ICON images with matching names in ICO folders
+        The button located in the upper right corner of the homepage，it can quickly and automatically change the icon of the shortcut to the ICON that matches the name in the selected folder
 
-    （2）选择存放ICO的文件夹（Select A Folder with Icons）
+    （2）一键恢复所有快捷方式的默认图标
 
-    （3）注意：这个功能只支持替换包含有快捷方式名称的Icon图标，如名为"Excel"的快捷方式图标可以替换名为"Microsoft Excel"的Icon图片，但不能名为"Microsoft Edge"的快捷方式图标可以替换名为"Edge"的Icon图片
+        存在于标签页中的“其他”的右上角的按钮，它可快速地自动恢复快捷方式的默认图标
 
-        Note: This feature only supports replacing Icon icons with shortcut names. For example, a shortcut icon named 'Excel' can be repalced with an Icon named 'Microsoft Excel', but a shortcut icon named 'Microsoft Edge' cannot be replaced with an Icon named 'Edge'
+        The button located in the top right corner of the "Other" tab can quickly and automatically restore the default icon for shortcuts
+
+    （3）注意：更换功能只支持替换包含有快捷方式名称的Icon图标，如名为"Excel"的快捷方式图标可以替换名为"Microsoft Excel"的Icon图片，但不能名为"Microsoft Edge"的快捷方式图标可以替换名为"Edge"的Icon图片
+
+        Note: The replacement function only supports replacing Icon icons with shortcut names. For example, a shortcut icon named 'Excel' can be repalced with an Icon named 'Microsoft Excel', but a shortcut icon named 'Microsoft Edge' cannot be replaced with an Icon named 'Edge'
 
 ![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/Introduction/Auto_Change.gif)
 
@@ -105,17 +110,31 @@ v2.1
 
     （1）扁平风格
 
+    Flat Style
+
     （2）部分按钮添加了动画
+
+    Some buttons have been animated
 
     （3）添加了标签页（主页、其他、日志、主题、语言、关于）
 
-    （3）支持中文、英文语言（机器翻译的英文）
+    Added tabs (Home, Other, Log, About)
 
-    （4）去除原窗口标题栏，重新自绘标题栏
+    （4）支持中文、英文语言（机器翻译的英文）
 
-    （5）删除了自动选择和手动选择单项选项，默认为自动更换
+    Support for Chinese and English languages (English translated by machine)
 
-    （5）优化了部分细节
+    （5）去除原窗口标题栏，重新自绘标题栏
+
+    Remove the original window title bar and redraw the title bar yourself
+
+    （6）优化了部分细节
+    
+    Optimized some details
+
+    （7）修复了若干问题
+    
+    Fixed several issues
 
 v2.0
 
