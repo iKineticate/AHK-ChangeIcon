@@ -3,8 +3,8 @@
 Navigation_zh := {Label: ["主页", "其他", "日志", "关于"]}
 Navigation_en := {Label: ["Home", "Others", "Log", "About"]}
 
-All_Changed_Text_zh := "原图标`s→`s新图标`n"
-All_Changed_Text_en := "Original link icon`s→`sNew icon`n"
+All_Changed_Text_zh := "原图标`s=>`s新图标`n"
+All_Changed_Text_en := "Old icon for link`s→`sNew icon for link`n"
 
 All_Default_Text_zh := "`s是否确定全部快捷方式图标恢复为默认图标？`n`s注意：UWP和APP的快捷方式无法恢复默认图标"
 All_Default_Text_en := "`sAre you sure to restore all shortcut icons to the default icons?`n`sNote: UWP or APP icon cannot be restored to default icons"

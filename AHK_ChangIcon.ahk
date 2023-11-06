@@ -43,13 +43,12 @@ If not (A_IsAdmin OR RegExMatch(Full_command_line, " /restart(?!\S)"))
 ; 不用添加"+resize"调节窗口，避免在show之后"-resize"标题栏闪烁
 MyGui := Gui("-Caption +Border", "AHK ChangeIcon")              ; +E0x02000000 +E0x00080000可以考虑这个避免窗口闪烁
 MyGui.BackColor := "262626"
-MyGui.SetFont("s11 Bold cffffff", "Microsoft YaHei")            ; 设置其他颜色会导致单选按钮的样式改变
+MyGui.SetFont("s12 Bold cffffff", "Microsoft YaHei")            ; 设置其他颜色会导致单选按钮的样式改变
 MyGui.OnEvent("Close", (*) => ExitApp())
 MyGui.OnEvent("Size", MyGui_Size)
 
 ; 自建窗口标题栏：宽度自适应
 Caption := MyGui.AddText("x0 y0 h25 c8042c0 Background202020 vCaption +0x200","`sAHK`sChangeIcon")
-Caption.SetFont("s12")
 ; 关闭按钮：x坐标自适应
 MyGui.Close_Pic := MyGui.AddPicture("yp w36 h25", "HICON:" Base64PNG_to_HICON(Close_Base64PNG, height := 56))
 MyGui.Close_Cursor := MyGui.AddPicture("yp wp hp Hidden", "HICON:" Base64PNG_to_HICON(Close_Cursor_Base64PNG, height := 56))
@@ -90,8 +89,7 @@ Loop Navigation.Label.Length
 { 
     Tab.Add([Navigation.Label[A_Index]])
 
-    ; 创建透明背景(可以显示颜色方块)的文本，代表标签页名字
-    ; 0x200：垂直居中显示文本.
+    ; 创建透明背景的文本，用来代表标签页名字（透明可以显示高亮）（0x200：文本垂直居中显示）
     Tab_Item := MyGui.AddText("x5 y" (40*A_Index) + 59 " h40 w140 +0x200 BackgroundTrans vTab_Item" . A_Index
         , "`s`s`s`s`s`s`s`s" Navigation.Label[A_Index])
     Tab_Item.SetFont("s10 cffffff")
@@ -117,10 +115,10 @@ MyGui.All_Changed_Pic := MyGui.AddPicture("x+6 yp+3 w116 h50", "HICON:" Base64PN
 MyGui.All_Changed_Cursor := MyGui.AddPicture("xp yp wp hp hidden", "HICON:" Base64PNG_to_HICON(All_Changed_Cursor_Base64PNG, height := 300))
 MyGui.All_Changed_Btn := MyGui.AddButton("xp yp wp hp +0x4000000 -Tabstop vAll_Changed_Btn").OnEvent("Click", All_Changed)
 
-; 焦点时的搜索栏的下划线
-Search_Line := MyGui.AddPicture("x162 y+33 h2 Background8042c0")                    ; 宽度自适应
-; 搜索框（0x4000000可以让下划线一直显示在前方，但它会添加边框，因此需-E0x200去除边框）
-Search_Bar := MyGui.AddEdit("x162 yp-24 h26 Background191919 -E0x200 0x4000000")    ; 宽度自适应
+; 焦点时的搜索栏的下划线（宽度自适应）
+Search_Line := MyGui.AddPicture("x162 y+33 h2 Background8042c0")
+; 搜索框（宽度自适应）（0x4000000可让下划线一直显示在搜索框前方，但会给搜索框添加边框，因此需-E0x200去除边框）
+Search_Bar := MyGui.AddEdit("x162 yp-24 h26 Background191919 -E0x200 0x4000000")
 Search_Bar.SetFont("cbbbbbb s13")
 Search_Bar.Focus()
 Search_Bar.OnEvent("LoseFocus", Search_LoseFocus)
@@ -136,14 +134,13 @@ Hidden_Btn := MyGui.AddButton("yp wp hp Default Hidden").OnEvent("Click", Search
 ; -E0x200：去除边框
 ; +LV0x10000：双缓冲绘图，减少窗口大小变化时列表闪烁
 LV := MyGui.AddListView("x162 y+6 r10 Background333136 -Redraw -Multi -E0x200 +LV0x10000", ["Name", "Y/N", "Type"])
-LV.SetFont("cffffff s12")
+LV.SetFont("cffffff")
 LV.OnEvent("ItemFocus", Display_Top_Icon)
 LV.OnEvent("DoubleClick", Change_Link_Icon)
 LV.OnEvent("ContextMenu", Link_ContextMenu)
 
 global Link_Map := map()                            ; 创建快捷方式(Link)的键-值数组(Map)
 global Link_Yes_Count := 0                          ; 已更换图标的计数
-global Logging := ""                                ; 日志的记录
 global ImageListID := IL_Create()                   ; 为添加图标做好准备: 创建图像列表
 LV.SetImageList(ImageListID)                        ; 为添加图标做好准备: 设置显示图标列表
 
@@ -156,7 +153,7 @@ For Desktop in [A_Desktop, A_DesktopCommon]
         COM_Link_Attribute(&Link_Path, &Link_Attribute, &Link_Icon_Location)
         Link_Target_Path := Link_Attribute.TargetPath
         Link_Target_Dir := Link_Attribute.WorkingDirectory
-        ; 部分快捷方式(Office、WSA应用)属性中只存在目标路径，不存在目标目录，通过正则表达式将目标路径删除目标后变为目标目录
+        ; 部分快捷方式(如Office、WSA应用)属性中只存在目标路径，而不存在目标目录，可通过正则表达式将目标路径删除快捷方式名称后变为目标目录
         Link_Target_Dir := (Link_Target_Path != "" AND Link_Target_Dir = "") ? RegExReplace(Link_Target_Path, "\\[^\\]+$"):Link_Target_Dir
 
         ; 获取快捷方式的目录、目标扩展名
@@ -199,11 +196,8 @@ For Desktop in [A_Desktop, A_DesktopCommon]
         Link_Map[Link_Name . "LD"]  := Link_Dir
 
         ; 调用DllCall_Icon函数和图像列表替换函数，添加图标并赋予给IconNumber--刷新列表左侧图标
-        IconNumber := DllCall("ImageList_ReplaceIcon"
-            , "Ptr", ImageListID
-            , "Int", -1
-            , "Ptr", DllCall_Icon(A_LoopFilePath)) + 1
-        DllCall("DestroyIcon", "Ptr", DllCall_Icon(A_LoopFilePath))
+        IconNumber := DllCall("ImageList_ReplaceIcon", "Ptr", ImageListID, "Int", -1, "Ptr", DllCall_Icon(A_LoopFilePath)) + 1
+        ;DllCall("DestroyIcon", "Ptr", DllCall_Icon(A_LoopFilePath))
 
         ; 列表添加图标、名称、"√"、目标扩展名
         LV.Add("Icon" . IconNumber, Link_Name, Link_YesNo, Link_Target_Ext)
@@ -215,6 +209,7 @@ LV.ModifyCol(1, "+Sort")
 LV.ModifyCol(2, "+Center")
 LV.ModifyCol(3, "+Center +Sort")
 
+MyGui.SetFont("s11")
 ; 在第二~四的显示区域显示对应的更换、未更换、总共数量
 Changed_Count_Title := MyGui.AddText("x224 y42 w56 h23 +Center +0x200 BackgroundTrans", Yes_Text)
 UnChanged_Count_1_Title := MyGui.AddText("x286 y42 w56 h23 +Center +0x200 BackgroundTrans", No_Text)
@@ -251,7 +246,7 @@ MyGui.AddProgress("x162 y+9 w364 h26 c8042c0 vMyProgress Background333136 Range0
 
 ;————————————————————————————————————————第三个标签页（日志）的开始——————————————————————————————————————————————————
 Tab.UseTab(3)
-Log_Change := MyGui.AddEdit("x162 y37 Background333136 -E0x200 +Multi +ReadOnly -WantReturn")   ; 宽度、高度自适应
+Logging := MyGui.AddEdit("x162 y37 Background333136 -E0x200 +Multi +ReadOnly -WantReturn")   ; 宽度、高度自适应
 ;————————————————————————————————————————第三个标签页（日志）的结束——————————————————————————————————————————————————
 
 
@@ -280,9 +275,9 @@ LV_Header := SendMessage(0x101F, 0, 0, LV.hWnd)     ;列表标题栏的hwnd
 DllCall("uxtheme\SetWindowTheme", "Ptr", LV_Header, "Str", "DarkMode_ItemsView", "Ptr", 0)
 DllCall("uxtheme\SetWindowTheme", "Ptr", LV.hWnd, "Str", "DarkMode_Explorer", "Ptr", 0)
 ; （4）日志(Edit)的滚动条
-DllCall("uxtheme\SetWindowTheme", "Ptr", Log_Change.hWnd, "Str", "DarkMode_Explorer", "Ptr", 0)
+DllCall("uxtheme\SetWindowTheme", "Ptr", Logging.hWnd, "Str", "DarkMode_Explorer", "Ptr", 0)
 
-; 《列表透明》：会闪烁
+; 《列表透明》：切换标签页会闪烁
 ;   GWL_EXSTYLE := -20              ; 设置新的扩展窗口样式
 ;   WS_EX_LAYERED := 0x80000        ; 设置为分层窗口风格
 ; 
@@ -298,6 +293,7 @@ DllCall("uxtheme\SetWindowTheme", "Ptr", Log_Change.hWnd, "Str", "DarkMode_Explo
 
 MyGui.Show()
 
+
 ; 监测鼠标的移动与操作
 OnMessage(0x200, WM_MOUSEMOVE)
 
@@ -306,7 +302,7 @@ OnMessage(0x200, WM_MOUSEMOVE)
 MButton::
 F2:: 
 {
-    MyGui.Opt("+OwnDialogs")
+    MyGui.Opt("+OwnDialogs")    ;解除对话框后才可于GUI窗口交互
     A_Clipboard := ""
     SendInput("{LButton}")
     Send("^c")
@@ -346,11 +342,10 @@ F2::
     LV.Modify(ListViewGetContent("Count Focused",LV.Hwnd),,,"√")
 
     ; 添加至日志
-    global Logging := "`s" . FormatTime(A_Now, "yyyy/MM/dd HH:mm:ss`n`s") 
+    Logging.Value := "`s" . FormatTime(A_Now, "yyyy/MM/dd HH:mm:ss`n`s") 
         . Log_Change_Text . ListViewGetContent("Selected Col1",LV.Hwnd) . "`n`s" 
         . FileName . "`n`n" 
-        . Logging
-    Log_Change.Value := Logging
+        . Logging.Value
 }
 
 
@@ -463,7 +458,7 @@ MyGui_Size(thisGui, MinMax, Width, Height)
     LV.ModifyCol(2, "+AutoHdr")
     LV.ModifyCol(3, "+AutoHdr")
     LV.Opt("+Redraw")
-    Log_Change.Move(,, Width -174, Height -49)
+    Logging.Move(,, Width -174, Height -49)
     MyGui.Opt("-Resize") 
     DllCall("LockWindowUpdate", "Uint", 0)      ; 当移动/改变尺寸的操作完成，桌面被解锁，所有东西恢复原貌
     MyGui.OnEvent("Size", MyGui_Size, 0)
@@ -485,12 +480,11 @@ Search(*)
     ; 开始从头搜索，若搜索到指定项目，则设为焦点并选择显示，然后刷新顶部图标
     Loop LV.GetCount()
     {
-        If (InStr(LV.GetText(A_Index), Search_Bar.Value))
-        {
-            Sleep(300)
-            LV.Modify(A_Index, "+Select +Focus +Vis")
-            Display_Top_Icon(LV, A_Index)
-        }
+        If (!InStr(LV.GetText(A_Index), Trim(Search_Bar.Value)))
+            Continue
+        Sleep(300)
+        LV.Modify(A_Index, "+Select +Focus +Vis")
+        Display_Top_Icon(LV, A_Index)
     }
 
     LV.Opt("-Multi")
@@ -544,7 +538,7 @@ Display_Top_Icon(LV, Item)
 ; 更换单个图标
 Change_Link_Icon(LV, Item)
 {
-    MyGui.Opt("+OwnDialogs")
+    MyGui.Opt("+OwnDialogs")    ;解除对话框后才可于GUI窗口交互
 
     ; 第一次更换图标时，若Change_ToolTip未被赋值，则会通知提醒然后赋值，再次更换图标后不会通知提醒
     If (!IsSet(Change_TrayTip))
@@ -560,12 +554,12 @@ Change_Link_Icon(LV, Item)
     Link_Path := Link_Map[Link_Name . "LP"]
     COM_Link_Attribute(&Link_Path, &Link_Attribute, &Link_Icon_Location)
 
-    ; 选择文件格式为“.ico”的图标，需更换图标路径赋予给Link_Icon_Select
+    ; 选择文件格式为“.ico”的图标，需更换图标路径赋予给Select_Icon_Path
     ; 若未选择照片或需更换图片是现在的图标则返回，否则更换图片并保存
-    Link_Icon_Select := FileSelect(3,, An_Icon_Text . "——————" . Link_Name, "Icon files(*.ico)")
-    If ((Link_Icon_Select = "") OR (Link_Icon_Select = Link_Icon_Location))
+    Select_Icon_Path := FileSelect(3,, An_Icon_Text "（" Link_Name "）", "Icon files(*.ico)")
+    If ((Select_Icon_Path = "") OR (Select_Icon_Path = Link_Icon_Location))
         Return
-    Link_Attribute.IconLocation := Link_Icon_Select
+    Link_Attribute.IconLocation := Select_Icon_Path
     Link_Attribute.Save()
 
     ; 更新显示的数据
@@ -582,11 +576,10 @@ Change_Link_Icon(LV, Item)
     LV.Modify(Item,,,"√")
 
     ; 添加至日志
-    global Logging := "`s" . FormatTime(A_Now, "yyyy/MM/dd HH:mm:ss`n`s") 
+    Logging.Value := "`s" . FormatTime(A_Now, "yyyy/MM/dd HH:mm:ss`n`s") 
         . Log_Change_Text . Link_Name . "`n`s" 
-        . Link_Icon_Select . "`n`n" 
-        . Logging
-    Log_Change.Value := Logging
+        . Select_Icon_Path . "`n`n" 
+        . Logging.Value
 }
 
 
@@ -595,45 +588,54 @@ All_Changed(*)
 {
     ; 选择存放ICO的文件夹
     Selected_Folder := DirSelect(, 0, Select_Folder_Text . "`n" . Safe_TrayTip_Text)
-    If (Selected_Folder = "")
+    ; 未选择则返回
+    If not Selected_Folder
         Return
 
-    Changed_Items := All_Changed_Text
+    Changed_Log := All_Changed_Text
     Icons_Map := map()
-    Same_Name_Map := map()
+    Same_Map := map()
 
-    ; 从选择的文件夹中，添加图标组合，ICO名称(键)-ICO路径(值)
+    ; 从选择的文件夹中，将图标名称和图标路径添加至图标组合【ICO名称(键)-ICO路径(值)】
     Loop Files, Selected_Folder "\*.ico"
     {
         Icons_Map[RegExReplace(A_LoopFileName, "\.ico$")] := A_LoopFilePath
     }
 
-    ; 扫描、更换图标过程中禁止与窗口交互
-    MyGui.Opt("+Disabled")
+    ; 提醒正在扫描、更换图标，并在结束扫描更换操作前禁止与窗口交互
     TrayTip(ing_TrayTip_Text)
+    MyGui.Opt("+Disabled")
 
     ; 从图标组合中枚举，并从列表开头开始循环
     For Icon_Name, Icon_Path in Icons_Map
     {
         Loop LV.GetCount()
         {
-            ; 若名称不匹配或快捷方式已更换过同样名称的ICO，则跳过循环中的这一次
-            ; 注意：若要跳过这一次操作，继续下一个循环不能用Return，Return也算退出循环，用Continue
+            ; 注意若要跳过这一次循环，用Continue而不用Return（Return会退出整个循环）
             Link_Name := LV.GetText(A_Index, 1)
-            If (!Instr(Icon_Name, Link_Name) OR Same_Name_Map.has(Link_Name))
+
+            ; 若快捷方式已更换过与快捷方式相同名称的ICO图标，则跳过这一次循环
+            If Same_Map.has(Link_Name)
                 Continue
+
+            Switch VerCompare(StrLen(Trim(Link_Name)), StrLen(Trim(Icon_Name)))
+            {
+            Case -1:
+                If (!InStr(Trim(Icon_Name), Trim(Link_Name)))
+                    Continue 
+            Case 1:
+                If (!InStr(Trim(Link_Name), Trim(Icon_Name)))
+                    Continue 
+            Case 0:
+                If (StrLower(Trim(Link_Name)) != StrLower(Trim(Icon_Name)))
+                    Continue 
+                Same_Map[Link_Name] := "SAME"
+            }
 
             Link_Path := Link_Map[Link_Name . "LP"]
             COM_Link_Attribute(&Link_Path, &Link_Attribute, &Link_Icon_Location)
 
-            ; 若已更换过或ICON名称等于快捷方式名称则记录在数组same_name_map中
-            ; 保证快捷方式在更换一个名称相同的图片后，不会在更换别的含有它的名字但不属于它的照片
-            ; 如"QQ.lnk"已更换图标或更换图标是为"QQ.ico"后，下一次就不会更换成"QQ音乐.ico"了
-            If ((Link_Icon_Location = Icon_Path) OR (StrLen(Icon_Name) = StrLen(Link_Name)))
-            {
-                Same_Name_Map[Link_Name] := "OFF"
-            }
-
+            ; 若快捷方式图标为文件夹的图标，则跳过这一次循环
             If (Link_Icon_Location = Icon_Path)
                 Continue
 
@@ -648,18 +650,17 @@ All_Changed(*)
                 MyGui["MyProgress"].Value += 1
             }
 
-            ; 刷新顶部图标、列表图标、聚焦更换行，并记录被更换图标的快捷方式名称和图标名称
+            ; 刷新顶部图标、列表图标、聚焦更换行
             Display_Top_Icon(LV, A_index)
             Display_LV_Icon(LV, A_index)
             LV.Modify(A_index, "+Select +Focus +Vis",,"√")
-            Changed_Items .= "`n" . Link_Name . "`s→`s" . Icon_Name
 
             ; 添加至日志
-            global Logging := "`s" . FormatTime(A_Now, "yyyy/MM/dd HH:mm:ss`n`s") 
+            Changed_Log .= "`n" . Link_Name . "`s=>`s" . Icon_Name
+            Logging.Value := "`s" . FormatTime(A_Now, "yyyy/MM/dd HH:mm:ss`n`s") 
                 . Log_Change_Text . LV.GetText(A_Index, 1) . "`n`s" 
-                . Icon_Path . "`n`n" 
-                . Logging
-            Log_Change.Value := Logging
+                . Icon_Name . ".ico`n`n" 
+                . Logging.Value
         }
     }
 
@@ -668,8 +669,8 @@ All_Changed(*)
     SetTimer TrayTip, -2500
 
     ; 若记录有更换记录，则显示被更换图标快捷方式名称和更换图标名称，若未记录，则显示“未更换任何图标”
-    If (RegExReplace(Changed_Items, "`n") != RegExReplace(All_Changed_Text, "`n"))
-        Return Msgbox(Changed_Items, Success_Text)
+    If (RegExReplace(Changed_Log, "`n") != RegExReplace(All_Changed_Text, "`n"))
+        Return Msgbox(Changed_Log, Success_Text)
     Msgbox(Unchanged_Text, "Hellow World")
 }
 
@@ -677,10 +678,12 @@ All_Changed(*)
 ; 所有快捷方式恢复为默认图标
 All_Default(*)
 {
-    MyGui.Opt("+OwnDialogs")
+    MyGui.Opt("+OwnDialogs")    ;解除对话框后才可于GUI窗口交互
+
     Default_Result := Msgbox(All_Default_Text, Default_Title_Text, "OKCancel Icon! Default2")
     If Default_Result = "Cancel"
         Return
+
     Loop LV.GetCount()
     {
         If (LV.GetText(A_Index, 2) != "√" OR LV.GetText(A_Index, 3) = "uwp" OR LV.GetText(A_Index, 3) = "app")
@@ -708,11 +711,11 @@ All_Default(*)
         LV.Modify(A_index, "+Select +Focus +Vis",,"")
 
         ; 添加至日志
-        global Logging := "`s" . FormatTime(A_Now, "yyyy/MM/dd HH:mm:ss`n`s") 
+        Logging.Value := "`s" . FormatTime(A_Now, "yyyy/MM/dd HH:mm:ss`n`s") 
             . Log_Default_Text . LV.GetText(A_Index, 1) . "`n`n" 
-            . Logging
-        Log_Change.Value := Logging
+            . Logging.Value
     }
+
     TrayTip(Completed_Text)
     SetTimer TrayTip, -2000
 }
@@ -721,9 +724,9 @@ All_Default(*)
 ; 右键打开菜单设置
 Link_ContextMenu(LV, Item, IsRightClick, X, Y)
 {    
-    LV.Focus()                                              ; 右键让列表为焦点
-    LV.Modify(0, "-Select -Focus")                          ; 关闭列表所有的选择与焦点（避免搜索时多个选项）
-    LV.Modify(Item, "+Select +Focus")                       ; 右键点击的行成为选择焦点
+    LV.Focus()
+    LV.Modify(0, "-Select -Focus")    ; 搜索前关闭列表所有选择与焦点行，避免搜索后选择非关键词选项
+    LV.Modify(Item, "+Select +Focus")
 
     ; 快捷方式的目标路径、目标目录、路径、目录
     Link_Name := LV.GetText(Item, 1)
@@ -735,24 +738,24 @@ Link_ContextMenu(LV, Item, IsRightClick, X, Y)
     ; 创建菜单并添加选项及功能
     Link_Menu := Menu()
     Link_Menu.Add(Menu_Run_Text, (*) => Run(Link_Path))
-    Link_Menu.Add ;—————————————————————————————————————————————————————————————————————————————————
+    Link_Menu.Add
     Link_Menu.Add(Menu_Change_Text, (*) => Run(Change_Link_Icon(LV, Item)))
-    Link_Menu.Add ;—————————————————————————————————————————————————————————————————————————————————
+    Link_Menu.Add
     Link_Menu.Add(Menu_Default_Text, Link_Default)
-    Link_Menu.Add ;—————————————————————————————————————————————————————————————————————————————————
+    Link_Menu.Add
     Link_Menu.Add(Menu_TargetDir_Text, (*) => Run(Link_Target_Dir))
-    Link_Menu.Add ;—————————————————————————————————————————————————————————————————————————————————
+    Link_Menu.Add
     Link_Menu.Add(Menu_Rename_Text, Link_Rename)
 
     Link_Infor := Menu()
     Link_Infor.Add(Copy_LTP_Text . Link_Target_Path, (*) => (A_Clipboard := Link_Target_Path))
-    Link_Infor.Add ;————————————————————————————————————————————————————————————————————————————————
+    Link_Infor.Add
     Link_Infor.Add(Copy_LTD_Text . Link_Target_Dir, (*) => (A_Clipboard := Link_Target_Dir))
-    Link_Infor.Add ;————————————————————————————————————————————————————————————————————————————————
+    Link_Infor.Add
     Link_Infor.Add(Copy_LP_Text . Link_Path, (*) => (A_Clipboard := Link_Path))
-    Link_Infor.Add ;————————————————————————————————————————————————————————————————————————————————
+    Link_Infor.Add
     Link_Infor.Add(Copy_LD_Text . Link_Dir, (*) => (A_Clipboard := Link_Dir))
-    Link_Menu.Add ;—————————————————————————————————————————————————————————————————————————————————
+    Link_Menu.Add
     Link_Menu.Add(Menu_LA_Text, Link_Infor)
 
     ; 调用DllCall获取选择(焦点)项目的图标--在菜单栏第一行显示图标--销毁hIcon
@@ -797,44 +800,45 @@ Link_ContextMenu(LV, Item, IsRightClick, X, Y)
         LV.Modify(Item,,,"")
 
         ; 添加至日志
-        global Logging := "`s" . FormatTime(A_Now, "yyyy/MM/dd HH:mm:ss`n`s") 
+        Logging.Value := "`s" . FormatTime(A_Now, "yyyy/MM/dd HH:mm:ss`n`s") 
             . Log_Default_Text . Link_Name . "`n`n" 
-            . Logging
-        Log_Change.Value := Logging
+            . Logging.Value
     }
 
     ; 重命名快捷方式名称
     Link_Rename(*)
     {
-        MyGui.Opt("+OwnDialogs")
+        MyGui.Opt("+OwnDialogs")    ;解除对话框后才可于GUI窗口交互
 
-        IB := InputBox(Rename_Text, Link_Name, "W300 H100", Link_Name)
-
+        IB := InputBox(Rename_Text, Link_Name, "W300 H100", Trim(Link_Name))    ; 输入窗口
         If IB.Result="CANCEL"
             Return
 
-        ; 更换旧快捷方式的路径为新路径
-        Link_New_Path := Link_Dir . "\" . IB.Value . ".lnk"
-        FileMove(Link_Path, Link_New_Path)
+        ; 重命名旧快捷方式的名称（FileMove：移动并重命名）
+        New_Link_Path := Link_Dir . "\" . IB.Value . ".lnk"
+        FileMove(Link_Path, New_Link_Path)
 
-        ; 重命名后，发生变化的只有快捷方式名称、快捷方式的路径，因此需要单独更换，而不能在循环数组中更换
-        ; 重命名后，在数组中给新名称(键)赋予新的目标路径、目标目录、lnk路径、lnk目录的值，并删除旧键-值
-        Link_Map[IB.Value . "LP"] := Link_New_Path
-        Link_Map.Delete(Link_Name . "LP")
-        For Value in ["LTP", "LTD", "LD"]
+        ; 重命名后，在ICO数组中,添加对应的新键-值，然后删除对应的旧键-值
+        For Value in ["LP", "LTP", "LTD", "LD"]
         {
-            Link_Map[IB.Value . Value] := Link_Map[Link_Name . Value]
-            Link_Map.Delete(Link_Name . Value)
+            Switch Value    ; 用switch而不用if、else是因为switch好看
+            {
+            Case "LP" : 
+                Link_Map[IB.Value . "LP"] := New_Link_Path
+                Link_Map.Delete(Link_Name . Value)
+            Default   : 
+                Link_Map[IB.Value . Value] := Link_Map[Link_Name . Value]
+                Link_Map.Delete(Link_Name . Value)
+            }
         }
 
         ; 添加至日志
-        global Logging := "`s" . FormatTime(A_Now, "yyyy/MM/dd HH:mm:ss`n`s") 
+        Logging.Value := "`s" . FormatTime(A_Now, "yyyy/MM/dd HH:mm:ss`n`s") 
             . Log_Rename_Text . Link_Name . "`n`s" 
             . Log_NewName_Text . IB.Value . "`n`n" 
-            . Logging
-        Log_Change.Value := Logging
+            . Logging.Value
 
-        ; 更换项目的lnk名称（在最后才更新名称是因为过早更新会导致在数组中不能检测到旧名称的键-值，只能检测到新名称的键-值）
+        ; 更换项目的lnk名称（在最后才更新名称是因为过早更新会导致在数组中的link_name发生改变而不能删除对应键值）
         LV.Modify(Item,, IB.Value)
     }
 }
