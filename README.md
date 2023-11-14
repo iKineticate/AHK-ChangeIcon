@@ -28,9 +28,10 @@ One-click Change(restore) all shortcut icon buttons
 
         The button located in the top right corner of the "Other" tab can quickly and automatically restore the default icon for shortcuts
 
-    （3）注意：更换功能只支持替换包含有快捷方式名称的Icon图标，如名为"Excel"的快捷方式图标可以替换名为"Microsoft Excel"的Icon图片，但不能名为"Microsoft Edge"的快捷方式图标可以替换名为"Edge"的Icon图片
+    （3）注意：该功能要保证快捷方式的名称包含在图标名称中，或者图标名称包含在快捷方式名称中，如Excel.lnk和Microsoft Excel.ico；腾讯QQ.lnk和QQ.ico
 
-        Note: The replacement function only supports replacing Icon icons with shortcut names. For example, a shortcut icon named 'Excel' can be repalced with an Icon named 'Microsoft Excel', but a shortcut icon named 'Microsoft Edge' cannot be replaced with an Icon named 'Edge'
+    Note: This feature should ensure that the name of the shortcut is included in the icon name, or the icon name is included in the shortcut name, such as Excel.lnk and Microsoft Excel.ico; 腾讯QQ.lnk and QQ.ico.
+
 
 ![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/Introduction/Auto_Change.gif)
 
@@ -57,6 +58,18 @@ After Opening a Folder With Icons, click the mouse wheel button or F2 key to cha
 **Right click** the item to be modified, and select the required function according to the context of the right-click menu bar
 
 ![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/Introduction/LButtom&Menu.gif)
+
+5.添加开始（菜单）的快捷方式至列表中
+
+Add shortcuts from Start to the list
+
+6.添加其他文件夹中的快捷方式至列表中
+
+Add shortcuts from folders to the list
+
+7.备份列表中的快捷方式至桌面文件夹
+
+Backup shortcuts to a desktop folder
 
 ## AHK_ChangIcon 的右键菜单功能
 
@@ -90,21 +103,42 @@ Supports **viewing** and **copying** attributes of shortcuts
 
 Only supports replacing shortcut icons，replacing icons such as' My Computer ',' Recycle Bin ','. URL ','. exe ', and'. pdf 'is currently not supported
 
-2.UWP应用和WSA应用的快捷方式不支持恢复默认图标和打开目标目录
+2.UWP应用和WSA应用的快捷方式不支持直接恢复默认图标和打开目标目录
 
 Shortcuts for UWP and WSA applications do not support restoring default icon and opening target directories
 
-3.列表的标题栏的文字不支持更换颜色
+3.部分快捷方式的原图标源于应用目录的.ico，导致错误判断为已更换
 
-The text in the title bar of the listview does not support changing colors
+The original icons of some shortcuts originated from the. ico in the application directory, which resulted in an incorrect judgment as replaced
 
-4.推荐一个方便将其他照片转化为ICO图标的软件(拖拽进软件即可转化)
+4.推荐一个方便将其他照片转化为ICO图标的软件(图片被拖拽进软件即可转化为ICO图标)
 
-Recommend a software that facilitates converting other photos into ICO icons(Drag and drop into the software to convert)
+Recommend a software that facilitates converting other photos into ICO icons(The image can be dragged intos the software and converted into icons)
 
 https://github.com/genesistoxical/drop-icons
 
 ## 更新内容
+
+v2.2
+    （1）缓解了切换标签时闪烁问题
+
+    Alleviated flickering issues when switching labels
+
+    （2）其他标签页添加了新功能（①清空列表；②添加其他文件夹的快捷方式至列表中;③添加开始(菜单)快捷方式至列表中）;④备份快捷方式（暂无点击动画）
+
+    New features have been added to other tabs（① Clear list; ② Add shortcuts to other folders to the list; ③ Add Start (Menu) Shortcut to List；④Backup shortcuts to a desktop folder）（There are currently no click animations available）
+
+    （3）添加了启动界面
+
+    Added startup screen
+
+    （4）优化了部分细节
+    
+    Optimized some details
+
+    （5）修复了若干问题
+    
+    Fixed several issues
 
 v2.1
 
