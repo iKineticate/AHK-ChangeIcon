@@ -1,22 +1,37 @@
 Navigation_zh := {Label: ["主页", "其他", "日志", "帮助", "关于"]}
-Navigation_en := {Label: ["Home", "Others", "Log", "Help", "About"]}
+Navigation_en := {Label: ["Home", "Other","Log", "Help", "About"]}
+
+Add_Desktop_Text_zh := "刷新/添加桌面的快捷方式至列表中"
+Add_Desktop_Text_en := "Add Desktop shortcut to the list"
+
+Add_Link_Desktop_Text_zh := "添加其至桌面"
+Add_Link_Desktop_Text_en := "Add to the desktop"
+
+Add_Link_Error_Text_zh := "已存在相同名称的快捷方式"
+Add_Link_Error_Text_en := "A shortcut with the same name already exists"
+
+Add_Desktop_Title_Text_zh := "是否刷新/添加桌面的快捷方式至列表中"
+Add_Desktop_Title_Text_en := "Do you want to Refresh/Add desktop shortcuts to the list"
 
 Add_Menu_Text_zh := "已添加开始(菜单)的快捷方式至列表中"
 Add_Menu_Text_en := "The Shortcuts from Start(menu) has been added to the list"
 
 Add_Menu_Title_Text_zh := "添加开始(菜单)的快捷方式至列表中"
-Add_Menu_Title_Text_en := "Add shortcuts from Start to the list"
+Add_Menu_Title_Text_en := "Add Start shortcuts to the list"
 
 Add_Other_Text_zh := "已添加指定文件夹的快捷方式至列表中"
 Add_Other_Text_en := "The shortcut(s) from the specified folder has been added to the list"
 
 Add_Other_Title_Text_zh := "添加其他文件夹的快捷方式至列表中"
-Add_Other_Title_Text_en := "Add shortcuts from folders to the list"
+Add_Other_Title_Text_en := "Add Folder shortcuts to the list"
 
 Add_Other_Msgbox_Text_zh := "是否清空列表并添加其他文件夹的快捷方式至列表中？"
 Add_Other_Msgbox_Text_en := "Do you want to empty the list and add shortcuts from other folder to the list?"
 
-All_Default_Text_zh := "`s是否确定全部快捷方式图标恢复为默认图标？`n`s注意：UWP和WSA的快捷方式无法恢复默认图标"
+Add_UWP_APP_Text_zh := "添加UWP/APP的快捷方式至桌面"
+Add_UWP_APP_Text_en := "Add UWP/APP shortcuts to desktops"
+
+All_Default_Text_zh := "`s是否确定全部快捷方式图标恢复为默认图标？`n`s注意：UWP和APP的快捷方式无法恢复默认图标"
 All_Default_Text_en := "`sAre you sure to restore all shortcut icons to the default icons?`n`sNote: UWP or APP icon cannot be restored to default icons"
 
 All_Text_zh := "总共"
@@ -33,12 +48,6 @@ Backup_LV_Title_Text_en := "Backup shortcuts to a desktop folder"
 
 Changing_Text_zh := "更换图标中......"
 Changing_Text_en := "Changing......"
-
-Clean_Text_zh := "是否清空列表中的快捷方式？"
-Clean_Text_en := "Empty the shortcuts from the list?"
-
-Clean_Title_Text_zh := "清空列表中的快捷方式"
-Clean_Title_Text_en := "Clear shortcuts in the list"
 
 Clean_Yes_Text_zh := "已清空列表"
 Clean_Yes_Text_en := "The list has been cleaned up"
@@ -64,8 +73,8 @@ Copy_LIL_Text_en := "Copy icon path for shortcut："
 Default_Title_Text_zh := "恢复所有快捷方式为默认图标"
 Default_Title_Text_en := "Restore all shortcuts to default icons"
 
-How_Restore_Text_zh := "如何恢复UWP和WSA快捷方式的图标？"
-How_Restore_Text_en := "How to restore icons for UWP and WSA shortcuts?"
+How_Restore_Text_zh := "如何恢复UWP和APP快捷方式的图标？"
+How_Restore_Text_en := "How to restore icons for UWP and APP shortcuts?"
 
 Icon_Name_Text_zh := "文件图标的名称："
 Icon_Name_Text_en := "The name of icon: "
@@ -127,8 +136,8 @@ Safe_Changed_Text_en := "`n`nIt is not recommended to use this feature to replac
 Safe_Text_zh := "————出于安全，无法查看—————"
 Safe_Text_en := "————Unable to view for security reasons—————"
 
-Safe_TrayTip_Text_zh := "注意: 出于安全，UWP和WSA应用无法恢复默认图标"
-Safe_TrayTip_Text_en := "Notice: For security reasons, UWP and WSA applications cannot restore default icons"
+Safe_TrayTip_Text_zh := "注意: 出于安全，UWP和APP应用无法恢复默认图标"
+Safe_TrayTip_Text_en := "Notice: For security reasons, UWP and APP applications cannot restore default icons"
 
 Search_Text_zh := "搜索......"
 Search_Text_en := "Search......"
@@ -142,8 +151,8 @@ Select_Other_Text_en := "Please select a different folder with shortcuts"
 Startup_Screen_Text_zh := "`s`s启动图："
 Startup_Screen_Text_en := "`s`sStartup Screen："
 
-Sart_Menu_Text_zh := "是否清空列表并添加菜单栏中的快捷方式至列表中？`n`n提醒：若需要更换菜单快捷方式的图标，建议添加后备份它们"
-Sart_Menu_Text_en := "Do you want to empty the list and add shortcuts from the Start(menu) to the list?`n`nNote:If you need to replace the shortcut icons from Start, It is recommended to backup them after adding them"
+Sart_Menu_Text_zh := "是否清空列表并添加菜单栏中的快捷方式至列表中？`n`n提醒：谨慎更换菜单快捷方式的图标"
+Sart_Menu_Text_en := "Do you want to empty the list and add Start(menu) shortcuts to the list?`n`nNote:Be cautious when changing the icon for Start(menu) shortcuts"
 
 Solve_Restore_Text_zh := "出于安全，不能直接恢复它们的图标，需要删除并重新创建它们的快捷方式，操作：菜单--所有应用，找到它们并拖拽至桌面"
 Solve_Restore_Text_en := "For security reasons, their icons cannot be directly restored. You need to delete and recreate their shortcuts. Action: Menu - All Applications, locate them and drag them onto the desktop"
@@ -187,6 +196,7 @@ Add_Menu_Title_Text := Yes_zh = True ? Add_Menu_Title_Text_zh:Add_Menu_Title_Tex
 Add_Other_Text      := Yes_zh = True ? Add_Other_Text_zh:Add_Other_Text_en
 Add_Other_Title_Text:= Yes_zh = True ? Add_Other_Title_Text_zh:Add_Other_Title_Text_en
 Add_Other_Msgbox_Text:=Yes_zh = True ? Add_Other_Msgbox_Text_zh:Add_Other_Msgbox_Text_en
+Add_UWP_APP_Text    := Yes_zh = True ? Add_UWP_APP_Text_zh:Add_UWP_APP_Text_en
 All_Default_Text    := Yes_zh = True ? All_Default_Text_zh:All_Default_Text_en
 All_Text            := Yes_zh = True ? All_Text_zh:All_Text_en
 A_Row_Text          := Yes_zh = True ? A_Row_Text_zh:A_Row_Text_en
@@ -195,8 +205,10 @@ An_Icon_Text        := Yes_zh = True ? An_Icon_Text_zh:An_Icon_Text_en
 Backup_LV_Title_Text:= Yes_zh = True ? Backup_LV_Title_Text_zh:Backup_LV_Title_Text_en
 
 Changing_Text       := Yes_zh = True ? Changing_Text_zh:Changing_Text_en
-Clean_Text          := Yes_zh = True ? Clean_Text_zh:Clean_Text_en
-Clean_Title_Text    := Yes_zh = True ? Clean_Title_Text_zh:Clean_Title_Text_en
+Add_Desktop_Text    := Yes_zh = True ? Add_Desktop_Text_zh:Add_Desktop_Text_en
+Add_Link_Desktop_Text:=Yes_zh = True ? Add_Link_Desktop_Text_zh:Add_Link_Desktop_Text_en
+Add_Link_Error_Text := Yes_zh = True ? Add_Link_Error_Text_zh:Add_Link_Error_Text_en
+Add_Desktop_Title_Text   := Yes_zh = True ? Add_Desktop_Title_Text_zh:Add_Desktop_Title_Text_en
 Clean_Yes_Text      := Yes_zh = True ? Clean_Yes_Text_zh:Clean_Yes_Text_en
 Completed_Text      := Yes_zh = True ? Completed_Text_zh:Completed_Text_en
 Copy_LTP_Text       := Yes_zh = True ? Copy_LTP_Text_zh:Copy_LTP_Text_en

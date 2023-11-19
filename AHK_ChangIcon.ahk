@@ -1,20 +1,23 @@
 ;// @Name                   AHK ChangeIcon
 ;// @Author                 iKineticate(Github)
-;// @Version                v2.2
+;// @Version                v2.3
 ;// @Destription:zh-CN      快速更换桌面快捷方式图标
 ;// @Destription:en         Quickly change of desktop shortcut icons
 ;// @HomepageURL            https://github.com/iKineticate/AHK-ChangeIcon
 ;// @Icon Source            www.iconfont.cn
 ;// @Reference:Tab          https://www.autohotkey.com/boards/viewtopic.php?f=83&t=95676&p=427160&hilit=menubar+theme#
-;// @Date                   2023/11/11
+;// @Date                   2023/11/19
 
-;@Ahk2Exe-SetVersion 2.2
-;@Ahk2Exe-SetFileVersion 2.2
-;@Ahk2Exe-SetProductVersion 2.2
+;@Ahk2Exe-SetVersion 2.3
+;@Ahk2Exe-SetFileVersion 2.3
+;@Ahk2Exe-SetProductVersion 2.3
 ;@Ahk2Exe-SetName AHK-ChangeIcon
 ;@Ahk2Exe-ExeName AHK-ChangeIcon
+;@Ahk2Exe-SetCompanyName AHK-ChangeIcon
 ;@Ahk2Exe-SetProductName AHK-ChangeIcon
 ;@Ahk2Exe-SetDescription AHK-ChangeIcon
+;@Ahk2Exe-SetOrigFilename AHK-ChangeIcon.exe
+;@Ahk2Exe-SetLegalTrademarks AHK-ChangeIcon
 
 #Requires AutoHotkey >=v2.0
 #SingleInstance Ignore
@@ -53,7 +56,7 @@ Wait_Gui.Show("NoActivate Center")
 ;==========================================================================
 ; 创建软件界面的窗口
 ;==========================================================================
-; +E0x02000000和+E0x00080000的双缓冲暂时不能避免该软件的闪烁
+; +E0x02000000和+E0x00080000的双缓冲暂时不能避免该软件切换标签页时的闪烁
 MyGui := Gui("-Caption -Resize +Border", "AHK-ChangeIcon")
 MyGui.BackColor := "262626"
 MyGui.SetFont("s12 Bold cffffff", "Microsoft YaHei")
@@ -62,16 +65,16 @@ MyGui.OnEvent("Size", MyGui_Size)
 
 
 ;==========================================================================
-; 标题栏（宽度自适应），关闭按钮、最大化按钮、最小化按钮（X坐标自适应）
+; 关闭按钮、最大化按钮、最小化按钮（X坐标自适应），标题栏（宽度自适应）
 ;==========================================================================
-Caption := MyGui.AddText("x0 y0 h25 c8042c0 Background202020 +0x200 vCaption","`sAHK-ChangeIcon")
-MyGui.Close_Pic := MyGui.AddPicture("yp w36 h25", "HICON:" Base64PNG_to_HICON(Close_Base64PNG, height := 56))
-MyGui.Close_Cursor := MyGui.AddPicture("yp wp hp Hidden", "HICON:" Base64PNG_to_HICON(Close_Cursor_Base64PNG, height := 56))
-MyGui.Close_Btn := MyGui.AddButton("yp wp hp -Tabstop +0x4000000 vClose_Btn")
-MyGui.Maximize_Pic := MyGui.AddPicture("yp wp hp", "HICON:" Base64PNG_to_HICON(Maximize_Base64PNG, height := 56))
-MyGui.Minimize_Pic := MyGui.AddPicture("yp wp hp", "HICON:" Base64PNG_to_HICON(Minimize_Base64PNG, height := 56))
-MyGui.Minimize_Cursor := MyGui.AddPicture("yp wp hp Hidden", "HICON:" Base64PNG_to_HICON(Minimize_Cursor_Base64PNG, height := 56))
-MyGui.Minimize_Btn := MyGui.AddButton("yp wp hp -Tabstop +0x4000000 vMinimize_Btn")
+MyGui.Close_Pic := MyGui.AddPicture("y0 w36 h25", "HICON:" Base64PNG_to_HICON(Close_Base64PNG, height := 56))
+MyGui.Close_Cursor := MyGui.AddPicture("y0 wp hp Hidden", "HICON:" Base64PNG_to_HICON(Close_Cursor_Base64PNG, height := 56))
+MyGui.Close_Btn := MyGui.AddButton("y0 wp hp -Tabstop +0x4000000 vClose_Btn")
+MyGui.Maximize_Pic := MyGui.AddPicture("y0 wp hp", "HICON:" Base64PNG_to_HICON(Maximize_Base64PNG, height := 56))
+MyGui.Minimize_Pic := MyGui.AddPicture("y0 wp hp", "HICON:" Base64PNG_to_HICON(Minimize_Base64PNG, height := 56))
+MyGui.Minimize_Cursor := MyGui.AddPicture("y0 wp hp Hidden", "HICON:" Base64PNG_to_HICON(Minimize_Cursor_Base64PNG, height := 56))
+MyGui.Minimize_Btn := MyGui.AddButton("y0 wp hp -Tabstop +0x4000000 vMinimize_Btn")
+Caption := MyGui.AddText("x0 y0 h25 c8042c0 Background202020 +0x4000000 +0x200 vCaption","`sAHK-ChangeIcon")
 
 
 ;==========================================================================
@@ -92,6 +95,7 @@ Tab_Focus_Short := MyGui.AddPicture("x5 y110 w5 h18 Background0x8042c0")        
 
 ; 每个映射标签页的图标
 MyGui.AddPicture("x14 y110 w18 h18 BackgroundTrans", "HICON:" Base64PNG_to_HICON(Home_Base64PNG, height := 224))
+;MyGui.AddPicture("xp y+22 w18 h18 BackgroundTrans", "HICON:" Base64PNG_to_HICON(Add_Base64PNG, height := 224))
 MyGui.AddPicture("xp y+22 w18 h18 BackgroundTrans", "HICON:" Base64PNG_to_HICON(Others_Base64PNG, height := 224))
 MyGui.AddPicture("xp y+22 w18 h18 BackgroundTrans", "HICON:" Base64PNG_to_HICON(Log_Base64PNG, height := 224))
 MyGui.AddPicture("xp y+22 w18 h18 BackgroundTrans", "HICON:" Base64PNG_to_HICON(Help_Base64PNG, height := 224))
@@ -173,14 +177,13 @@ LV.OnEvent("DoubleClick", Change_Link_Icon)
 LV.OnEvent("ContextMenu", Link_ContextMenu)
 
 global Link_Map := map()                            ; 创建快捷方式(Link)的键-值数组(Map)
-global Which_Backup := ""                           ; 创建当前列表中的快捷方式的目录文件名
+global Which_Add := "Desktop"                       ; 创建目前是哪一个文件夹的快捷方式的变量
 global ImageListID := IL_Create()                   ; 为添加图标做好准备: 创建图像列表
 LV.SetImageList(ImageListID)                        ; 为添加图标做好准备: 设置显示图标列表
 
 ; 添加桌面快捷方式
 For Desktop in [A_Desktop, A_DesktopCommon]
 {
-    global Which_Backup := "Desktop"
     Add_Link_To_LV(Desktop, Mode := "")
     UnChanged_Count.Value := LV.GetCount() - Changed_Count.Value
     All_Count.Value := LV.GetCount()
@@ -188,7 +191,7 @@ For Desktop in [A_Desktop, A_DesktopCommon]
 
 
 ;==========================================================================
-; 第二个标签页：其他(Other)
+; 第二个标签页：其他(其他)
 ;==========================================================================
 Tab.UseTab(2)
 
@@ -200,31 +203,35 @@ MyGui.All_Default_Btn := MyGui.AddButton("xp yp wp hp -Tabstop +0x4000000 vAll_D
 ; 条形百分比（Rang0-10，意思是从0-10）
 MyGui.AddProgress("x162 y+9 w364 h26 c8042c0 Background333136 vMyProgress Range0-" . LV.GetCount(), Changed_Count.Value)
 
-; 清空列表
-Clean_Cursor := MyGui.AddPicture("x162 y+6 w364 h50 Background343434")
-Clean_Pic := MyGui.AddPicture("x174 yp+12 w26 h26 BackgroundTrans", "HICON:" Base64PNG_to_HICON(Clean_Base64PNG, height := 128))
-Clean_Title := MyGui.AddText("x+8 yp w320 hp +0x200 BackgroundTrans", Clean_Title_Text)
-Clean_Btn := MyGui.AddButton("x162 yp-12 w364 h50 +0x4000000", "Clean").OnEvent("Click", Clean_LV)
+; 刷新/添加桌面的快捷方式至列表中
+Add_Desktop_Cursor := MyGui.AddPicture("x162 y+6 w364 h46 Background343434")
+Add_Desktop_Pic := MyGui.AddPicture("x174 yp+10 w26 h26 BackgroundTrans", "HICON:" Base64PNG_to_HICON(Add_Desktop_Base64PNG, height := 160))
+Add_Desktop_Title := MyGui.AddText("x+8 yp w320 hp +0x200 BackgroundTrans", Add_Desktop_Text)
+Add_Desktop_Btn := MyGui.AddButton("x162 yp-10 w364 h46 +0x4000000", "Clean").OnEvent("Click", Add_Desktop)
 
 ; 开始(菜单)的快捷方式添加至列表中
-Sart_Menu_Cursor := MyGui.AddPicture("x162 y+6 w364 h50 Background343434")
-Sart_Menu_Pic := MyGui.AddPicture("x174 yp+12 w26 h26 BackgroundTrans", "HICON:" Base64PNG_to_HICON(Sart_Menu_Base64PNG, height := 128))
+Sart_Menu_Cursor := MyGui.AddPicture("x162 y+6 w364 h46 Background343434")
+Sart_Menu_Pic := MyGui.AddPicture("x174 yp+10 w26 h26 BackgroundTrans", "HICON:" Base64PNG_to_HICON(Sart_Menu_Base64PNG, height := 160))
 Sart_Menu_Title := MyGui.AddText("x+8 yp w320 hp +0x200 BackgroundTrans", Add_Menu_Title_Text)
-Sart_Menu_Btn := MyGui.AddButton("x162 yp-12 w364 h50 +0x4000000", "Sart_Menu").OnEvent("Click", Add_Sart_Menu)
+Sart_Menu_Btn := MyGui.AddButton("x162 yp-10 w364 h46 +0x4000000", "Sart_Menu").OnEvent("Click", Add_Sart_Menu)
 
 ; 其他文件夹的快捷方式添加至列表中
-Other_Folder_Cursor := MyGui.AddPicture("x162 y+6 w364 h50 Background343434")
-Other_Folder_Pic := MyGui.AddPicture("x174 yp+12 w26 h26 BackgroundTrans", "HICON:" Base64PNG_to_HICON(Other_Folder_Base64PNG, height := 128))
+Other_Folder_Cursor := MyGui.AddPicture("x162 y+6 w364 h46 Background343434")
+Other_Folder_Pic := MyGui.AddPicture("x174 yp+10 w26 h26 BackgroundTrans", "HICON:" Base64PNG_to_HICON(Other_Folder_Base64PNG, height := 160))
 Other_Folder_Title := MyGui.AddText("x+8 yp w320 hp +0x200 BackgroundTrans", Add_Other_Title_Text)
-Other_Folder_Btn := MyGui.AddButton("x162 yp-12 w364 h50 +0x4000000").OnEvent("Click", Add_Other_Folder)
+Other_Folder_Btn := MyGui.AddButton("x162 yp-10 w364 h46 +0x4000000").OnEvent("Click", Add_Other_Folder)
 
-; 备份列表中的快捷方式至指定位置
-Backup_LV_LINK_Cursor := MyGui.AddPicture("x162 y+6 w364 h50 Background343434")
-Backup_LV_LINK_Pic := MyGui.AddPicture("x174 yp+12 w26 h26 BackgroundTrans", "HICON:" Base64PNG_to_HICON(Backup_Base64PNG, height := 128))
+; 打开所有快捷方式的文件夹
+Add_UWP_APP_Cursor := MyGui.AddPicture("x162 y+6 w364 h46 Background343434")
+Add_UWP_APP_Pic := MyGui.AddPicture("x174 yp+10 w26 h26 BackgroundTrans", "HICON:" Base64PNG_to_HICON(UWP_APP_Base46PNG, height := 160))
+Add_UWP_APP_Title := MyGui.AddText("x+8 yp w320 hp +0x200 BackgroundTrans", Add_UWP_APP_Text)
+Add_UWP_APP_Btn := MyGui.AddButton("x162 yp-10 w364 h46 +0x4000000").OnEvent("Click", (*) => Run("shell:AppsFolder"))
+
+; 备份列表中的快捷方式至桌面
+Backup_LV_LINK_Cursor := MyGui.AddPicture("x162 y+6 w364 h46 Background343434")
+Backup_LV_LINK_Pic := MyGui.AddPicture("x174 yp+10 w26 h26 BackgroundTrans", "HICON:" Base64PNG_to_HICON(Backup_Base64PNG, height := 160))
 Backup_LV_LINK_Title := MyGui.AddText("x+8 yp w320 hp +0x200 BackgroundTrans", Backup_LV_Title_Text)
-Backup_LV_LINK_Btn := MyGui.AddButton("x162 yp-12 w364 h50 +0x4000000").OnEvent("Click", Backup_LV_LINK)
-
-
+Backup_LV_LINK_Btn := MyGui.AddButton("x162 yp-10 w364 h46 +0x4000000").OnEvent("Click", Backup_LV_LINK)
 
 
 ;==========================================================================
@@ -244,12 +251,12 @@ MyGui.AddPicture("x162 y37 w364 h125 Background333333")
 MyGui.AddText("xp yp wp h25 BackgroundTrans +0x200", "（1）无法恢复默认图标：")
 MyGui.AddText("xp y+0 wp hp BackgroundTrans +0x200", "`s`s`s`s原因①：部分应用程序无内置图标，使用的是应用目录中的图标")
 MyGui.AddText("xp y+0 wp hp BackgroundTrans +0x200", "`s`s`s`s解决办法：在列表中右键项目，打开目标目录并寻找图标")
-MyGui.AddText("xp y+0 wp hp BackgroundTrans +0x200", "`s`s`s`s原因②：出于安全，无法恢复UWP/WSA默认图标")
+MyGui.AddText("xp y+0 wp hp BackgroundTrans +0x200", "`s`s`s`s原因②：出于安全，无法恢复UWP/APP默认图标")
 MyGui.AddText("xp y+0 wp hp BackgroundTrans +0x200", "`s`s`s`s解决办法：`"开始(菜单)--更多`"中拖拽快捷方式至桌面")
 
 MyGui.AddPicture("xp y+12 wp h75 Background333333")
-MyGui.AddText("xp yp wp h25 BackgroundTrans +0x200", "（2）无法添加开始(菜单)中的UWP/WSA至列表中：")
-MyGui.AddText("xp y+0 wp hp BackgroundTrans +0x200", "`s`s`s`s原因：出于安全，UWP/WSA不存在开始(菜单)的文件夹中")
+MyGui.AddText("xp yp wp h25 BackgroundTrans +0x200", "（2）无法添加开始(菜单)中的UWP/APP至列表中：")
+MyGui.AddText("xp y+0 wp hp BackgroundTrans +0x200", "`s`s`s`s原因：出于安全，UWP/APP不存在开始(菜单)的文件夹中")
 MyGui.AddText("xp y+0 wp hp BackgroundTrans +0x200", "`s`s`s`s解决办法：出于安全考虑，暂无解决办法")
 
 MyGui.AddPicture("xp y+12 wp h75 Background333333")
@@ -270,7 +277,7 @@ MyGui.AddPicture("xp y+12 wp hp Background333333")
 MyGui.AddText("xp yp wp hp BackgroundTrans +0x200", "`s`s酷安：林琼雅")
 
 MyGui.AddPicture("xp y+12 wp hp Background333333")
-MyGui.AddText("xp yp wp hp BackgroundTrans +0x200", Version_Text "2.2")
+MyGui.AddText("xp yp wp hp BackgroundTrans +0x200", Version_Text "2.3")
 
 MyGui.AddPicture("xp y+12 wp hp Background333333")
 MyGui.AddText("xp yp wp hp BackgroundTrans +0x200", ICON_SETS_Text "www.iconfont.cn")
@@ -284,7 +291,7 @@ Tab.UseTab()
 ;==========================================================================
 ; 深色模式(Drak Mode) 
 ;==========================================================================
-; （1）窗口标题栏（根据Windows版本赋予attr不同的值），已启用，自制标题栏统一颜色
+; （1）窗口标题栏（根据Windows版本赋予attr不同的值）
 ;dwAttr:= VerCompare(A_OSVersion, "10.0.18985") >= 0 ? 20 : VerCompare(A_OSVersion, "10.0.17763") >= 0 ? 19 : ""
 ;DllCall("dwmapi\DwmSetWindowAttribute", "Ptr", MyGui.Hwnd, "int", dwAttr, "int*", True, "int", 4)
 ; （2）呼出的菜单（1：根据系统显示模式调整深浅，2：深色，3：浅色）
@@ -413,17 +420,17 @@ WM_MOUSEMOVE(wParam, lParam, Msg, Hwnd)
             thisGui.All_Changed_Cursor.Visible := True      ; 鼠标下高亮"一键更换"的按钮
         Case "All_Default_Btn" :
             thisGui.All_Default_Cursor.Visible := True
-        Default:                                            ; 若一个名字未匹配，则匹配是否未标签页
+        Default:                                            ; 若一个名字未匹配，则判断是否为标签页
             If (InStr(CurrControl.Name, "Tab_Item") AND (CurrControl != thisGui.Active_Tab))
             {
-                If (CurrControl = thisGui.Ctrl_Cursor)      ; 若标签页控件等于光标下的上一次标签页控件，则返回（避免一直闪烁）
+                If (CurrControl = thisGui.Ctrl_Cursor)      ; 若标签页控件等于光标下的上一次标签页控件，则返回（避免一直闪烁）(我也不想嵌套)
                     Return
                 thisGui.Ctrl_Cursor := CurrControl          ; 若光标下的标签页发生变化，则定义这次光标下标签页
                 thisGui.Tab_Cursor.Move(5, (40 * CurrControl.Index) + 61 )
                 thisGui.Tab_Cursor.Redraw()                 ; 重绘：避免移动时出现文本重影在其他文本上
                 thisGui.Tab_Cursor.Visible := True          ; 重绘完后在显示可以避免出现闪烁
             }
-            Else    ; 不可用Return代替
+            Else    ; 不可用Return代替(Return会导致丢下光标下列表的高亮的问题)
             {
                 thisGui.Ctrl_Cursor := CurrControl
                 thisGui.Tab_Cursor.Visible := False
@@ -449,38 +456,36 @@ Tab_Focus(GuiCtrlObj, info, *)
 {
     If GuiCtrlObj = MyGui.Active_Tab
         Return
-    ControlFocus GuiCtrlObj                                 ; 设置该标签页为焦点，其他控件脱去焦点
+
     DllCall("LockWindowUpdate", "Uint", MyGui.Hwnd)
-    ;DllCall("SendMessage", "Ptr", MyGui.hwnd, "UInt",0xB, "UInt", 0, "UInt", 0)
-    ;MyGui.Opt("-0x10000000")
 
     MyGui.Active_Tab := GuiCtrlObj                          ; 设置新的活动映射标签页
     Tab_Focus_Long.Move(5, (40*GuiCtrlObj.Index) + 61 )     ; 长焦点高亮方块移动至标签页
     Tab_Focus_Short.Move(5, (40*GuiCtrlObj.Index) + 70 )    ; 短焦点高亮方块移动至标签页
     Tab.Choose(trim(GuiCtrlObj.text))                       ; 选择映射到的对应的隐藏标签页
 
-    ; 若为主页或首页则显示"图标与数据显示区域"，否则隐藏
+    ; 若为主页或其他标签页，则显示"图标、数据区域"，否则隐藏
     For Name in Show_Name_Map
     {
         MyGui[Name].Visible := ((GuiCtrlObj.Index = 1) OR (GuiCtrlObj.Index = 2)) ? True : False
     }
 
-    ;MyGui.Opt("+0x10000000")
-    ;DllCall("SendMessage", "Ptr", MyGui.hwnd, "UInt",0xB, "UInt", 1, "UInt", 0)
     DllCall("LockWindowUpdate", "Uint", 0)
-    RedrawDB(MyGui.hwnd)    ; 调用双缓冲库，明显减少切换标签页时的闪烁
+    ; 调用双缓冲库，明显减少切换标签页时的闪烁
+    ; https://www.autohotkey.com/board/topic/95930-window-double-buffering-redraw-gdi-avoid-flickering/
+    RedrawDB(MyGui.hwnd)
 }
 
 
 ;==========================================================================
-; 部分控件根据窗口自适应调节位置与大小SHOW之前调节可避免
+; 部分控件根据窗口大小自适应调节位置与大小SHOW之前调节可避免
 ;==========================================================================
 MyGui_Size(thisGui, MinMax, Width, Height)
 {
     If MinMax = -1
         Return
 
-    Caption.Move(,,Width- 108)
+    Caption.Move(,,Width)
     Caption.OnEvent("DoubleClick", (*) => "")   ; 赋予事件后，WM_MOUSEMOVE才能检测到控件
     MyGui.Minimize_Pic.Move(Width - 108)
     MyGui.Minimize_Cursor.Move(Width - 108)
@@ -508,7 +513,7 @@ MyGui_Size(thisGui, MinMax, Width, Height)
 
 
 ;==========================================================================
-; 在列表中搜索含有关键词的项目
+; 在列表中搜索含有关键词的项目的函数
 ;==========================================================================
 Search(*)
 {
@@ -540,7 +545,7 @@ Search(*)
 
 
 ;==========================================================================
-; 搜索栏为焦点/非焦点事件（显示/隐藏下划线，显示/隐藏“搜索......”）
+; 搜索栏为焦点/非焦点事件的函数（显示/隐藏下划线，显示/隐藏“搜索......”）
 ;==========================================================================
 Search_Focus(*)
 {
@@ -558,7 +563,7 @@ Search_LoseFocus(*)
 
 
 ;==========================================================================
-; 刷新列表项目图标
+; 刷新列表项目图标的函数
 ;==========================================================================
 Display_LV_Icon(LV, Item)
 {
@@ -567,12 +572,11 @@ Display_LV_Icon(LV, Item)
     Link_Path := Link_Map[LV.GetText(Item, 1) . "LP"]
     IconNumber := DllCall("ImageList_ReplaceIcon", "Ptr", ImageListID, "Int", -1, "Ptr", DllCall_Icon(Link_Path)) + 1
     LV.Modify(Item, "Icon" . IconNumber)
-    ;DllCall("DestroyIcon", "Ptr", DllCall_Icon(Link_Map[LV.GetText(Item, 1) . "LP"]))
 }
 
 
 ;==========================================================================
-; 刷新顶部ICO显示区域
+; 刷新顶部ICO显示区域的函数
 ;==========================================================================
 Display_Top_Icon(LV, Item)
 {
@@ -581,12 +585,11 @@ Display_Top_Icon(LV, Item)
     Link_Path := Link_Map[LV.GetText(Item, 1) . "LP"]
     MyGui["Show_Icon_Area"].Value := "HICON:" DllCall_Icon(Link_Path)
     MyGui["Show_Icon_Area"].Opt("Background262626")
-    ;DllCall("DestroyIcon", "Ptr", DllCall_Icon(Link_Path))
 }
 
 
 ;==========================================================================
-; 更换单个快捷方式的图标事件
+; 更换单个快捷方式的图标函数
 ;==========================================================================
 Change_Link_Icon(LV, Item)
 {
@@ -643,9 +646,9 @@ All_Changed(*)
     Safe_Msgbox := Msgbox(Safe_TrayTip_Text . Safe_Changed_Text,,"OKCancel Icon! Default2")
     If Safe_Msgbox = "Cancel"
         Return
+
     ; 选择存放ICO的文件夹
     Selected_Folder := DirSelect(, 0, Select_Folder_Text)
-    ; 未选择则返回
     If not Selected_Folder
         Return
 
@@ -653,8 +656,8 @@ All_Changed(*)
     Icons_Map := map()
     Same_Map := map()
 
-    ; 从选择的文件夹中，将图标名称和图标路径添加至图标组合【ICO名称(键)-ICO路径(值)】
-    Loop Files, Selected_Folder "\*.ico"
+    ; 从选择的文件夹中，将图标名称和图标路径添加至图标组合【ICO名称(键)-ICO路径(值)】(包括子文件夹里的文件)
+    Loop Files, Selected_Folder "\*.ico", "R"
     {
         Icons_Map[RegExReplace(A_LoopFileName, "\.ico$")] := A_LoopFilePath
     }
@@ -675,7 +678,7 @@ All_Changed(*)
             If Same_Map.has(Link_Name)
                 Continue
 
-            ; 比较快捷方式名称和图片名称长度来决定谁包含谁
+            ; 比较快捷方式名称和图片名称的长度来决定判断调节谁包含谁
             Switch VerCompare(StrLen(Trim(Link_Name)), StrLen(Trim(Icon_Name)))
             {
             Case -1:
@@ -734,7 +737,7 @@ All_Changed(*)
 
 
 ;==========================================================================
-; 恢复所有快捷方式的默认图标事件（UWP、WSA不支持恢复默认）
+; 恢复所有快捷方式的默认图标事件（UWP、APP不支持恢复默认）
 ;==========================================================================
 All_Default(*)
 {
@@ -786,13 +789,17 @@ All_Default(*)
 ; 列表右键菜单事件
 ;==========================================================================
 Link_ContextMenu(LV, Item, IsRightClick, X, Y)
-{    
-    LV.Focus()
+{
+    If ((Item > 1000) OR (Item <= 0)) ; 避免右键列表的标题栏时出现错误
+        Return
+
+    ;LV.Focus()
     LV.Modify(0, "-Select -Focus")    ; 搜索前关闭列表所有选择与焦点行，避免搜索后选择非关键词选项
     LV.Modify(Item, "+Select +Focus")
 
     ; 快捷方式的目标路径、目标目录、路径、目录
     Link_Name := LV.GetText(Item, 1)
+
     Link_Target_Path := Link_Map[Link_Name . "LTP"]
     Link_Target_Dir := Link_Map[Link_Name . "LTD"]
     Link_Path := Link_Map[Link_Name . "LP"]
@@ -811,6 +818,13 @@ Link_ContextMenu(LV, Item, IsRightClick, X, Y)
     Link_Menu.Add(Menu_TargetDir_Text, (*) => Run(Link_Target_Dir))
     Link_Menu.Add
     Link_Menu.Add(Menu_Rename_Text, Link_Rename)
+
+    If Which_Add != "Desktop"
+    {
+        Link_Menu.Add
+        Link_Menu.Add(Add_Link_Desktop_Text, Link_Add_Desktop)
+        Link_Menu.SetIcon(Add_Link_Desktop_Text, "HICON:" Base64PNG_to_HICON(Menu_Desktop_Base64PNG))
+    }
 
     Link_Infor := Menu()
     Link_Infor.Add(Copy_LTP_Text . Link_Target_Path, (*) => (A_Clipboard := Link_Target_Path))
@@ -834,7 +848,7 @@ Link_ContextMenu(LV, Item, IsRightClick, X, Y)
     Link_Menu.SetIcon(Menu_Rename_Text, "HICON:" Base64PNG_to_HICON(Menu_Rename_Base64PNG))
     Link_Menu.SetIcon(Menu_LA_Text, "HICON:" Base64PNG_to_HICON(Menu_Attrib_Base64PNG))
     
-    ; 若选择与焦点行为UWP应用或WSA应用，则将恢复默认图标和打开目标目录的功能禁止
+    ; 若选择与焦点行为UWP应用或APP应用，则将恢复默认图标和打开目标目录的功能禁止
     If ((Link_Target_Path = Safe_Text) OR InStr(Link_Target_Path, "WindowsSubsystemForAndroid"))
     {
         Link_Menu.Disable(Menu_Default_Text)
@@ -846,7 +860,7 @@ Link_ContextMenu(LV, Item, IsRightClick, X, Y)
     ; 恢复快捷方式的默认图标并刷新
     Link_Default(*)
     {
-        ; 若图标为默认图标（原EXE图标或UWP/WSA应用）则返回，否则更换图片并保存等操作
+        ; 若图标为默认图标（原EXE图标或UWP/APP应用）则返回，否则更换图片并保存等操作
         If ((Link_Icon_Location = Link_Target_Path) OR (Link_Icon_Location = ""))
             Return
         Link_Attribute.IconLocation := Link_Target_Path
@@ -907,6 +921,27 @@ Link_ContextMenu(LV, Item, IsRightClick, X, Y)
         ; 更换列表快捷方式名称（在最后才更新是因为过早更新会导致在数组中的link_name发生改变而不能删除对应键值）
         LV.Modify(Item,, IB.Value)
     }
+
+    Link_Add_Desktop(*)
+    {
+        Try
+        {
+            FileCopy(Link_Path, A_Desktop)
+
+            ; 添加至日志
+            Logging.Value := "`s" . FormatTime(A_Now, "yyyy/MM/dd HH:mm:ss`n`s") 
+            . "添加“`s" . Link_Name . "`s”至当前用户的桌面" . "`n`n" 
+            . Logging.Value
+
+            MsgBox("成功添加“`s" . Link_Name . "`s”至当前用户的桌面")
+        
+        }
+        Catch Error
+        {
+            MsgBox(Add_Link_Error_Text,, "Icon!")
+            Return
+        }
+    }
 }
 
 
@@ -915,21 +950,47 @@ Link_ContextMenu(LV, Item, IsRightClick, X, Y)
 ;==========================================================================
 Clean_LV(*)
 {
-    Clean_Msgbox := Msgbox(Clean_Text,, "OKCancel")
-    If Clean_Msgbox = "OK"
-    {
         LV.Delete()
+        Link_Map.Clear()        ; 删除存储的数组
         Changed_Count.Value := 0
         UnChanged_Count.Value := 0
         All_Count.Value := 0
         MyGui["MyProgress"].Value := 0
-        global Which_Backup := ""
+}
 
-        ; 添加至日志
-        Logging.Value := "`s" . FormatTime(A_Now, "yyyy/MM/dd HH:mm:ss`n`s") 
-        . Clean_Yes_Text . "`n`n" 
-        . Logging.Value
+
+;==========================================================================
+; 刷新/添加桌面的快捷方式至列表中
+;==========================================================================
+Add_Desktop(*)
+{
+    Add_Desktop_Msgbox := Msgbox(Add_Desktop_Title_Text,, "OKCancel")
+    If Add_Desktop_Msgbox = "Cancel"
+        Return
+
+    ; 清空列表、计数
+    Clean_LV
+
+    global Which_Add := "Desktop"
+
+    ; 添加桌面快捷方式
+    For Desktop in [A_Desktop, A_DesktopCommon]
+    {
+        Add_Link_To_LV(Desktop, Mode := "")
     }
+    
+    ; 刷新计数
+    UnChanged_Count.Value := LV.GetCount() - Changed_Count.Value
+    All_Count.Value := LV.GetCount()
+    MyGui["MyProgress"].Opt("Range0-" . LV.GetCount())
+    MyGui["MyProgress"].Value := Changed_Count.Value
+
+    ; 添加至日志
+    Logging.Value := "`s" . FormatTime(A_Now, "yyyy/MM/dd HH:mm:ss`n`s") 
+    . Add_Desktop_Text . "`n`n" 
+    . Logging.Value
+
+    MsgBox("成功(Success)！")
 }
 
 
@@ -942,14 +1003,11 @@ Add_Sart_Menu(*)
     If Sart_Menu_Msgbox = "Cancel"
         Return
 
-    global Which_Backup := "Start"
-
     ; 清空列表、计数
-    LV.Delete()
-    Changed_Count.Value := 0
-    UnChanged_Count.Value := 0
-    All_Count.Value := 0
-    MyGui["MyProgress"].Value := 0
+    Clean_LV
+
+    ; 更新备份对象
+    global Which_Add := "Start"
 
      ; 将当前用户、所有用户的开始(菜单)的快捷方式添加至列表中
     For Value in [A_StartMenu, A_StartMenuCommon]
@@ -982,18 +1040,14 @@ Add_Other_Folder(*)
         Return
 
     ; 清空列表、计数
-    LV.Delete()
-    Changed_Count.Value := 0
-    UnChanged_Count.Value := 0
-    All_Count.Value := 0
-    MyGui["MyProgress"].Value := 0
+    Clean_LV
 
     Selected_Oher_Folder := DirSelect(, 0, Select_Other_Text)
     If not Selected_Oher_Folder
         Return
 
-    
-    global Which_Backup := RegExReplace(Selected_Oher_Folder, "^.*\\")
+    ; 更新备份对象
+    global Which_Add := RegExReplace(Selected_Oher_Folder, "^.*\\")
 
     Add_Link_To_LV(Selected_Oher_Folder, Mode := "")
 
@@ -1016,15 +1070,15 @@ Add_Other_Folder(*)
 ;==========================================================================
 Backup_LV_LINK(*)
 {
-    Backup_Msgbox := Msgbox("是否备份列表中的快捷方式至名为“`s" . Which_Backup . "`s”的桌面文件夹？",,"Icon? OKCancel")
+    Backup_Msgbox := Msgbox("是否备份列表中的快捷方式至名为“`s" . Which_Add . "`s”的桌面文件夹？",,"Icon? OKCancel")
     If Backup_Msgbox = "Cancel"
         Return
 
-    Backup_Folder := A_Desktop . "\" . Which_Backup . FormatTime(A_Now, "_yyyy_MM_dd_HH_mm")
+    Backup_Folder := A_DesktopCommon . "\" . Which_Add . FormatTime(A_Now, "_yyyy_MM_dd_HH_mm")
 
     If DirExist(Backup_Folder)
     {
-        Backup_Folder .= "_1"
+        Backup_Folder := "(2)" . Backup_Folder
     }
     
     DirCreate(Backup_Folder)
@@ -1037,7 +1091,7 @@ Backup_LV_LINK(*)
         FileCopy(Link_Path, Backup_Folder, 1)
     }
 
-    Msgbox("备份结束")
+    MsgBox("成功(Success)！")
 }
 
 
@@ -1075,7 +1129,12 @@ Add_Link_To_LV(Link_Folder_Path, Mode)  ; Mode:="R"扫描子文件夹中的文�
         {
             If ((Mode = "R") AND (RegExMatch(A_LoopFileName, "Uninstall|卸载")))   ; 若添加开始(菜单)快捷方式至列表，且是卸载的快捷方式，则下一轮循环
                 Continue
-                
+
+            Link_Name := RegExReplace(A_LoopFileName, "\.lnk$")     ; 快捷方式的名称（去除了后缀名）
+    
+            If Link_Map.Has(Link_Name . "LTP")                      ; 排除相同的名称的快捷方式
+                Continue
+
             ; 调用WshShell对象的函数，获取快捷方式的属性、目标路径、目标目录、图标路径
             Link_Path := A_LoopFilePath
             COM_Link_Attribute(&Link_Path, &Link_Attribute, &Link_Icon_Location)
@@ -1084,8 +1143,7 @@ Add_Link_To_LV(Link_Folder_Path, Mode)  ; Mode:="R"扫描子文件夹中的文�
      
             SplitPath(Link_Path,, &Link_Dir)                        ; 快捷方式的目录
             SplitPath(Link_Target_Path,,, &Link_Target_Ext)         ; 快捷方式的目标扩展名
-            Link_Name := RegExReplace(A_LoopFileName, "\.lnk$")     ; 快捷方式的名称（去除了后缀名）
-    
+
             ; 快捷方式是否更换图标的判定：已更换图标显示"√" // 未更换图标不显示
             Switch
             {
@@ -1093,8 +1151,8 @@ Add_Link_To_LV(Link_Folder_Path, Mode)  ; Mode:="R"扫描子文件夹中的文�
                 Link_YesNo := ""
             Case Link_Icon_Location = Link_Target_Path :            ; 应用的默认图标
                 Link_YesNo := ""
-            ; 系统软件(如%windir%)、WSA应用、某些图片路径为{???}\?.exe的UWP应用的默认图标
-            Case RegExMatch(Link_Icon_Location, "i)%[^%]*%|WindowsSubsystemForAndroid|\{[^\{]*\}\\[^\\]*\.exe$") :
+            ; 系统软件(如%windir%)、APP应用、某些图片路径为{???}\?.exe的UWP应用的默认图标
+            Case RegExMatch(Link_Icon_Location, "i)%[^%]*%|WindowsSubsystemForAndroid|system32\\.*dll|\{[^\{]*\}\\[^\\]*\.exe$") :
                 Link_YesNo := ""
             ; 需要排除某些应用————应用无图标，使用的是应用目录图标
             Case StrLower(Link_Target_Dir) = StrLower(RegExReplace(Link_Icon_Location, "\\([^\\]+)\.ico$")) :

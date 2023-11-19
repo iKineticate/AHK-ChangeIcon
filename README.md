@@ -1,75 +1,69 @@
 ## AHK ChangeIcon 简介
 
-这是一款用 AHK 编写的软件，它可以快速地**更换大量**桌面快捷方式图标来帮你**减少操作**和**节约时间**
+这是一款用 AHK 编写的软件，它可以快速地**批量更换**桌面快捷方式图标
 
-This is a software written with AHK, which can quickly **replace a large number of** desktop shortcut icons to help you **reduce operations** and **save time**
+This is a software written in AHK, which can quickly change the icons of shortcuts in **batches**
 
 ![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/Introduction/AHK_ChangeIcon.png)
 
 ## AHK ChangIcon 的使用
 
-为了更好的更换图标，使用前请授予软件管理员权限
+1.为了实现功能，使用前请授予软件管理员权限
 
-Please grant software administrator permission to complete the operation of changing icons before use
+In order to realize the function, please grant the software administrator permission before use
 
-1.一键更换（恢复默认）图标按钮：
+2.一键更换/一键恢复所有快捷方式图标(One-Click Change/Restore all shortcut icons)
 
-One-click Change(restore) all shortcut icon buttons
+    （1）一键更换所有快捷方式图标为红色按钮
+    Replace all shortcut icon functions with purple buttons
 
-    （1）一键更换所有快捷方式的图标：
+    （2）一键恢复所有快捷方式图标为紫色按钮
+    Restore all shortcut icon functions with red button
 
-        存在于“主页”的右上角的按钮，它可快速地自动更换快捷方式的图标为选中文件夹中名字匹配的ICON图标
+    （3）更换要求（Change Requirements）：
+        ①图标的名称包含于快捷方式的名称（例如图标名称为"Visual"，快捷方式名称为"Visual Studio"）
+        The name of the icon is included in the name of the shortcut
 
-        The button located in the upper right corner of the homepage，it can quickly and automatically change the icon of the shortcut to the ICON that matches the name in the selected folder
-
-    （2）一键恢复所有快捷方式的默认图标
-
-        存在于标签页中的“其他”的右上角的按钮，它可快速地自动恢复快捷方式的默认图标
-
-        The button located in the top right corner of the "Other" tab can quickly and automatically restore the default icon for shortcuts
-
-    （3）注意：该功能要保证快捷方式的名称包含在图标名称中，或者图标名称包含在快捷方式名称中，如Excel.lnk和Microsoft Excel.ico；腾讯QQ.lnk和QQ.ico
-
-    Note: This feature should ensure that the name of the shortcut is included in the icon name, or the icon name is included in the shortcut name, such as Excel.lnk and Microsoft Excel.ico; 腾讯QQ.lnk and QQ.ico.
-
+        ②快捷方式的名称包含于图标的名称（例如图标名称为"QQ音乐"，快捷方式名称为"QQ"）
+        The name of the shortcut is included in the name of the icon
 
 ![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/Introduction/Auto_Change.gif)
 
-2.打开ICON文件夹后，使用**鼠标滚轮键/F2键**更换图标：
+3.按下鼠标滚轮键/F2键更换图标：
 
-After Opening a Folder With Icons, click the mouse wheel button or F2 key to change the icon:
+Press the mouse scroll button or F2 key to change the shortcut icon:
 
     （1）打开存放ICO的文件夹
 
     Open A Folder With Icons
 
-    （2）在AHK_ChangIco中选中需要更换图标的项目，然后在文件夹中鼠标滚轮键/F2键点击更换的图标
+    （2）在AHK_ChangIco中选中需要更换图标的项目，然后在文件夹中使用鼠标滚轮键/F2键点击更换的图标
 
-    Select the item in the AHK_ChangIco that needs to be changed with an icon, and then click on the icon with the mouse scroll wheel or F2 key in the folder
+    Select the item in AHK_ChangIco that needs to be changed with an icon, and then use the mouse scroll wheel or F2 key to click on the replacement icon in the folder
 
 ![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/Introduction/MButtom&F2.gif)
 
-3.**左键双击**需要修改的项目，并选择图片修改
+3.左键双击需要修改的项目，并选择图片修改
 
-**Double left click** the item to be modified, and select the image replacement icon
+Double left click the item to be modified, and select the image replacement icon
 
-4.**右键点击**需要修改的项目，根据右键菜单栏内容选择需要的功能
+4.右键点击需要修改的项目，根据右键菜单栏内容选择需要的功能
 
-**Right click** the item to be modified, and select the required function according to the context of the right-click menu bar
+Right click the item to be modified, and select the required function according to the context of the right-click menu bar
 
 ![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/Introduction/LButtom&Menu.gif)
 
-5.添加开始（菜单）的快捷方式至列表中
+5.添加桌面、开始（菜单）、其他文件夹的快捷方式至列表中
 
-Add shortcuts from Start to the list
+Add shortcuts from Desktop/Start/Other Folder to the list
 
-6.添加其他文件夹中的快捷方式至列表中
+6.添加UWP/APP等快捷方式至当前用户的桌面
 
-Add shortcuts from folders to the list
+Add shortcuts such as UWP/APP to the the current user's desktop
 
 7.备份列表中的快捷方式至桌面文件夹
 
-Backup shortcuts to a desktop folder
+Backup shortcuts from the list to a desktop folder
 
 ## AHK_ChangIcon 的右键菜单功能
 
@@ -99,13 +93,13 @@ Supports **viewing** and **copying** attributes of shortcuts
 
 ## 已知问题 (ISSUES)：
 
-1.仅支持更换快捷方式图标，暂不支持更换`我的电脑`、`回收站`、`.url`、`.exe`、`.pdf`等文件图标
+1.仅支持更换快捷方式图标，暂不支持更换非.lnk文件图标（如系统图标、exe等图标）
 
-Only supports replacing shortcut icons，replacing icons such as' My Computer ',' Recycle Bin ','. URL ','. exe ', and'. pdf 'is currently not supported
+Only supports changeing shortcuts icons，temporarily not supporting the replacement of non .lnk icons(Icons such as system, exe, etc)
 
-2.UWP应用和WSA应用的快捷方式不支持直接恢复默认图标和打开目标目录
+2.UWP和APP应用的快捷方式不支持直接恢复默认图标和打开目标目录
 
-Shortcuts for UWP and WSA applications do not support restoring default icon and opening target directories
+Shortcuts for UWP and APP applications do not support restoring default icon and opening target directories
 
 3.部分快捷方式的原图标源于应用目录的.ico，导致错误判断为已更换
 
@@ -117,124 +111,17 @@ Recommend a software that facilitates converting other photos into ICO icons(The
 
 https://github.com/genesistoxical/drop-icons
 
-## 更新内容
+## 更新内容（UPDATE）：
+v2.3
 
-v2.2
-    （1）缓解了切换标签时闪烁问题
+    （1）添加了新功能（New Functions）
 
-    Alleviated flickering issues when switching labels
+        ①刷新/添加桌面的快捷方式至列表中
+        Refresh/Add Desktop shortcut to the list
 
-    （2）其他标签页添加了新功能（①清空列表；②添加其他文件夹的快捷方式至列表中;③添加开始(菜单)快捷方式至列表中）;④备份快捷方式（暂无点击动画）
+        ②添加UWP/APP等快捷方式至桌面
+        Add shortcuts such as UWP/APP to the desktop
 
-    New features have been added to other tabs（① Clear list; ② Add shortcuts to other folders to the list; ③ Add Start (Menu) Shortcut to List；④Backup shortcuts to a desktop folder）（There are currently no click animations available）
+    （2）优化了部分细节（Optimized some details）
 
-    （3）添加了启动界面
-
-    Added startup screen
-
-    （4）优化了部分细节
-    
-    Optimized some details
-
-    （5）修复了若干问题
-    
-    Fixed several issues
-
-v2.1
-
-    （1）扁平风格
-
-    Flat Style
-
-    （2）部分按钮添加了动画
-
-    Some buttons have been animated
-
-    （3）添加了标签页（主页、其他、日志、主题、语言、关于）
-
-    Added tabs (Home, Other, Log, About)
-
-    （4）支持中文、英文语言（机器翻译的英文）
-
-    Support for Chinese and English languages (English translated by machine)
-
-    （5）去除原窗口标题栏，重新自绘标题栏
-
-    Remove the original window title bar and redraw the title bar yourself
-
-    （6）优化了部分细节
-    
-    Optimized some details
-
-    （7）修复了若干问题
-    
-    Fixed several issues
-
-v2.0
-
-    （1）修改了软件UI
-    
-    Software UI modified
-    
-    （2）支持一键更换所有图标
-    
-    Supports One-Click Change of all shorcut icons
-
-    （3）搜索栏添加了搜索按钮
-    
-    A search button has been added to the right side of the search bar
-
-    （4）在菜单中添加了可被复制快捷方式的属性
-    
-    Added shortcut attributes to the menu, and this attributes can be copied
-
-    （5）列表删除了快捷方式的目标路径的一列
-    
-    The listview has removed a column of the target path for the shortcut
-
-    （6）优化了部分细节
-    
-    Optimized some details
-
-    （7）修复了若干问题
-    
-    Fixed several issues
-
-v1.4
-
-    （1）在项目左侧添加了图标显示
-    
-    Added icon display on the left side of the list item
-
-    （2）优化了部分细节
-    
-    ptimized some details
-
-
-v1.3
-
-    （1）添加了鼠标右键/F2键在文件夹中将对应的快捷方式图标替换为鼠标所在的图标
-
-    Added replacing the corresponding shortcut icon in the folder with the icon selected by the MButton/F2
-
-    （2）优化了部分细节
-    
-    Optimized some details
-    
-v1.2：
-
-    （1）添加了搜索功能
-    
-    Added search function
-
-    （2）更换软件图标
-    
-    Replace software icon
-
-    （3）更改图标显示区域
-    
-    Change icon display area
-
-    （4）优化了部分细节
-    
-    Optimized some details
+    （3）修复了若干问题（Fixed several issues）
