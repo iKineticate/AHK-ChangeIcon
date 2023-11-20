@@ -1,8 +1,8 @@
 ## AHK ChangeIcon 简介
 
-这是一款用 AHK 编写的软件，它可以快速地**批量更换**桌面快捷方式图标
+这是一款用 AHK 编写的软件，它可以快速地批量更换桌面、"开始"菜单(任务栏)或其他文件夹的快捷方式图标
 
-This is a software written in AHK, which can quickly change the icons of shortcuts in **batches**
+This is a software written in AHK, which can quickly change the icons of Desktop || Start Menu(Taskbar) || Other Folder Shortcuts in batches
 
 ![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/Introduction/AHK_ChangeIcon.png)
 
@@ -53,43 +53,51 @@ Right click the item to be modified, and select the required function according 
 
 ![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/Introduction/LButtom&Menu.gif)
 
-5.添加桌面、开始（菜单）、其他文件夹的快捷方式至列表中
+5.添加桌面、"开始"菜单、其他文件夹的快捷方式至列表中
 
-Add shortcuts from Desktop/Start/Other Folder to the list
+Add shortcuts from Desktop || Start Menu(Taskbar) || Other Folder to the list
 
-6.添加UWP/APP等快捷方式至当前用户的桌面
+6.修改"开始"菜单的图标也是属于修改任务栏的图标
+
+Modifying shortcuts icons in the Start menu is equivalent to modifying shortcuts icons in the Taskbar
+
+7.添加UWP/APP等快捷方式至当前用户的桌面
 
 Add shortcuts such as UWP/APP to the the current user's desktop
 
-7.备份列表中的快捷方式至桌面文件夹
+8.备份列表中的快捷方式至桌面文件夹
 
 Backup shortcuts from the list to a desktop folder
 
 ## AHK_ChangIcon 的右键菜单功能
 
-1.**更换**桌面快捷方式图标
+1.更换当前桌面快捷方式图标
 
-**Change** desktop shortcut icons
+Change the current shortcut icon
 
-2.支持恢复桌面快捷方式**默认**图标
+2.恢复当前桌面快捷方式默认图标
 
-Restoring **default** icons of desktop shortcuts
+Restore the default icon for the current shortcut
 
-3.支持**重命名**桌面快捷方式
+3.重命名当前桌面快捷方式
 
-**Rename** desktop shortcuts
+Rename the current shortcut
 
-4.支持**打开**快捷方式的**目标目录**
+4.打开当前快捷方式的目标目录
 
-**Open the target directory** of shortcut
+Open the shortcut target directory
 
-5.支持**运行**桌面快捷方式
+5.运行当前桌面快捷方式
 
-**Run** desktop shortcuts
+Run the shortcut
 
-6.支持**查看和复制**快捷方式的属性
+6.添加非桌面的快捷方式至当前用户的桌面
 
-Supports **viewing** and **copying** attributes of shortcuts
+Add non desktop shortcuts to the current desktop
+
+7.支持查看和复制快捷方式的属性
+
+Supports viewing and copying attributes of shortcuts
 
 ## 已知问题 (ISSUES)：
 
@@ -97,31 +105,16 @@ Supports **viewing** and **copying** attributes of shortcuts
 
 Only supports changeing shortcuts icons，temporarily not supporting the replacement of non .lnk icons(Icons such as system, exe, etc)
 
-2.UWP和APP应用的快捷方式不支持直接恢复默认图标和打开目标目录
+2.出于安全考虑，UWP和APP应用的快捷方式不支持直接恢复默认图标和打开目标目录
 
-Shortcuts for UWP and APP applications do not support restoring default icon and opening target directories
+UWP||APP Shortcuts do not support restoring default icon and opening target directories
 
-3.部分快捷方式的原图标源于应用目录的.ico，导致错误判断为已更换
+3.部分应用快捷方式的图标源于应用文件夹的.ico，导致错误地判断为已更换"√"
 
-The original icons of some shortcuts originated from the. ico in the application directory, which resulted in an incorrect judgment as replaced
+The original icons of some shortcuts originated from the .ico in the application folder, which resulted in an incorrect judgment as replaced
 
 4.推荐一个方便将其他照片转化为ICO图标的软件(图片被拖拽进软件即可转化为ICO图标)
 
 Recommend a software that facilitates converting other photos into ICO icons(The image can be dragged intos the software and converted into icons)
 
 https://github.com/genesistoxical/drop-icons
-
-## 更新内容（UPDATE）：
-v2.3
-
-    （1）添加了新功能（New Functions）
-
-        ①刷新/添加桌面的快捷方式至列表中
-        Refresh/Add Desktop shortcut to the list
-
-        ②添加UWP/APP等快捷方式至桌面
-        Add shortcuts such as UWP/APP to the desktop
-
-    （2）优化了部分细节（Optimized some details）
-
-    （3）修复了若干问题（Fixed several issues）
