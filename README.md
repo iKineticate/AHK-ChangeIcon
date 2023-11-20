@@ -43,29 +43,25 @@ Press the mouse scroll button or F2 key to change the shortcut icon:
 
 ![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/Introduction/MButtom&F2.gif)
 
-3.左键双击需要修改的项目，并选择图片修改
+3.左键双击或右键单击需要修改图标的项目
 
-Double left click the item to be modified, and select the image replacement icon
-
-4.右键点击需要修改的项目，根据右键菜单栏内容选择需要的功能
-
-Right click the item to be modified, and select the required function according to the context of the right-click menu bar
+Double click or right-click the item that need to modify icon
 
 ![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/Introduction/LButtom&Menu.gif)
 
-5.添加桌面、"开始"菜单、其他文件夹的快捷方式至列表中
+4.添加桌面、"开始"菜单、其他文件夹的快捷方式至列表中
 
 Add shortcuts from Desktop || Start Menu(Taskbar) || Other Folder to the list
 
-6.修改"开始"菜单的图标也是属于修改任务栏的图标
+5.修改"开始"菜单的图标也是属于修改任务栏的图标
 
 Modifying shortcuts icons in the Start menu is equivalent to modifying shortcuts icons in the Taskbar
 
-7.添加UWP/APP等快捷方式至当前用户的桌面
+6.添加UWP/APP等快捷方式至当前用户的桌面
 
 Add shortcuts such as UWP/APP to the the current user's desktop
 
-8.备份列表中的快捷方式至桌面文件夹
+7.备份列表中的快捷方式至桌面文件夹
 
 Backup shortcuts from the list to a desktop folder
 
@@ -98,6 +94,8 @@ Add non desktop shortcuts to the current desktop
 7.支持查看和复制快捷方式的属性
 
 Supports viewing and copying attributes of shortcuts
+
+![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/Introduction/Menu.jpg)
 
 ## 已知问题 (ISSUES)：
 
