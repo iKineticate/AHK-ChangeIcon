@@ -95,7 +95,6 @@ Tab_Focus_Short := MyGui.AddPicture("x5 y110 w5 h18 Background0x8042c0")        
 
 ; 每个映射标签页的图标
 MyGui.AddPicture("x14 y110 w18 h18 BackgroundTrans", "HICON:" Base64PNG_to_HICON(Home_Base64PNG, height := 224))
-;MyGui.AddPicture("xp y+22 w18 h18 BackgroundTrans", "HICON:" Base64PNG_to_HICON(Add_Base64PNG, height := 224))
 MyGui.AddPicture("xp y+22 w18 h18 BackgroundTrans", "HICON:" Base64PNG_to_HICON(Others_Base64PNG, height := 224))
 MyGui.AddPicture("xp y+22 w18 h18 BackgroundTrans", "HICON:" Base64PNG_to_HICON(Log_Base64PNG, height := 224))
 MyGui.AddPicture("xp y+22 w18 h18 BackgroundTrans", "HICON:" Base64PNG_to_HICON(Help_Base64PNG, height := 224))
@@ -257,7 +256,7 @@ MyGui.AddText("xp y+0 wp hp BackgroundTrans +0x200", "`s`s`s`s解决办法：`"�
 MyGui.AddPicture("xp y+12 wp h75 Background333333")
 MyGui.AddText("xp yp wp h25 BackgroundTrans +0x200", "（2）无法添加开始(菜单)中的UWP/APP至列表中：")
 MyGui.AddText("xp y+0 wp hp BackgroundTrans +0x200", "`s`s`s`s原因：出于安全，UWP/APP不存在开始(菜单)的文件夹中")
-MyGui.AddText("xp y+0 wp hp BackgroundTrans +0x200", "`s`s`s`s解决办法：出于安全考虑，暂无解决办法")
+MyGui.AddText("xp y+0 wp hp BackgroundTrans +0x200", "`s`s`s`s解决办法：可使用添加UWP/APP至桌面快捷方式的功能")
 
 MyGui.AddPicture("xp y+12 wp h75 Background333333")
 MyGui.AddText("xp yp wp h25 BackgroundTrans +0x200", "（3）部分应用未更换图标却显示已更换`"√`"")
@@ -744,7 +743,7 @@ All_Default(*)
     MyGui.Opt("+OwnDialogs")    ;解除对话框后才可于GUI窗口交互
 
     ; 提醒UWP、APP不支持恢复默认
-    Default_Result := Msgbox(All_Default_Text, Default_Title_Text, "OKCancel Icon! Default2")
+    Default_Result := Msgbox(All_Default_Text, Default_Title_Text, "OKCancel Icon? Default2")
     If Default_Result = "Cancel"
         Return
 
@@ -950,12 +949,12 @@ Link_ContextMenu(LV, Item, IsRightClick, X, Y)
 ;==========================================================================
 Clean_LV(*)
 {
-        LV.Delete()
-        Link_Map.Clear()        ; 删除存储的数组
-        Changed_Count.Value := 0
-        UnChanged_Count.Value := 0
-        All_Count.Value := 0
-        MyGui["MyProgress"].Value := 0
+    LV.Delete()
+    Link_Map.Clear()        ; 删除存储的数组
+    Changed_Count.Value := 0
+    UnChanged_Count.Value := 0
+    All_Count.Value := 0
+    MyGui["MyProgress"].Value := 0
 }
 
 
@@ -964,7 +963,9 @@ Clean_LV(*)
 ;==========================================================================
 Add_Desktop(*)
 {
-    Add_Desktop_Msgbox := Msgbox(Add_Desktop_Title_Text,, "OKCancel")
+    MyGui.Opt("+OwnDialogs")    ;解除对话框后才可于GUI窗口交互
+
+    Add_Desktop_Msgbox := Msgbox(Add_Desktop_Title_Text,, "Icon? OKCancel")
     If Add_Desktop_Msgbox = "Cancel"
         Return
 
@@ -999,7 +1000,9 @@ Add_Desktop(*)
 ;==========================================================================
 Add_Sart_Menu(*)
 {
-    Sart_Menu_Msgbox := Msgbox(Sart_Menu_Text,, "OKCancel")
+    MyGui.Opt("+OwnDialogs")    ;解除对话框后才可于GUI窗口交互
+
+    Sart_Menu_Msgbox := Msgbox(Sart_Menu_Text,, "Icon? OKCancel")
     If Sart_Menu_Msgbox = "Cancel"
         Return
 
@@ -1035,7 +1038,9 @@ Add_Sart_Menu(*)
 ;==========================================================================
 Add_Other_Folder(*)
 {
-    Add_Other_Msgbox := Msgbox(Add_Other_Msgbox_Text,, "OKCancel")
+    MyGui.Opt("+OwnDialogs")    ;解除对话框后才可于GUI窗口交互
+
+    Add_Other_Msgbox := Msgbox(Add_Other_Msgbox_Text,, "Icon? OKCancel")
     If Add_Other_Msgbox = "Cancel"
         Return
 
@@ -1070,7 +1075,9 @@ Add_Other_Folder(*)
 ;==========================================================================
 Backup_LV_LINK(*)
 {
-    Backup_Msgbox := Msgbox("是否备份列表中的快捷方式至名为“`s" . Which_Add . "`s”的桌面文件夹？",,"Icon? OKCancel")
+    MyGui.Opt("+OwnDialogs")    ;解除对话框后才可于GUI窗口交互
+
+    Backup_Msgbox := Msgbox("是否备份列表中的快捷方式至名为“`s" . Which_Add . FormatTime(A_Now, "_yyyy_MM_dd_HH_mm") . "`s”的桌面文件夹？",,"Icon? OKCancel")
     If Backup_Msgbox = "Cancel"
         Return
 
@@ -1090,6 +1097,10 @@ Backup_LV_LINK(*)
         Link_Path := Link_Map[Link_Name . "LP"]
         FileCopy(Link_Path, Backup_Folder, 1)
     }
+
+    Logging.Value := "`s" . FormatTime(A_Now, "yyyy/MM/dd HH:mm:ss`n`s") 
+    . "已备份至名为" . Which_Add . FormatTime(A_Now, "_yyyy_MM_dd_HH_mm") . "的桌面文件夹" . "`n`n" 
+    . Logging.Value
 
     MsgBox("成功(Success)！")
 }
