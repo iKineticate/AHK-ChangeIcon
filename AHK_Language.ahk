@@ -1,7 +1,7 @@
 Navigation_zh := {Label: ["主页", "其他", "日志", "帮助", "关于"]}
 Navigation_en := {Label: ["Home", "Other","Log", "Help", "About"]}
 
-Add_Desktop_Text_zh := "刷新/添加桌面的快捷方式至列表中"
+Add_Desktop_Text_zh := "添加或刷新桌面的快捷方式至列表中"
 Add_Desktop_Text_en := "Add Desktop shortcut to the list"
 
 Add_Link_Desktop_Text_zh := "添加其至桌面"
@@ -10,13 +10,13 @@ Add_Link_Desktop_Text_en := "Add to the desktop"
 Add_Link_Error_Text_zh := "已存在相同名称的快捷方式"
 Add_Link_Error_Text_en := "A shortcut with the same name already exists"
 
-Add_Desktop_Title_Text_zh := "是否刷新/添加桌面的快捷方式至列表中"
-Add_Desktop_Title_Text_en := "Do you want to Refresh/Add desktop shortcuts to the list"
+Add_Desktop_Title_Text_zh := "是否刷新/添加桌面的快捷方式至列表中?"
+Add_Desktop_Title_Text_en := "Do you want to Refresh/Add desktop shortcuts to the list?"
 
-Add_Menu_Text_zh := "已添加开始(菜单)的快捷方式至列表中"
+Add_Menu_Text_zh := "已添加`"开始`"菜单的快捷方式至列表中"
 Add_Menu_Text_en := "The Shortcuts from Start(menu) has been added to the list"
 
-Add_Menu_Title_Text_zh := "添加开始(菜单)的快捷方式至列表中"
+Add_Menu_Title_Text_zh := "添加`"开始`"菜单的快捷方式至列表中"
 Add_Menu_Title_Text_en := "Add Start shortcuts to the list"
 
 Add_Other_Text_zh := "已添加指定文件夹的快捷方式至列表中"
@@ -28,11 +28,11 @@ Add_Other_Title_Text_en := "Add Folder shortcuts to the list"
 Add_Other_Msgbox_Text_zh := "是否清空列表并添加其他文件夹的快捷方式至列表中？"
 Add_Other_Msgbox_Text_en := "Do you want to empty the list and add shortcuts from other folder to the list?"
 
-Add_UWP_APP_Text_zh := "添加UWP/APP的快捷方式至桌面"
+Add_UWP_APP_Text_zh := "添加UWP/APP的快捷方式至桌面中"
 Add_UWP_APP_Text_en := "Add UWP/APP shortcuts to desktops"
 
-All_Default_Text_zh := "`s是否确定全部快捷方式图标恢复为默认图标？`n`s注意：UWP和APP的快捷方式无法恢复默认图标"
-All_Default_Text_en := "`sAre you sure to restore all shortcut icons to the default icons?`n`sNote: UWP or APP icon cannot be restored to default icons"
+All_Default_Text_zh := "`s是否恢复列表中所有快捷方式图标为默认图标？`n`s注意：UWP和APP的快捷方式无法恢复默认图标"
+All_Default_Text_en := "`sDo you want to restore all shortcuts icons in the list to default icons?`n`sNote: UWP or APP icon cannot be restored to default icons"
 
 All_Text_zh := "总共"
 All_Text_en := "ALL"
@@ -130,8 +130,8 @@ No_Text_en := "NO"
 Rename_Text_zh := "请输入新的文件名(不包含.lnk):"
 Rename_Text_en := "Please input a new file name (Excluding'.lnk')"
 
-Safe_Changed_Text_zh := "`n`n不建议使用该功能替换开始(菜单)中的所有快捷方式图标"
-Safe_Changed_Text_en := "`n`nIt is not recommended to use this feature to replace icons for all shortcuts in the Start(menu)"
+Safe_Changed_Text_zh := "`n不建议使用该功能替换`"开始`"菜单中的所有快捷方式图标"
+Safe_Changed_Text_en := "`nIt is not recommended to use this feature to replace icons for all shortcuts in the Start(menu)"
 
 Safe_Text_zh := "————出于安全，无法查看—————"
 Safe_Text_en := "————Unable to view for security reasons—————"
@@ -151,8 +151,8 @@ Select_Other_Text_en := "Please select a different folder with shortcuts"
 Startup_Screen_Text_zh := "`s`s启动图："
 Startup_Screen_Text_en := "`s`sStartup Screen："
 
-Sart_Menu_Text_zh := "是否清空列表并添加菜单栏中的快捷方式至列表中？`n`n提醒：谨慎更换菜单快捷方式的图标"
-Sart_Menu_Text_en := "Do you want to empty the list and add Start(menu) shortcuts to the list?`n`nNote:Be cautious when changing the icon for Start(menu) shortcuts"
+Sart_Menu_Text_zh := "是否清空列表并添加菜单栏中的快捷方式至列表中？"
+Sart_Menu_Text_en := "Do you want to empty the list and add Start(menu) shortcuts to the list?"
 
 Solve_Restore_Text_zh := "出于安全，不能直接恢复它们的图标，需要删除并重新创建它们的快捷方式，操作：菜单--所有应用，找到它们并拖拽至桌面"
 Solve_Restore_Text_en := "For security reasons, their icons cannot be directly restored. You need to delete and recreate their shortcuts. Action: Menu - All Applications, locate them and drag them onto the desktop"
