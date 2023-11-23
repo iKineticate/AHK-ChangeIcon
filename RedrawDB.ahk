@@ -1,3 +1,5 @@
+;// @From   https://www.autohotkey.com/board/topic/95930-window-double-buffering-redraw-gdi-avoid-flickering/
+
 RedrawDB(hWnd) {
     ;==========================================================================
     ; Get required coordinates
