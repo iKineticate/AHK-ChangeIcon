@@ -1,10 +1,10 @@
+![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/Introduction/AHK_ChangeIcon.png)
+
 ## 关于(About)
 
 这是一款用 AHK 编写的软件，它解决了用户在更换快捷方式图标时的繁琐操作，只需一步，即可随心更换。无论是单个图标还是批量操作，都可以轻松满足。它不仅支持更换**桌面**快捷方式的图标，它还支持更换"开始"菜单和其他文件夹中的快捷方式图标。
 
 This is a software written in AHK, which can solves the tedious operation when replacing shortcut icons. With just one step, users can change their icons at will. Whether it's a single icon or a batch operation, it can be easily satisfied.It not only supports changing **Desktop** shortcut icons, but also supports changine shortcut icons in the **Start Menu** and **Other Folders**
-
-![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/Introduction/AHK_ChangeIcon.png)
 
 ## 使用(Usage)
 
@@ -41,7 +41,7 @@ Press the mouse scroll button or F2 key to change the shortcut icon:
 
 ![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/Introduction/MButtom&F2.gif)
 
-3.左键双击或右键单击需要修改图标的项目
+4.左键双击或右键单击需要修改图标的项目
 
 Double click or right-click the item that need to modify icon
 
@@ -123,6 +123,7 @@ https://github.com/genesistoxical/drop-icons
 ## 更新内容
 
 1.加快更换所有快捷方式图标的速度
+
 Accelerate the speed of changing icons for all shortcuts.
 
 2.优化了部分细节
