@@ -5,7 +5,7 @@ Add_Desktop_Text_zh := "添加或刷新桌面的快捷方式至列表中"
 Add_Desktop_Text_en := "Add Desktop shortcut to the list"
 
 Add_Link_Desktop_Text_zh := "添加其至桌面"
-Add_Link_Desktop_Text_en := "Add to the desktop"
+Add_Link_Desktop_Text_en := "Add to Desktop"
 
 Add_Link_Error_Text_zh := "已存在相同名称的快捷方式"
 Add_Link_Error_Text_en := "A shortcut with the same name already exists"
@@ -30,6 +30,9 @@ Add_Other_Msgbox_Text_en := "Do you want to empty the list and add shortcuts fro
 
 Add_UWP_APP_Text_zh := "添加UWP/APP的快捷方式至桌面中"
 Add_UWP_APP_Text_en := "Add UWP/APP shortcuts to desktops"
+
+Add_UWP_APP_MT_zh := "是否添加UWP/APP等应用的快捷方式至桌面中？`n右键UWP/APP等应用快捷方式并添加至桌面即可"
+Add_UWP_APP_MT_en := "Do you want to add UWP/APP shortcuts to desktops`nRight click on application shortcuts such as UWP/APP and add them to the desktop"
 
 All_Default_Text_zh := "`s是否恢复列表中所有快捷方式图标为默认图标？`n`s注意：UWP和APP的快捷方式无法恢复默认图标"
 All_Default_Text_en := "`sDo you want to restore all shortcuts icons in the list to default icons?`n`sNote: UWP or APP icon cannot be restored to default icons"
@@ -104,22 +107,22 @@ Log_NewName_Text_zh := "新名称："
 Log_NewName_Text_en := "NewName："
 
 Menu_Change_Text_zh := "更改文件图标"
-Menu_Change_Text_en := "Change"
+Menu_Change_Text_en := "Change its icon"
 
 Menu_Default_Text_zh := "恢复默认图标"
-Menu_Default_Text_en := "Default"
+Menu_Default_Text_en := "Restore Default"
 
 Menu_LA_Text_zh := "快捷方式属性"
-Menu_LA_Text_en := "Attribute"
+Menu_LA_Text_en := "Attributes"
 
 Menu_Rename_Text_zh := "重新命名文件"
-Menu_Rename_Text_en := "Rename"
+Menu_Rename_Text_en := "Rename Shortcut"
 
 Menu_Run_Text_zh := "打开快捷方式"
-Menu_Run_Text_en := "Run"
+Menu_Run_Text_en := "Launch Shortcut"
 
 Menu_TargetDir_Text_zh := "打开目标目录"
-Menu_TargetDir_Text_en := "Target Dir"
+Menu_TargetDir_Text_en := "Open Target Dir"
 
 Not_Fountd_Text_zh := "未找到"
 Not_Fountd_Text_en := "Not Found"
@@ -197,6 +200,7 @@ Add_Other_Text      := Yes_zh = True ? Add_Other_Text_zh:Add_Other_Text_en
 Add_Other_Title_Text:= Yes_zh = True ? Add_Other_Title_Text_zh:Add_Other_Title_Text_en
 Add_Other_Msgbox_Text:=Yes_zh = True ? Add_Other_Msgbox_Text_zh:Add_Other_Msgbox_Text_en
 Add_UWP_APP_Text    := Yes_zh = True ? Add_UWP_APP_Text_zh:Add_UWP_APP_Text_en
+Add_UWP_APP_MT      := Yes_zh = True ? Add_UWP_APP_MT_zh:Add_UWP_APP_MT_en
 All_Default_Text    := Yes_zh = True ? All_Default_Text_zh:All_Default_Text_en
 All_Text            := Yes_zh = True ? All_Text_zh:All_Text_en
 A_Row_Text          := Yes_zh = True ? A_Row_Text_zh:A_Row_Text_en
