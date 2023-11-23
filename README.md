@@ -1,12 +1,12 @@
-## AHK ChangeIcon 简介
+## 关于(About)
 
-这是一款用 AHK 编写的软件，它可以快速地批量更换桌面、"开始"菜单(任务栏)或其他文件夹的快捷方式图标
+这是一款用 AHK 编写的软件，它解决了用户在更换快捷方式图标时的繁琐操作，只需一步，即可随心更换。无论是单个图标还是批量操作，都可以轻松满足。它不仅支持更换**桌面**快捷方式的图标，它还支持更换"开始"菜单和其他文件夹中的快捷方式图标。
 
-This is a software written in AHK, which can quickly change the icons of Desktop || Start Menu(Taskbar) || Other Folder Shortcuts in batches
+This is a software written in AHK, which can solves the tedious operation when replacing shortcut icons. With just one step, users can change their icons at will. Whether it's a single icon or a batch operation, it can be easily satisfied.It not only supports changing **Desktop** shortcut icons, but also supports changine shortcut icons in the **Start Menu** and **Other Folders**
 
 ![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/Introduction/AHK_ChangeIcon.png)
 
-## AHK ChangIcon 的使用
+## 使用(Usage)
 
 1.为了实现功能，使用前请授予软件管理员权限
 
@@ -34,11 +34,9 @@ In order to realize the function, please grant the software administrator permis
 Press the mouse scroll button or F2 key to change the shortcut icon:
 
     （1）打开存放ICO的文件夹
-
     Open A Folder With Icons
 
     （2）在AHK_ChangIco中选中需要更换图标的项目，然后在文件夹中使用鼠标滚轮键/F2键点击更换的图标
-
     Select the item in AHK_ChangIco that needs to be changed with an icon, and then use the mouse scroll wheel or F2 key to click on the replacement icon in the folder
 
 ![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/Introduction/MButtom&F2.gif)
@@ -49,23 +47,28 @@ Double click or right-click the item that need to modify icon
 
 ![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/Introduction/LButtom&Menu.gif)
 
-4.添加桌面、"开始"菜单、其他文件夹的快捷方式至列表中
+
+## 其他(Other)
+
+1.添加桌面、"开始"菜单或其他文件夹的快捷方式至列表中
 
 Add shortcuts from Desktop || Start Menu(Taskbar) || Other Folder to the list
 
-5.修改"开始"菜单的图标也是属于修改任务栏的图标
+2.修改"开始"菜单的快捷方式图标实际上也改变了任务栏中的对应快捷方式图标
 
-Modifying shortcuts icons in the Start menu is equivalent to modifying shortcuts icons in the Taskbar
+Changing the shortcut icon in the Windows Start menu actually changes the shortcut icon in the Taskbar as well
 
-6.添加UWP/APP等快捷方式至当前用户的桌面
+3.添加UWP或APP等应用的快捷方式至当前用户的桌面
 
-Add shortcuts such as UWP/APP to the the current user's desktop
+Add shortcuts to applications such as UWP || APP to the the current user's desktop
 
-7.备份列表中的快捷方式至桌面文件夹
+4.备份列表中的快捷方式至桌面文件夹
 
 Backup shortcuts from the list to a desktop folder
 
-## AHK_ChangIcon 的右键菜单功能
+![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/Introduction/Other.png)
+
+## 菜单(MENU)
 
 1.更换当前桌面快捷方式图标
 
@@ -105,7 +108,7 @@ Only supports changeing shortcuts icons，temporarily not supporting the replace
 
 2.出于安全考虑，UWP和APP应用的快捷方式不支持直接恢复默认图标和打开目标目录
 
-UWP||APP Shortcuts do not support restoring default icon and opening target directories
+UWP || APP Shortcuts do not support restoring default icon and opening target directories
 
 3.部分应用快捷方式的图标源于应用文件夹的.ico，导致错误地判断为已更换"√"
 
@@ -116,3 +119,10 @@ The original icons of some shortcuts originated from the .ico in the application
 Recommend a software that facilitates converting other photos into ICO icons(The image can be dragged intos the software and converted into icons)
 
 https://github.com/genesistoxical/drop-icons
+
+## 更新内容
+
+1.加快更换所有快捷方式图标的速度
+Accelerate the speed of changing icons for all shortcuts.
+
+2.优化了部分细节
