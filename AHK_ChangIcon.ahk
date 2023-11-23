@@ -1,16 +1,17 @@
 ;// @Name                   AHK ChangeIcon
 ;// @Author                 iKineticate(Github)
-;// @Version                v2.3
+;// @Version                v2.4
 ;// @Destription:zh-CN      快速更换桌面快捷方式图标
 ;// @Destription:en         Quickly change of desktop shortcut icons
 ;// @HomepageURL            https://github.com/iKineticate/AHK-ChangeIcon
-;// @Icon Source            www.iconfont.cn
-;// @Reference:Tab          https://www.autohotkey.com/boards/viewtopic.php?f=83&t=95676&p=427160&hilit=menubar+theme#
-;// @Date                   2023/11/19
+;// @Icon Source            https://www.iconfont.cn
+;// @Startup Screen         https://www.xiaohongshu.com/explore/653de7bc000000001f03cfa4
+;// @Source of Inspiration  https://www.autohotkey.com/boards/viewtopic.php?f=83&t=95676&p=427160&hilit=menubar+theme#
+;// @Date                   2023/11/24
 
-;@Ahk2Exe-SetVersion 2.3
-;@Ahk2Exe-SetFileVersion 2.3
-;@Ahk2Exe-SetProductVersion 2.3
+;@Ahk2Exe-SetVersion 2.4
+;@Ahk2Exe-SetFileVersion 2.4
+;@Ahk2Exe-SetProductVersion 2.4
 ;@Ahk2Exe-SetName AHK-ChangeIcon
 ;@Ahk2Exe-ExeName AHK-ChangeIcon
 ;@Ahk2Exe-SetCompanyName AHK-ChangeIcon
@@ -28,7 +29,10 @@
 SetControlDelay(-1)
 SetWinDelay(-1)
 
+
+;==========================================================================
 ; 以管理员身份运行AHK
+;==========================================================================
 Full_command_line := DllCall("GetCommandLine", "str")
 If not (A_IsAdmin OR RegExMatch(Full_command_line, " /restart(?!\S)"))
 {
@@ -46,6 +50,7 @@ If not (A_IsAdmin OR RegExMatch(Full_command_line, " /restart(?!\S)"))
 ;==========================================================================
 ; 创建等待界面的窗口
 ;==========================================================================
+; +0x4000000：使该控件显示在其他控件的后面（可使按钮在PNG图片后面来实现PNG透明+PNG作为按钮）
 Wait_Gui := Gui("-Caption -Resize -Border +Owner", "AHK-ChangeIcon")
 Wait_Gui.BackColor := "262626"
 WinSetTransColor("262626", Wait_Gui)
@@ -136,7 +141,7 @@ Changed_Count := MyGui.AddText("x224 y65 w56 h23 +Center +0x200 BackgroundTrans 
 UnChanged_Count := MyGui.AddText("x286 y65 w56 h23 +Center +0x200 BackgroundTrans vUnChanged_Count", "0")
 All_Count := MyGui.AddText("x348 y65 w56 h23 +Center +0x200 BackgroundTrans vAll_Count", "0")
 
-; 控件名称的数组
+; 共用控件的名称数组
 Show_Name_Map := ["Show_Icon_Area", "Changed_Count_Area", "UnChanged_Count_Area", "All_Count_Area"
                     , "Changed_Count_Title", "UnChanged_Count_Title", "All_Count_Title" 
                     , "Changed_Count", "UnChanged_Count", "All_Count"]
@@ -224,7 +229,7 @@ Other_Folder_Btn := MyGui.AddButton("x162 yp-10 w364 h46 +0x4000000").OnEvent("C
 Add_UWP_APP_Cursor := MyGui.AddPicture("x162 y+6 w364 h46 Background343434")
 Add_UWP_APP_Pic := MyGui.AddPicture("x174 yp+10 w26 h26 BackgroundTrans", "HICON:" Base64PNG_to_HICON(UWP_APP_Base46PNG, height := 160))
 Add_UWP_APP_Title := MyGui.AddText("x+8 yp w320 hp +0x200 BackgroundTrans", Add_UWP_APP_Text)
-Add_UWP_APP_Btn := MyGui.AddButton("x162 yp-10 w364 h46 +0x4000000").OnEvent("Click", (*) => Run("shell:AppsFolder"))
+Add_UWP_APP_Btn := MyGui.AddButton("x162 yp-10 w364 h46 +0x4000000").OnEvent("Click", Add_UWP_APP)
 
 ; 备份列表中的快捷方式至桌面
 Backup_LV_LINK_Cursor := MyGui.AddPicture("x162 y+6 w364 h46 Background343434")
@@ -276,7 +281,7 @@ MyGui.AddPicture("xp y+12 wp hp Background333333")
 MyGui.AddText("xp yp wp hp BackgroundTrans +0x200", "`s`s酷安：林琼雅")
 
 MyGui.AddPicture("xp y+12 wp hp Background333333")
-MyGui.AddText("xp yp wp hp BackgroundTrans +0x200", Version_Text "2.3")
+MyGui.AddText("xp yp wp hp BackgroundTrans +0x200", Version_Text "2.4")
 
 MyGui.AddPicture("xp y+12 wp hp Background333333")
 MyGui.AddText("xp yp wp hp BackgroundTrans +0x200", ICON_SETS_Text "www.iconfont.cn")
@@ -674,7 +679,7 @@ All_Changed(*)
             Link_Name := LV.GetText(A_Index, 1)
 
             ; 若快捷方式已更换过与快捷方式相同名称的ICO图标，则跳过这一次循环
-            If Same_Map.has(Link_Name)
+            If (Same_Map.has(Link_Name) OR (Same_Map.has(Icon_Name)))
                 Continue
 
             ; 比较快捷方式名称和图片名称的长度来决定判断调节谁包含谁
@@ -690,6 +695,7 @@ All_Changed(*)
                 If (StrLower(Trim(Link_Name)) != StrLower(Trim(Icon_Name)))
                     Continue 
                 Same_Map[Link_Name] := "SAME"
+                Same_Map[Icon_Name] := "SAME"
             }
 
             Link_Path := Link_Map[Link_Name . "LP"]
@@ -749,7 +755,7 @@ All_Default(*)
 
     Loop LV.GetCount()
     {
-        If (LV.GetText(A_Index, 2) != "√" OR LV.GetText(A_Index, 3) = "uwp" OR LV.GetText(A_Index, 3) = "app")
+        If ((LV.GetText(A_Index, 2) != "√") OR (LV.GetText(A_Index, 3) = "uwp") OR (LV.GetText(A_Index, 3) = "app"))
             Continue
 
         Link_Name := LV.GetText(A_Index, 1)
@@ -789,20 +795,16 @@ All_Default(*)
 ;==========================================================================
 Link_ContextMenu(LV, Item, IsRightClick, X, Y)
 {
-    If ((Item > 1000) OR (Item <= 0)) ; 避免右键列表的标题栏时出现错误
+    If ((Item > 1000) OR (Item <= 0) OR !IsSet(Item)) ; 避免右键列表的标题栏时出现错误
         Return
-
-    ;LV.Focus()
-    LV.Modify(0, "-Select -Focus")    ; 搜索前关闭列表所有选择与焦点行，避免搜索后选择非关键词选项
-    LV.Modify(Item, "+Select +Focus")
 
     ; 快捷方式的目标路径、目标目录、路径、目录
     Link_Name := LV.GetText(Item, 1)
-
     Link_Target_Path := Link_Map[Link_Name . "LTP"]
     Link_Target_Dir := Link_Map[Link_Name . "LTD"]
     Link_Path := Link_Map[Link_Name . "LP"]
     Link_Dir := Link_Map[Link_Name . "LD"]
+
     ; 调用WshShell对象的函数，获取link各个属性
     COM_Link_Attribute(&Link_Path, &Link_Attribute, &Link_Icon_Location)
 
@@ -818,6 +820,7 @@ Link_ContextMenu(LV, Item, IsRightClick, X, Y)
     Link_Menu.Add
     Link_Menu.Add(Menu_Rename_Text, Link_Rename)
 
+    ; 若当前列表中不是桌面的快捷方式，则菜单添加一项"添加至桌面"的选项
     If Which_Add != "Desktop"
     {
         Link_Menu.Add
@@ -921,6 +924,7 @@ Link_ContextMenu(LV, Item, IsRightClick, X, Y)
         LV.Modify(Item,, IB.Value)
     }
 
+    ; 添加当前的快捷方式至桌面
     Link_Add_Desktop(*)
     {
         Try
@@ -932,12 +936,12 @@ Link_ContextMenu(LV, Item, IsRightClick, X, Y)
             . "添加“`s" . Link_Name . "`s”至当前用户的桌面" . "`n`n" 
             . Logging.Value
 
-            MsgBox("成功添加“`s" . Link_Name . "`s”至当前用户的桌面")
+            Msgbox("成功添加“`s" . Link_Name . "`s”至当前用户的桌面")
         
         }
         Catch Error
         {
-            MsgBox(Add_Link_Error_Text,, "Icon!")
+            Msgbox(Add_Link_Error_Text,, "Icon!")
             Return
         }
     }
@@ -963,13 +967,13 @@ Clean_LV(*)
 ;==========================================================================
 Add_Desktop(*)
 {
-    MyGui.Opt("+OwnDialogs")    ;解除对话框后才可于GUI窗口交互
+    MyGui.Opt("+OwnDialogs")    ; 解除对话框后才可于GUI窗口交互
 
     Add_Desktop_Msgbox := Msgbox(Add_Desktop_Title_Text,, "Icon? OKCancel")
     If Add_Desktop_Msgbox = "Cancel"
         Return
 
-    ; 清空列表、计数
+    ; 清空列表、计数、数组
     Clean_LV
 
     global Which_Add := "Desktop"
@@ -991,7 +995,7 @@ Add_Desktop(*)
     . Add_Desktop_Text . "`n`n" 
     . Logging.Value
 
-    MsgBox("成功(Success)！")
+    Msgbox("成功(Success)！")
 }
 
 
@@ -1006,7 +1010,7 @@ Add_Sart_Menu(*)
     If Sart_Menu_Msgbox = "Cancel"
         Return
 
-    ; 清空列表、计数
+    ; 清空列表、计数、数组
     Clean_LV
 
     ; 更新备份对象
@@ -1029,7 +1033,7 @@ Add_Sart_Menu(*)
     . Add_Menu_Text . "`n`n" 
     . Logging.Value
 
-    MsgBox(Add_Menu_Text)
+    Msgbox(Add_Menu_Text)
 }
 
 
@@ -1044,12 +1048,12 @@ Add_Other_Folder(*)
     If Add_Other_Msgbox = "Cancel"
         Return
 
-    ; 清空列表、计数
-    Clean_LV
-
     Selected_Oher_Folder := DirSelect(, 0, Select_Other_Text)
     If not Selected_Oher_Folder
         Return
+
+   ; 清空列表、计数、数组
+    Clean_LV
 
     ; 更新备份对象
     global Which_Add := RegExReplace(Selected_Oher_Folder, "^.*\\")
@@ -1066,7 +1070,20 @@ Add_Other_Folder(*)
     . Add_Other_Text . "`n`n" 
     . Logging.Value
 
-    MsgBox(Add_Other_Text)
+    Msgbox(Add_Other_Text)
+}
+
+
+;==========================================================================
+; 添加UWP、APP的快捷方式至桌面中的函数
+;==========================================================================
+Add_UWP_APP(*)
+{
+    Add_UWP_APP_Msgbox := Msgbox(Add_UWP_APP_MT,,"Icon? OKCancel")
+    If Add_UWP_APP_Msgbox = "Cancel"
+        Return
+
+    Run("shell:AppsFolder")
 }
 
 
@@ -1098,11 +1115,12 @@ Backup_LV_LINK(*)
         FileCopy(Link_Path, Backup_Folder, 1)
     }
 
+    ; 添加至日志
     Logging.Value := "`s" . FormatTime(A_Now, "yyyy/MM/dd HH:mm:ss`n`s") 
     . "已备份至名为" . Which_Add . FormatTime(A_Now, "_yyyy_MM_dd_HH_mm") . "的桌面文件夹" . "`n`n" 
     . Logging.Value
 
-    MsgBox("成功(Success)！")
+    Msgbox("成功(Success)！")
 }
 
 
@@ -1137,71 +1155,71 @@ COM_Link_Attribute(&Link_Path, &Link_Attribute, &Link_Icon_Location)
 Add_Link_To_LV(Link_Folder_Path, Mode)  ; Mode:="R"扫描子文件夹中的文件，=""只扫描目标文件夹中的文件
 {
     Loop Files, Link_Folder_Path "\*.lnk", Mode
+    {
+        If ((Mode = "R") AND (RegExMatch(A_LoopFileName, "Uninstall|卸载")))   ; 若添加开始(菜单)快捷方式至列表，且是卸载的快捷方式，则下一轮循环
+            Continue
+
+        Link_Name := RegExReplace(A_LoopFileName, "\.lnk$")     ; 快捷方式的名称（去除了后缀名）
+
+        If Link_Map.Has(Link_Name . "LTP")                      ; 排除相同的名称的快捷方式
+            Continue
+
+         ; 调用WshShell对象的函数，获取快捷方式的属性、目标路径、目标目录、图标路径
+        Link_Path := A_LoopFilePath
+        COM_Link_Attribute(&Link_Path, &Link_Attribute, &Link_Icon_Location)
+        Link_Target_Path := Link_Attribute.TargetPath
+        Link_Target_Dir := (Link_Target_Path != "" AND Link_Attribute.WorkingDirectory = "") ? RegExReplace(Link_Target_Path, "\\[^\\]+$"):Link_Attribute.WorkingDirectory
+ 
+        SplitPath(Link_Path,, &Link_Dir)                        ; 快捷方式的目录
+        SplitPath(Link_Target_Path,,, &Link_Target_Ext)         ; 快捷方式的目标扩展名
+
+         ; 快捷方式是否更换图标的判定：已更换图标显示"√" // 未更换图标不显示
+        Switch
         {
-            If ((Mode = "R") AND (RegExMatch(A_LoopFileName, "Uninstall|卸载")))   ; 若添加开始(菜单)快捷方式至列表，且是卸载的快捷方式，则下一轮循环
-                Continue
-
-            Link_Name := RegExReplace(A_LoopFileName, "\.lnk$")     ; 快捷方式的名称（去除了后缀名）
-    
-            If Link_Map.Has(Link_Name . "LTP")                      ; 排除相同的名称的快捷方式
-                Continue
-
-            ; 调用WshShell对象的函数，获取快捷方式的属性、目标路径、目标目录、图标路径
-            Link_Path := A_LoopFilePath
-            COM_Link_Attribute(&Link_Path, &Link_Attribute, &Link_Icon_Location)
-            Link_Target_Path := Link_Attribute.TargetPath
-            Link_Target_Dir := (Link_Target_Path != "" AND Link_Attribute.WorkingDirectory = "") ? RegExReplace(Link_Target_Path, "\\[^\\]+$"):Link_Attribute.WorkingDirectory
-     
-            SplitPath(Link_Path,, &Link_Dir)                        ; 快捷方式的目录
-            SplitPath(Link_Target_Path,,, &Link_Target_Ext)         ; 快捷方式的目标扩展名
-
-            ; 快捷方式是否更换图标的判定：已更换图标显示"√" // 未更换图标不显示
-            Switch
-            {
-            Case Link_Icon_Location = "" :                          ; UWP的默认图标
-                Link_YesNo := ""
-            Case Link_Icon_Location = Link_Target_Path :            ; 应用的默认图标
-                Link_YesNo := ""
-            ; 系统软件(如%windir%)、APP应用、某些图片路径为{???}\?.exe的UWP应用的默认图标
-            Case RegExMatch(Link_Icon_Location, "i)%[^%]*%|WindowsSubsystemForAndroid|system32\\.*dll|\{[^\{]*\}\\[^\\]*\.exe$") :
-                Link_YesNo := ""
-            ; 需要排除某些应用————应用无图标，使用的是应用目录图标
-            Case StrLower(Link_Target_Dir) = StrLower(RegExReplace(Link_Icon_Location, "\\([^\\]+)\.ico$")) :
-                Link_YesNo := ""
-            Case InStr(Link_Target_Dir, RegExReplace(Link_Icon_Location, "\\([^\\]+)\.ico$")):
-                Link_YesNo := ""
-            Default :
-                Link_YesNo := "√"
-                Changed_Count.Value += 1
-            }
-            
-            ; 快捷方式的目标扩展名 = 转化为小写 && UWP应用为uwp && WSA应用为app
-            Switch
-            {
-            Case Link_Target_Ext = "" :
-                Link_Target_Ext := "uwp"
-            Case InStr(Link_Target_Path, "WindowsSubsystemForAndroid") :
-                Link_Target_Ext := "app"
-            Case isUpper(Link_Target_Ext) :
-                Link_Target_Ext := StrLower(Link_Target_Ext)
-            }
-    
-            ; 在Link_Map数组中，键--值："快捷方式名称+英文缩写字符"--"对应值"
-            ; LTP = Link Target Path = 快捷方式的目标路径（UWP无法查看）
-            ; LTD = Link Target Dir  = 快捷方式的目标目录（UWP无法查看）
-            ; LP  = Link Path        = 快捷方式的路径
-            ; LD  = Link Dir         = 快捷方式的目录
-            Link_Map[Link_Name . "LTP"] := Link_Target_Path = "" ? Safe_Text:Link_Target_Path
-            Link_Map[Link_Name . "LTD"] := Link_Target_Dir = "" ? Safe_Text:Link_Target_Dir
-            Link_Map[Link_Name . "LP"]  := A_LoopFilePath
-            Link_Map[Link_Name . "LD"]  := Link_Dir
-    
-            ; 调用DllCall_Icon函数和图像列表替换函数，添加图标并赋予给IconNumber--刷新列表左侧图标
-            IconNumber := DllCall("ImageList_ReplaceIcon", "Ptr", ImageListID, "Int", -1, "Ptr", DllCall_Icon(A_LoopFilePath)) + 1
-    
-            ; 列表添加图标、名称、"√"、目标扩展名
-            LV.Add("Icon" . IconNumber, Link_Name, Link_YesNo, Link_Target_Ext)
+        Case Link_Icon_Location = "" :                          ; UWP的默认图标
+            Link_YesNo := ""
+        Case Link_Icon_Location = Link_Target_Path :            ; 应用的默认图标
+            Link_YesNo := ""
+        ; 系统软件(如%windir%)、APP应用、某些图片路径为{???}\?.exe的UWP应用的默认图标
+        Case RegExMatch(Link_Icon_Location, "i)%[^%]*%|WindowsSubsystemForAndroid|system32\\.*dll|\{[^\{]*\}\\[^\\]*\.exe$") :
+            Link_YesNo := ""
+        ; 需要排除某些应用————应用无图标，使用的是应用目录图标
+        Case StrLower(Link_Target_Dir) = StrLower(RegExReplace(Link_Icon_Location, "\\([^\\]+)\.ico$")) :
+            Link_YesNo := ""
+        Case InStr(Link_Target_Dir, RegExReplace(Link_Icon_Location, "\\([^\\]+)\.ico$")):
+            Link_YesNo := ""
+        Default :
+            Link_YesNo := "√"
+            Changed_Count.Value += 1
         }
+        
+        ; 快捷方式的目标扩展名 = 转化为小写 && UWP应用为uwp && WSA应用为app
+        Switch
+        {
+        Case Link_Target_Ext = "" :
+            Link_Target_Ext := "uwp"
+        Case InStr(Link_Target_Path, "WindowsSubsystemForAndroid") :
+            Link_Target_Ext := "app"
+        Case isUpper(Link_Target_Ext) :
+            Link_Target_Ext := StrLower(Link_Target_Ext)
+        }
+
+        ; 在Link_Map数组中，键--值："快捷方式名称+英文缩写字符"--"对应值"
+        ; LTP = Link Target Path = 快捷方式的目标路径（UWP无法查看）
+        ; LTD = Link Target Dir  = 快捷方式的目标目录（UWP无法查看）
+        ; LP  = Link Path        = 快捷方式的路径
+        ; LD  = Link Dir         = 快捷方式的目录
+        Link_Map[Link_Name . "LTP"] := Link_Target_Path = "" ? Safe_Text:Link_Target_Path
+        Link_Map[Link_Name . "LTD"] := Link_Target_Dir = "" ? Safe_Text:Link_Target_Dir
+        Link_Map[Link_Name . "LP"]  := A_LoopFilePath
+        Link_Map[Link_Name . "LD"]  := Link_Dir
+
+        ; 调用DllCall_Icon函数和图像列表替换函数，添加图标并赋予给IconNumber--刷新列表左侧图标
+        IconNumber := DllCall("ImageList_ReplaceIcon", "Ptr", ImageListID, "Int", -1, "Ptr", DllCall_Icon(A_LoopFilePath)) + 1
+
+        ; 列表添加图标、名称、"√"、目标扩展名
+        LV.Add("Icon" . IconNumber, Link_Name, Link_YesNo, Link_Target_Ext)
+    }
 
     ; 先第一列(名称)排列，后第三列(扩展名)排列，保证排列顺序以扩展名为主，名称为次
     LV.ModifyCol(1, "+Sort")                    
