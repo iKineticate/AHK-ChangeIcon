@@ -1,6 +1,6 @@
 ![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/Introduction/AHK_ChangeIcon.png)
 
-<h3 align="center"> 简体中文 | <a href='./README-en-US.md'>English</a></h3>
+<h3 align="center"> 简体中文 | <a href='./README-en_US.md'>English</a></h3>
 
 ## 关于
 
