@@ -35,7 +35,6 @@
 
 ![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/Introduction/LButtom&Menu.gif)
 
-
 ## 其他
 
 1.添加桌面、"开始"菜单或其他文件夹的快捷方式至列表中
