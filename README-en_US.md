@@ -77,6 +77,4 @@ https://github.com/genesistoxical/drop-icons
 
 ## Updates
 
-1.Accelerate the speed of changing icons for all shortcuts.
-
-2.Optimized some details
+More accurate functional descriptions
