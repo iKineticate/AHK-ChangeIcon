@@ -1,6 +1,6 @@
 ;// @Name                   AHK ChangeIcon
 ;// @Author                 iKineticate(Github)
-;// @Version                v2.4
+;// @Version                v2.3.2
 ;// @Destription:zh-CN      快速更换桌面快捷方式图标
 ;// @Destription:en         Quickly change of desktop shortcut icons
 ;// @HomepageURL            https://github.com/iKineticate/AHK-ChangeIcon
@@ -9,9 +9,9 @@
 ;// @Source of Inspiration  https://www.autohotkey.com/boards/viewtopic.php?f=83&t=95676&p=427160&hilit=menubar+theme#
 ;// @Date                   2023/11/24
 
-;@Ahk2Exe-SetVersion 2.4
-;@Ahk2Exe-SetFileVersion 2.4
-;@Ahk2Exe-SetProductVersion 2.4
+;@Ahk2Exe-SetVersion 2.3.2
+;@Ahk2Exe-SetFileVersion 2.3.2
+;@Ahk2Exe-SetProductVersion 2.3.2
 ;@Ahk2Exe-SetName AHK-ChangeIcon
 ;@Ahk2Exe-ExeName AHK-ChangeIcon
 ;@Ahk2Exe-SetCompanyName AHK-ChangeIcon
@@ -24,7 +24,7 @@
 #SingleInstance Ignore
 #Include "AHK_Base64PNG.ahk"
 #Include "AHK_Language.ahk"
-#Include "RedrawDB.ahk" ;https://www.autohotkey.com/board/topic/95930-window-double-buffering-redraw-gdi-avoid-flickering/
+#Include "AHK_RedrawDB.ahk" ;https://www.autohotkey.com/board/topic/95930-window-double-buffering-redraw-gdi-avoid-flickering/
 
 SetControlDelay(-1)
 SetWinDelay(-1)
@@ -253,15 +253,15 @@ Tab.UseTab(4)
 MyGui.SetFont("s9")
 MyGui.AddPicture("x162 y37 w364 h125 Background333333")
 MyGui.AddText("xp yp wp h25 BackgroundTrans +0x200", "（1）无法恢复默认图标：")
-MyGui.AddText("xp y+0 wp hp BackgroundTrans +0x200", "`s`s`s`s原因①：部分应用程序无内置图标，使用的是应用目录中的图标")
+MyGui.AddText("xp y+0 wp hp BackgroundTrans +0x200", "`s`s`s`s原因①：部分应用程序无内置图标，其图标源于应用目录")
 MyGui.AddText("xp y+0 wp hp BackgroundTrans +0x200", "`s`s`s`s解决办法：在列表中右键项目，打开目标目录并寻找图标")
-MyGui.AddText("xp y+0 wp hp BackgroundTrans +0x200", "`s`s`s`s原因②：出于安全，无法恢复UWP/APP默认图标")
-MyGui.AddText("xp y+0 wp hp BackgroundTrans +0x200", "`s`s`s`s解决办法：`"开始(菜单)--更多`"中拖拽快捷方式至桌面")
+MyGui.AddText("xp y+0 wp hp BackgroundTrans +0x200", "`s`s`s`s原因②：出于安全，无法恢复UWP/APP快捷方式的默认图标")
+MyGui.AddText("xp y+0 wp hp BackgroundTrans +0x200", "`s`s`s`s解决办法：重新添加UWP/APP快捷方式至桌面并修改")
 
 MyGui.AddPicture("xp y+12 wp h75 Background333333")
-MyGui.AddText("xp yp wp h25 BackgroundTrans +0x200", "（2）无法添加开始(菜单)中的UWP/APP至列表中：")
-MyGui.AddText("xp y+0 wp hp BackgroundTrans +0x200", "`s`s`s`s原因：出于安全，UWP/APP不存在开始(菜单)的文件夹中")
-MyGui.AddText("xp y+0 wp hp BackgroundTrans +0x200", "`s`s`s`s解决办法：可使用添加UWP/APP至桌面快捷方式的功能")
+MyGui.AddText("xp yp wp h25 BackgroundTrans +0x200", "（2）无法更换开始(菜单)中的UWP图标")
+MyGui.AddText("xp y+0 wp hp BackgroundTrans +0x200", "`s`s`s`s原因：出于安全，UWP不存在`"开始`"菜单的文件夹中")
+MyGui.AddText("xp y+0 wp hp BackgroundTrans +0x200", "`s`s`s`s解决办法：待定")
 
 MyGui.AddPicture("xp y+12 wp h75 Background333333")
 MyGui.AddText("xp yp wp h25 BackgroundTrans +0x200", "（3）部分应用未更换图标却显示已更换`"√`"")
@@ -281,7 +281,7 @@ MyGui.AddPicture("xp y+12 wp hp Background333333")
 MyGui.AddText("xp yp wp hp BackgroundTrans +0x200", "`s`s酷安：林琼雅")
 
 MyGui.AddPicture("xp y+12 wp hp Background333333")
-MyGui.AddText("xp yp wp hp BackgroundTrans +0x200", Version_Text "2.4")
+MyGui.AddText("xp yp wp hp BackgroundTrans +0x200", Version_Text "2.3.2")
 
 MyGui.AddPicture("xp y+12 wp hp Background333333")
 MyGui.AddText("xp yp wp hp BackgroundTrans +0x200", ICON_SETS_Text "www.iconfont.cn")
@@ -647,7 +647,9 @@ Change_Link_Icon(LV, Item)
 ;==========================================================================
 All_Changed(*)
 {
-    Safe_Msgbox := Msgbox(Safe_TrayTip_Text . Safe_Changed_Text,,"OKCancel Icon! Default2")
+    MyGui.Opt("+OwnDialogs")    ;解除对话框后才可于GUI窗口交互
+
+    Safe_Msgbox := Msgbox("①" . Safe_TrayTip_Text . Safe_Changed_Text,,"OKCancel Icon! Default2")
     If Safe_Msgbox = "Cancel"
         Return
 
@@ -732,7 +734,7 @@ All_Changed(*)
 
     ; 恢复与窗口的交互
     MyGui.Opt("-Disabled")
-    SetTimer TrayTip, -2000
+    SetTimer(TrayTip, -2000)
 
     ; 若未记录到更换信息，则显示“未更换任何图标”
     If (Changed_Log = "")
@@ -786,7 +788,7 @@ All_Default(*)
     }
 
     TrayTip(Completed_Text)
-    SetTimer TrayTip, -2000
+    SetTimer(TrayTip, -2000)
 }
 
 
@@ -851,11 +853,14 @@ Link_ContextMenu(LV, Item, IsRightClick, X, Y)
     Link_Menu.SetIcon(Menu_LA_Text, "HICON:" Base64PNG_to_HICON(Menu_Attrib_Base64PNG))
     
     ; 若选择与焦点行为UWP应用或APP应用，则将恢复默认图标和打开目标目录的功能禁止
-    If ((Link_Target_Path = Safe_Text) OR InStr(Link_Target_Path, "WindowsSubsystemForAndroid"))
+    If ((Link_Target_Path = Safe_Text))
     {
         Link_Menu.Disable(Menu_Default_Text)
         Link_Menu.Disable(Menu_TargetDir_Text)
     }
+
+    ; 若为UWP应用则关闭"恢复默认图标"和"打开目标目录"的功能
+    ; 若为APP应用则关闭"恢复默认图标"的功能
 
     Link_Menu.Show()
 
@@ -995,7 +1000,7 @@ Add_Desktop(*)
     . Add_Desktop_Text . "`n`n" 
     . Logging.Value
 
-    Msgbox("成功(Success)！")
+    Msgbox("已重新加载(Reloaded)",,"Iconi")
 }
 
 
@@ -1033,7 +1038,7 @@ Add_Sart_Menu(*)
     . Add_Menu_Text . "`n`n" 
     . Logging.Value
 
-    Msgbox(Add_Menu_Text)
+    Msgbox(Add_Menu_Text,,"Iconi")
 }
 
 
@@ -1079,6 +1084,8 @@ Add_Other_Folder(*)
 ;==========================================================================
 Add_UWP_APP(*)
 {
+    MyGui.Opt("+OwnDialogs")    ;解除对话框后才可于GUI窗口交互
+    
     Add_UWP_APP_Msgbox := Msgbox(Add_UWP_APP_MT,,"Icon? OKCancel")
     If Add_UWP_APP_Msgbox = "Cancel"
         Return
@@ -1094,7 +1101,7 @@ Backup_LV_LINK(*)
 {
     MyGui.Opt("+OwnDialogs")    ;解除对话框后才可于GUI窗口交互
 
-    Backup_Msgbox := Msgbox("是否备份列表中的快捷方式至名为“`s" . Which_Add . FormatTime(A_Now, "_yyyy_MM_dd_HH_mm") . "`s”的桌面文件夹？",,"Icon? OKCancel")
+    Backup_Msgbox := Msgbox("是否备份列表中的快捷方式至名为`n“`s" . Which_Add . FormatTime(A_Now, "_yyyy_MM_dd_HH_mm") . "`s”`n的桌面文件夹？",,"Icon? OKCancel")
     If Backup_Msgbox = "Cancel"
         Return
 
@@ -1161,7 +1168,7 @@ Add_Link_To_LV(Link_Folder_Path, Mode)  ; Mode:="R"扫描子文件夹中的文�
 
         Link_Name := RegExReplace(A_LoopFileName, "\.lnk$")     ; 快捷方式的名称（去除了后缀名）
 
-        If Link_Map.Has(Link_Name . "LTP")                      ; 排除相同的名称的快捷方式
+        If Link_Map.Has(Link_Name . "LTP")                      ; 避免添加重复的快捷方式（根据数组中是否存在对应键-值来判断）
             Continue
 
          ; 调用WshShell对象的函数，获取快捷方式的属性、目标路径、目标目录、图标路径

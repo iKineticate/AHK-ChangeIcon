@@ -79,6 +79,4 @@ https://github.com/genesistoxical/drop-icons
 
 ## 更新内容
 
-1.加快更换所有快捷方式图标的速度
-
-2.优化了部分细节
+更为准确的功能描述
