@@ -1,175 +1,3 @@
-Navigation_zh := {Label: ["主页", "其他", "日志", "帮助", "关于"]}
-Navigation_en := {Label: ["Home", "Other","Log", "Help", "About"]}
-
-Add_Desktop_Text_zh := "重新加载桌面快捷方式至主页列表"
-Add_Desktop_Text_en := "Reload Desktop shortcut to the list"
-
-Add_Link_Desktop_Text_zh := "添加其至桌面"
-Add_Link_Desktop_Text_en := "Add to the Desktop"
-
-Add_Link_Error_Text_zh := "已存在相同名称的快捷方式在桌面中"
-Add_Link_Error_Text_en := "A shortcut with the same name already exists in the desktop"
-
-Add_Desktop_Title_Text_zh := "是否重新加载桌面的快捷方式至列表，并在`"主页`"进行更换图标等操作?"
-Add_Desktop_Title_Text_en := "Do you want to Reload desktop shortcuts to the list and perform operations such as changing icons on the homepage?"
-
-Add_Menu_Text_zh := "已添加`"开始`"菜单的快捷方式至列表中`n请前往`"主页`"进行更换图标等操作"
-Add_Menu_Text_en := "The Start Menu shortcuts has been added to the list`nPlease go to the homepage to change icons, etc."
-
-Add_Menu_Title_Text_zh := "更换`"开始`"菜单的快捷方式的图标"
-Add_Menu_Title_Text_en := "Change Start shortcuts to the list"
-
-Add_Other_Text_zh := "已添加指定文件夹的快捷方式至列表中`n请前往`"主页`"进行更换图标等操作"
-Add_Other_Text_en := "The specified folder shortcuts has been added to the list`nPlease go to the homepage to change icons, etc."
-
-Add_Other_Title_Text_zh := "更换其他文件夹的快捷方式的图标"
-Add_Other_Title_Text_en := "Change Folder shortcuts to the list"
-
-Add_Other_Msgbox_Text_zh := "是否添加其他文件夹的快捷方式至列表，并在`"主页`"进行更换图标等操作？"
-Add_Other_Msgbox_Text_en := "Do you want to add shortcuts from other folder to the list?"
-
-Add_UWP_APP_Text_zh := "添加UWP/APP的快捷方式至桌面"
-Add_UWP_APP_Text_en := "Add UWP/APP shortcuts to desktops"
-
-Add_UWP_APP_MT_zh := "是否添加UWP或APP等应用的快捷方式至桌面？`n①建议从`"开始`"菜单--所有应用中拖拽UWP/APP至桌面`n②将会打开名为`s`"`sApplications`s`"`s的文件夹`n③右键呼出菜单并添加指定的快捷方式至桌面"
-Add_UWP_APP_MT_en := "Do you want to add UWP or APP shortcuts to the desktops?`n①Suggest dragging UWP or APP from `"All Apps in Start Menu`" to the desktop`n②A folder named `"Applications`" will be opened`nRight-click to call out the menu and add the specified shortcut to the desktop`n③Right click to call up the menu and add the specified shortcut to the desktop"
-
-All_Default_Text_zh := "`s是否恢复列表的所有快捷方式图标为默认图标？`n`s注意：UWP的快捷方式无法恢复默认图标"
-All_Default_Text_en := "`sDo you want to restore all shortcuts icons in the list to default icons?`n`sNote: UWP icons cannot be restored to default icons"
-
-All_Text_zh := "总共"
-All_Text_en := "ALL"
-
-An_Icon_Text_zh := "请选择一张ICO图片"
-An_Icon_Text_en := "Please select an icon in Folder"
-
-A_Row_Text_zh := "请在列表中仅选择一行"
-A_Row_Text_en := "Please only select a row in ListView"
-
-Backup_LV_Title_Text_zh := "备份列表的快捷方式至桌面文件夹"
-Backup_LV_Title_Text_en := "Backup shortcuts to a desktop folder"
-
-Changing_Text_zh := "更换图标中......"
-Changing_Text_en := "Changing......"
-
-Clean_Yes_Text_zh := "已清空列表"
-Clean_Yes_Text_en := "The list has been cleaned up"
-
-Completed_Text_zh := "已完成"
-Completed_Text_en := "Completed"
-
-Copy_LTP_Text_zh := "复制快捷方式的目标路径："
-Copy_LTP_Text_en := "Copy Target Path："
-
-Copy_LTD_Text_zh := "复制快捷方式的目标目录："
-Copy_LTD_Text_en := "Copy Target Dir："
-
-Copy_LP_Text_zh := "复制快捷方式的路径："
-Copy_LP_Text_en := "Copy Link Path："
-
-Copy_LD_Text_zh := "复制快捷方式的目录："
-Copy_LD_Text_en := "Copy Link Dir："
-
-Copy_LIL_Text_zh := "复制快捷方式的图标路径："
-Copy_LIL_Text_en := "Copy icon path for shortcut："
-
-Default_Title_Text_zh := "恢复所有快捷方式为默认图标"
-Default_Title_Text_en := "Restore all shortcuts to default icons"
-
-How_Restore_Text_zh := "如何恢复UWP和APP快捷方式的图标？"
-How_Restore_Text_en := "How to restore icons for UWP and APP shortcuts?"
-
-Icon_Name_Text_zh := "文件图标的名称："
-Icon_Name_Text_en := "The name of icon: "
-
-ing_TrayTip_Text_zh := "正在扫描、更换中......"
-ing_TrayTip_Text_en := "Scanning and Changing......"
-
-Input_Text_zh := "请输入"
-Input_Text_en := "Please input"
-
-ICON_SETS_Text_zh := "`s`s图标库："
-ICON_SETS_Text_en := "`s`sICON`sSETS："
-
-Link_Name_Text_zh := "快捷方式的名称："
-Link_Name_Text_en := "The name of shortcut: "
-
-Log_Change_Text_zh := "更换图标："
-Log_Change_Text_en := "Change："
-
-Log_Default_Text_zh := "恢复默认图标："
-Log_Default_Text_en := "Default Icon："
-
-Log_Rename_Text_zh := "重命名："
-Log_Rename_Text_en := "Rename："
-
-Log_NewName_Text_zh := "新名称："
-Log_NewName_Text_en := "NewName："
-
-Menu_Change_Text_zh := "更改文件图标"
-Menu_Change_Text_en := "Change its icon"
-
-Menu_Default_Text_zh := "恢复默认图标"
-Menu_Default_Text_en := "Restore Default"
-
-Menu_LA_Text_zh := "快捷方式属性"
-Menu_LA_Text_en := "Attributes"
-
-Menu_Rename_Text_zh := "重新命名文件"
-Menu_Rename_Text_en := "Rename Shortcut"
-
-Menu_Run_Text_zh := "打开快捷方式"
-Menu_Run_Text_en := "Launch Shortcut"
-
-Menu_TargetDir_Text_zh := "打开目标目录"
-Menu_TargetDir_Text_en := "Open the Target Dir"
-
-Not_Fountd_Text_zh := "未找到"
-Not_Fountd_Text_en := "Not Found"
-
-No_Text_zh := "未更换"
-No_Text_en := "NO"
-
-Rename_Text_zh := "请输入新的文件名(不包含.lnk):"
-Rename_Text_en := "Please input a new file name (Excluding'.lnk')"
-
-Safe_Changed_Text_zh := "`n②不建议使用该功能替换`"开始`"菜单中的所有快捷方式图标"
-Safe_Changed_Text_en := "`n②It is not recommended to use this feature to change all shortcut icons in Start Mmenu"
-
-Safe_Text_zh := "————出于安全，无法查看—————"
-Safe_Text_en := "————Unable to view for security reasons—————"
-
-Safe_TrayTip_Text_zh := "出于安全，UWP/APP快捷方式无法恢复默认图标，请查看`"帮助`""
-Safe_TrayTip_Text_en := "For security reasons, UWP or APP shortcuts cannot restore default icons, please check the help"
-
-Search_Text_zh := "搜索......"
-Search_Text_en := "Search......"
-
-Select_Folder_Text_zh := "请选择存放ICO图标的文件夹"
-Select_Folder_Text_en := "Select a folder with icons"
-
-Select_Other_Text_zh := "请选择含有快捷方式的其他文件夹"
-Select_Other_Text_en := "Please select a different folder with shortcuts"
-
-Startup_Screen_Text_zh := "`s`s启动图："
-Startup_Screen_Text_en := "`s`sStartup Screen："
-
-Sart_Menu_Text_zh := "是否添加`"开始`"菜单的快捷方式至列表，并在`"主页`"进行更换图标等操作？`n①`"开始`"菜单与任务栏的快捷方式图标是一致的`n②上下文菜单有将`"开始`"菜单的快捷方式添加至桌面的功能`n③不支持添加`"开始`"菜单中的UWP应用至列表中"
-Sart_Menu_Text_en := "Do you want to add Start Menu shortcuts to the list and perform operations such as changing icons on the homepage?`n①The Start menu is the same as the shortcut icon on the taskbar`n②Context menu has the function of adding the Start Menu shortcut to the desktop`n③Adding UWP from the Start Menu to the list is not supported"
-
-Success_Text_zh := "更换成功!"
-Success_Text_en := "Success!"
-
-Unchanged_Text_zh := "未更换任何快捷方式的图标"
-Unchanged_Text_en := "The icon for any shortcut has not been replaced"
-
-Version_Text_zh := "`s`s版本："
-Version_Text_en := "`s`sVersion："
-
-Yes_Text_zh := "已更换"
-Yes_Text_en := "YES"
-
-
 ; zh: LCID_7804 := "Chinese"（中文）
 ; zh-Hans: LCID_0004 := "Chinese (中文简体)"
 ; zh-Hant: LCID_7C04 := "Chinese (中文繁体)"
@@ -180,82 +8,217 @@ Yes_Text_en := "YES"
 ; zh-SG: LCID_1004 := "Chinese (中文简体-新加坡)"
 Switch A_Language
 {
-Case "0804": Yes_zh := True
-Case "7804": Yes_zh := True
-Case "0004": Yes_zh := True
-Case "1004": Yes_zh := True
-Case "7C04": Yes_zh := True
-Case "0C04": Yes_zh := True
-Case "1404": Yes_zh := True
-Case "0404": Yes_zh := True
-Default    : Yes_zh := False
+Case "0804": zh := True
+Case "7804": zh := True
+Case "0004": zh := True
+Case "1004": zh := True
+Case "7C04": zh := True
+Case "0C04": zh := True
+Case "1404": zh := True
+Case "0404": zh := True
+Default    : zh := False
 }
 
-Add_Menu_Text       := Yes_zh = True ? Add_Menu_Text_zh:Add_Menu_Text_en
-Add_Menu_Title_Text := Yes_zh = True ? Add_Menu_Title_Text_zh:Add_Menu_Title_Text_en
-Add_Other_Text      := Yes_zh = True ? Add_Other_Text_zh:Add_Other_Text_en
-Add_Other_Title_Text:= Yes_zh = True ? Add_Other_Title_Text_zh:Add_Other_Title_Text_en
-Add_Other_Msgbox_Text:=Yes_zh = True ? Add_Other_Msgbox_Text_zh:Add_Other_Msgbox_Text_en
-Add_UWP_APP_Text    := Yes_zh = True ? Add_UWP_APP_Text_zh:Add_UWP_APP_Text_en
-Add_UWP_APP_MT      := Yes_zh = True ? Add_UWP_APP_MT_zh:Add_UWP_APP_MT_en
-All_Default_Text    := Yes_zh = True ? All_Default_Text_zh:All_Default_Text_en
-All_Text            := Yes_zh = True ? All_Text_zh:All_Text_en
-A_Row_Text          := Yes_zh = True ? A_Row_Text_zh:A_Row_Text_en
-An_Icon_Text        := Yes_zh = True ? An_Icon_Text_zh:An_Icon_Text_en
+; Note:     This a object, not an array， ":" (√), ":="（×）
+; Format:   name_ZH and name_EN
+Text :=
+{
+    ; Label Name
+     HOME_ZH : "主 页"
+    ,HOME_EN : "Home"
 
-Backup_LV_Title_Text:= Yes_zh = True ? Backup_LV_Title_Text_zh:Backup_LV_Title_Text_en
+    ,OTHER_ZH : "其 他"
+    ,OTHER_EN : "Other"
 
-Changing_Text       := Yes_zh = True ? Changing_Text_zh:Changing_Text_en
-Add_Desktop_Text    := Yes_zh = True ? Add_Desktop_Text_zh:Add_Desktop_Text_en
-Add_Link_Desktop_Text:=Yes_zh = True ? Add_Link_Desktop_Text_zh:Add_Link_Desktop_Text_en
-Add_Link_Error_Text := Yes_zh = True ? Add_Link_Error_Text_zh:Add_Link_Error_Text_en
-Add_Desktop_Title_Text   := Yes_zh = True ? Add_Desktop_Title_Text_zh:Add_Desktop_Title_Text_en
-Clean_Yes_Text      := Yes_zh = True ? Clean_Yes_Text_zh:Clean_Yes_Text_en
-Completed_Text      := Yes_zh = True ? Completed_Text_zh:Completed_Text_en
-Copy_LTP_Text       := Yes_zh = True ? Copy_LTP_Text_zh:Copy_LTP_Text_en
-Copy_LTD_Text       := Yes_zh = True ? Copy_LTD_Text_zh:Copy_LTD_Text_en
-Copy_LP_Text        := Yes_zh = True ? Copy_LP_Text_zh:Copy_LP_Text_en
-Copy_LD_Text        := Yes_zh = True ? Copy_LD_Text_zh:Copy_LD_Text_en
-Copy_LIL_Text       := Yes_zh = True ? Copy_LIL_Text_zh:Copy_LIL_Text_en
+    ,LOG_ZH : "日 志"
+    ,LOG_EN : "Log"
 
-Default_Title_Text  := Yes_zh = True ? Default_Title_Text_zh:Default_Title_Text_en
+    ,HELP_ZH : "帮 助"
+    ,HELP_EN : "Help"
 
-Icon_Name_Text      := Yes_zh = True ? Icon_Name_Text_zh:Icon_Name_Text_en
-ICON_SETS_Text      := Yes_zh = True ? ICON_SETS_Text_zh:ICON_SETS_Text_en
-ing_TrayTip_Text    := Yes_zh = True ? ing_TrayTip_Text_zh:ing_TrayTip_Text_en
-Input_Text          := Yes_zh = True ? Input_Text_zh:Input_Text_en
+    ,ABOUT_ZH : "关 于"
+    ,ABOUT_EN : "About"
 
-Link_Name_Text      := Yes_zh = True ? Link_Name_Text_zh:Link_Name_Text_en
-Log_Change_Text     := Yes_zh = True ? Log_Change_Text_zh:Log_Change_Text_en
-Log_Default_Text    := Yes_zh = True ? Log_Default_Text_zh:Log_Default_Text_en
-Log_Rename_Text     := Yes_zh = True ? Log_Rename_Text_zh:Log_Rename_Text_en
-Log_NewName_Text    := Yes_zh = True ? Log_NewName_Text_zh:Log_NewName_Text_en
+    ;==========================================================================
+    ; Tab: Home
+    ;==========================================================================
+    ; Count (计数) 
+    ,CHANGED_ICON_ZH : "已更换:"
+    ,CHANGED_ICON_EN : "Yes.C`s:"
+    
+    ,UNCHANGED_ICON_ZH : "未更换:"
+    ,UNCHANGED_ICON_EN : "No.C :"
 
-Navigation          := Yes_zh = True ? Navigation_zh:Navigation_en
-Not_Fountd_Text     := Yes_zh = True ? Not_Fountd_Text_zh:Not_Fountd_Text_en
-No_Text             := Yes_zh = True ? No_Text_zh:No_Text_en
+    ,LV_LINK_TOTAL_ZH : "总   共:"
+    ,LV_LINK_TOTAL_EN : "Total :"
 
-Menu_Run_Text       := Yes_zh = True ? Menu_Run_Text_zh:Menu_Run_Text_en
-Menu_Change_Text    := Yes_zh = True ? Menu_Change_Text_zh:Menu_Change_Text_en
-Menu_Default_Text   := Yes_zh = True ? Menu_Default_Text_zh:Menu_Default_Text_en
-Menu_TargetDir_Text := Yes_zh = True ? Menu_TargetDir_Text_zh:Menu_TargetDir_Text_en
-Menu_Rename_Text    := Yes_zh = True ? Menu_Rename_Text_zh:Menu_Rename_Text_en
-Menu_LA_Text        := Yes_zh = True ? Menu_LA_Text_zh:Menu_LA_Text_en
+    ; Change/Restore （改变/恢复按钮的消息）
+    ,IS_RESTORE_ALL_ICON_ZH : "是否恢复列表的所有快捷方式图标为默认图标?"
+    ,IS_RESTORE_ALL_ICON_EN : "Do you want to restore the icons of all shortcuts in the list to the default icons?"
 
-Rename_Text         := Yes_zh = True ? Rename_Text_zh:Rename_Text_en
+    ;,IS_CHANGE_ALL_ICON_ZH : "是否更换列表的所有快捷方式图标?（不再提醒请点击`"取消`"）"
+    ;,IS_CHANGE_ALL_ICON_EN : "Do you want to replace all shortcut icons in the list? (If you want to no longer be reminded, please click 'Cancel')"
 
-Safe_Text           := Yes_zh = True ? Safe_Text_zh:Safe_Text_en
-Safe_Changed_Text   := Yes_zh = True ? Safe_Changed_Text_zh:Safe_Changed_Text_en
-Safe_TrayTip_Text   := Yes_zh = True ? Safe_TrayTip_Text_zh:Safe_TrayTip_Text_en
-Search_Text         := Yes_zh = True ? Search_Text_zh:Search_Text_en
-Select_Folder_Text  := Yes_zh = True ? Select_Folder_Text_zh:Select_Folder_Text_en
-Select_Other_Text   := Yes_zh = True ? Select_Other_Text_zh:Select_Other_Text_en
-Startup_Screen_Text := Yes_zh = True ? Startup_Screen_Text_zh:Startup_Screen_Text_en
-Sart_Menu_Text      := Yes_zh = True ? Sart_Menu_Text_zh:Sart_Menu_Text_en
-Success_Text        := Yes_zh = True ? Success_Text_zh:Success_Text_en
+    ,COMPLETED_ZH : "已完成！"
+    ,COMPLETED_EN : "Completed!"
 
-Unchanged_Text      := Yes_zh = True ? Unchanged_Text_zh:Unchanged_Text_en
+    ,RESTORE_ALL_LINK_ICON_ZH : "恢复所有快捷方式为默认图标"
+    ,RESTORE_ALL_LINK_ICON_EN : "Restore all shortcuts to default icons"
 
-Version_Text        := Yes_zh = True ? Version_Text_zh:Version_Text_en
+    ; Right-click context menu (右键上下文菜单)
+    ,MENU_RUN_ZH : "打开快捷方式"
+    ,MENU_RUN_EN : "Launch Shortcut"
 
-Yes_Text            := Yes_zh = True ? Yes_Text_zh:Yes_Text_en
+    ,MENU_CHANGE_ZH : "更换文件图标"
+    ,MENU_CHANGE_EN : "Change its icon"
+    
+    ,MENU_RESTORE_ZH : "恢复默认图标"
+    ,MENU_RESTORE_EN : "Restore Default"
+    
+    ,MENU_OPEN_ZH : "打开目标目录"
+    ,MENU_OPEN_EN : "Open File Location"
+    
+    ,MENU_RENAME_ZH : "重新命名文件"
+    ,MENU_RENAME_EN : "Rename Shortcut"
+
+    ,MENU_PROPERTIES_ZH : "快捷方式属性"
+    ,MENU_PROPERTIES_EN : "Properties"
+    
+    ,MENU_ADD_LINK_TO_DESKTOP_ZH : "添加其至桌面"
+    ,MENU_ADD_LINK_TO_DESKTOP_EN : "Add to the Desktop"
+
+    ,COPY_LINK_TARGET_PATH_ZH : "复制目标路径："
+    ,COPY_LINK_TARGET_PATH_EN : "Copy Target Path:  "
+    
+    ,COPY_LINK_TARGET_DIR_ZH : "复制目标目录："
+    ,COPY_LINK_TARGET_DIR_EN : "Copy Target Dir:  "
+    
+    ,COPY_LINK_PATH_ZH : "复制路径："
+    ,COPY_LINK_PATH_EN : "Copy Link Path:  "
+    
+    ,COPU_LINK_DIR_ZH : "复制目录："
+    ,COPU_LINK_DIR_EN : "Copy Link Dir:  "
+    
+    ,COPY_LINK_ICON_PATH_ZH : "复制图标路径："
+    ,COPY_LINK_ICON_PATH_EN : "Copy icon path:  "
+
+    ;==========================================================================
+    ; Tab: Other
+    ;==========================================================================
+    ,ADD_DESKTOP_TO_LV_ZH : "重新加载桌面快捷方式至主页列表"
+    ,ADD_DESKTOP_TO_LV_EN : "Reload Desktop shortcut to the list"
+
+    ,ADD_START_TO_LV_ZH : "更换`"开始`"菜单的快捷方式的图标"
+    ,ADD_START_TO_LV_EN : "Change Start shortcuts to the list"
+
+    ,ADD_OTHER_TO_LV_ZH : "更换其他文件夹的快捷方式的图标"
+    ,ADD_OTHER_TO_LV_EN : "Change Folder shortcuts to the list"
+
+    ,ADD_UWP_WSA_TO_LV_ZH : "添加UWP/WSA的快捷方式至桌面"
+    ,ADD_UWP_WSA_TO_LV_EN : "Add UWP/WSA shortcuts to desktops"
+
+    ,BACKUP_LV_LINK_ZH : "备份列表的快捷方式至桌面文件夹"
+    ,BACKUP_LV_LINK_EN : "Backup shortcuts to a desktop folder"
+    
+    ,ERROE_ADD_LINK_TO_DESKTOP_ZH : "桌面已存在相同名称的快捷方式"
+    ,ERROE_ADD_LINK_TO_DESKTOP_EN : "A shortcut with the same name already exists in the desktop"
+    
+    ,IS_ADD_DESKTOP_TO_LV_ZH : "是否重新加载桌面的快捷方式至列表，并在`"主页`"进行更换图标等操作？"
+    ,IS_ADD_DESKTOP_TO_LV_EN : "Do you want to Reload desktop shortcuts to the listand change icons on the home page?"
+
+    ,IS_ADD_START_TO_LV_ZH : "是否添加`"开始`"菜单的快捷方式至列表，并在`"主页`"进行更换图标等操作？`n`s①不建议使用更换所有`"开始`"菜单的快捷方式图标的功能`n`s②右键可添加`"开始`"菜单的快捷方式至桌面`n`s③`"开始`"菜单的文件夹中不存在UWP应用"
+    ,IS_ADD_START_TO_LV_EN : "Do you want to add Start Menu shortcuts to the list?`n`s①It is not recommended to change the icons of all shortcuts in Start Menu`n`s②Context menu has the function called `"Add to the desktop`"`n`s③There are no UWP apps in Start Menu"
+
+    ,IS_ADD_OTHER_ZH : "是否添加其他文件夹的快捷方式至列表，并在`"主页`"进行更换图标等操作？"
+    ,IS_ADD_OTHER_EN : "Do you want to add shortcuts from other folders to the list and change icons on the home page?"
+    
+    ,IS_ADD_UWP_APP_TO_LV_ZH : "是否添加UWP或APP等应用的快捷方式至桌面？`n`s①建议从(`"开始`"菜单--所有应用)中拖拽UWP/APP快捷方式至桌面`n`s②右键呼出菜单并添加指定的快捷方式至桌面"
+    ,IS_ADD_UWP_APP_TO_LV_EN : "Do you want to add UWP or APP shortcuts to the desktops?`n`s①Suggest dragging UWP or APP shortcuts from `"Start Menu--All Apps`" to the desktop`n`s②Context menu The menu has the function `"Add to the desktop`""
+    
+    ,IS_BACKUP_TO_FOLDER_ZH : "是否备份列表的快捷方式至桌面文件夹——`""
+    ,IS_BACKUP_TO_FOLDER_EN : "Do you want to back up the list's shortcuts to a desktop folder named `""
+
+    ; ,HAVE_ADD_MENU_TO_LV_ZH : "成功添加`"开始`"菜单的快捷方式至列表中"
+    ; ,HAVE_ADD_MENU_TO_LV_EN : "Successfully added the `"Start menu`" shortcut to the list"
+
+    ; ,HAVE_ADD_OTHER_TO_LV_ZH : "成功添加指定文件夹的快捷方式至列表中"
+    ; ,HAVE_ADD_OTHER_TO_LV_EN : "Successfully added the shortcut to the specified folder to the list"
+    
+    ,HAVE_BACKUP_ZH : "已备份至桌面文件夹`n`s文件夹名："
+    ,HAVE_BACKUP_EN : "The shortcut has been backed up to the desktop folder`n`sFolder Name:`s"
+
+    ,SELECT_A_ICON_ZH : "请选择一张ICO图片"
+    ,SELECT_A_ICON_EN : "Please select an icon in Folder"
+    
+    ,CHANGING_ZH : "正在扫描、更换中......"
+    ,CHANGING_EN : "Scanning and Changing......"
+
+    ,PLEASE_INPUT_ZH : "请输入"
+    ,PLEASE_INPUT_EN : "Please input"
+    
+    ,ICON_FROM_ZH : "`s`s图标库："
+    ,ICON_FROM_EN : "`s`sICON`sSETS: "
+    
+    ,THE_LINK_NAME_ZH : "快捷方式的名称："
+    ,THE_LINK_NAME_EN : "The name of shortcut: "
+    
+    ,LOG_CHANGED_LINK_ZH : "更换对象："
+    ,LOG_CHANGED_LINK_EN : "Shortcuts with replaced icons:  "
+    
+    ,LOG_RESTORE_LINK_ZH : "被恢复默认图标的快捷方式："
+    ,LOG_RESTORE_LINK_EN : "Shortcut with restore icon:  "
+    
+    ,LOG_OLD_NAME_ZH : "旧名称："
+    ,LOG_OLD_NAME_EN : "Old Name:  "
+    
+    ,LOG_NEW_NAME_ZH : "新名称："
+    ,LOG_NEW_NAME_EN : "New Name:  "
+
+    ,NOT_FOUND_ZH : "未找到"
+    ,NOT_FOUND_EN : "Not Found"
+    
+    ,RENAME_NEW_NAME_ZH : "`s请输入新的文件名(不包含.lnk):"
+    ,RENAME_NEW_NAME_EN : "`sPlease input a new file name (Excluding'.lnk')"
+    
+    ,SAFE_UNAVAILABLE_ZH : "————出于安全，无法查看—————"
+    ,SAFE_UNAVAILABLE_EN : "Cannot view for safety reasons."
+    
+    ,PLEASE_INPUT_NAME_ZH : "搜索或输入快捷方式名称"
+    ,PLEASE_INPUT_NAME_EN : "Search......"
+    
+    ,SELECT_ICONS_FOLDER_ZH : "`n请选择存放ICO图标的文件夹"
+    ,SELECT_ICONS_FOLDER_EN : "`nSelect a folder with icons"
+
+    ,SOURCE_OF_ICON_ZH : "图标来源："
+    ,SOURCE_OF_ICON_EN : "Source of the icon: "
+
+    ,SUCCESS_ZH : "更换成功!"
+    ,SUCCESS_EN : "Success!"
+    
+    ,NO_CHANGE_ZH : "未更换任何快捷方式的图标"
+    ,NO_CHANGE_EN : "The icon for any shortcut has not been replaced"
+    
+    ,VERSION_ZH : "`s`s版本：2.5"
+    ,VERSION_EN : "`s`sVersion: 2.5"
+
+    ,HELP_CONTENTS_ZH : "`s1.UWP/WSA快捷方式图标无法恢复默认图标`n`s`s`s`s解决办法：从`"其他功能`"中重新创建它们的快捷方式`n`n`s2.无法修改开始菜单的UWP软件图标`n`s`s`s解决办法：从`"其他`"功能中添加UWP快捷方式至桌面并修改其图标，然后将其粘贴至开始菜单的文件夹中，最后“开始菜单”的“所有应用”中找到它并固定到屏幕`n`n`s3.未曾手动更换图标的快捷方式在列表中显示`"√`"`n`s`s`s原因：该快捷方式使用其目标文件的(父/子)目录中的图标`n`n`s4.某些应用更新后，其快捷方式恢复为默认图标`n`s`s`s解决办法：前往应用目标目录中，手动创建其快捷方式至桌面"
+    ,HELP_CONTENTS_EN : "`s1.UWP/WSA shortcuts cannot be restored to default icons`n`s`s`s`sSolve: Recreate their shortcuts from `"Other`"`n`n`s2.Unable to change UWP softwares icons in start menu`n`s`s`sSolve: Add the UWP shortcut to the desktop from the `"Other`", then change its icon and paste it into the folder of the Start menu, finally fix it to the `"Start`" Screen in the `"All Apps`" section of the Start menu`"`n`n`s3.Some shortcuts whose icons have not changed, but the list shows as replaced（√）`n`s`s`sCause: The app's shortcut icon is derived from the icon in its (parent/child) directory"
+}
+
+For name, Descriptor in Text.OwnProps()
+{
+    If zh = True
+    {
+        If !Instr(name, "_ZH")
+            Continue
+        name := StrReplace(name, "_ZH")
+        Text.%name%:=Descriptor
+    }
+    Else
+    {
+        If !Instr(name, "_EN")
+            Continue
+        name := StrReplace(name, "_EN")
+        Text.%name%:=Descriptor
+    }
+}
