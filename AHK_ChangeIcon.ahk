@@ -380,22 +380,22 @@ Add_Folder_Link_To_LV(link_folder_path, Mode)      ; Mode:="R"扫描子文件夹
 {
     Loop Files, link_folder_path "\*.lnk", Mode
     {
-        If ((Mode = "R") AND (RegExMatch(A_LoopFileName, "i)uninstall|卸载")))      ; 若添加名为"卸载"的开始菜单快捷方式至列表中，则下一轮循环
+        If ((LV_link_from = "Start") AND (RegExMatch(A_LoopFileName, "i)uninstall|卸载")))      ; 若添加的是菜单，且快捷方式名为"卸载"，则下一轮循环（避免添加软件的卸载程序）
             Continue
 
         link_name := RegExReplace(A_LoopFileName, "i)\.lnk$")       ; 去除了后缀名的快捷方式的名称
 
-        If link_map.Has(link_name . "LTP")      ; 避免添加重复的快捷方式（根据数组中是否存在对应键-值来判断）
+        If link_map.Has(link_name . "LP")             ; 上一次添加某快捷方式后，若数组存在重复名称(区分大小写)且二者扩展名称相同，则跳过（根据数组中是否存在对应键-值来判断）
             Continue
 
         link_path := A_LoopFilePath
         COM_Link_Attribute(&link_path, &link_attribute, &link_icon_location)        ; 调用WshShell对象的函数，获取快捷方式属性
         link_target_path := link_attribute.TargetPath
-        link_target_dir := (link_target_path != "" AND link_attribute.WorkingDirectory = "") ? RegExReplace(link_target_path, "\\[^\\]+$"):link_attribute.WorkingDirectory
+        link_target_dir := (link_target_path AND !link_attribute.WorkingDirectory) ? RegExReplace(link_target_path, "\\[^\\]+$"):link_attribute.WorkingDirectory
  
         SplitPath(link_path,, &link_dir)                    ; 快捷方式的目录
         SplitPath(link_target_path,,, &link_target_ext)     ; 快捷方式的目标扩展名
-
+ 
         If !link_icon_location
         or link_icon_location = link_target_path
         or RegExMatch(link_icon_location, "i)%[^%]*%|WindowsSubsystemForAndroid|system32\\.*dll|\{[^\{]*\}\\[^\\]*\.exe$")  ; WSA或系统图标
@@ -636,8 +636,8 @@ LV_Context_Menu(LV, Item, IsRightClick, X, Y)
             Switch Value
             {
             Case "LP" : 
-                Link_Map[IB.Value . Value] := new_link_path
-                Link_Map.Delete(link_name . Value)
+                Link_Map[IB.Value . Value] := new_link_path     ; link_map[IB.Value] := {LP:新的, LD:不变, LTP:不变, LTD:不变}
+                Link_Map.Delete(link_name . Value)              ; link_map.delete(link_name)
             Default   : 
                 Link_Map[IB.Value . Value] := Link_Map[link_name . Value]
                 Link_Map.Delete(link_name . Value)
@@ -750,7 +750,7 @@ Change_All_Shortcut_Icons(*)
             ; 注意：不能根据列表"√"来跳过循环（比如QQ音乐先换了"QQ"图标，要是跳过就不能换"QQ音乐"图标）
             ; 注意：若要跳过这一次循环，用Continue，Return会退出所有循环和函数
             If  (LV.GetText(A_Index, 3) = last_link_target_type) 
-            and (map_both_name_same.has(link_name) OR (map_both_name_same.has(icon_name)))
+            and (map_both_name_same.has(StrLower(link_name)) OR (map_both_name_same.has(StrLower(icon_name))))
                 Continue
             ; 根据快捷方式和图标名称长度来检查二者的包含关系，包含则更换，不包含执行下一次循环
             ; 优势：部分应用因版本不同而快捷方式名称不同，如Adobe PhtotShop 2024/2023/2022，使用该方法可以使图标名称只要是"PhtotShop即可匹配更换
@@ -766,8 +766,8 @@ Change_All_Shortcut_Icons(*)
             Case 0:
                 If (no_space_link_name != no_space_icon_name)       ; 若快捷方式名称与文件名称不同，则下一循环，相同给数组添加两个键
                     Continue 
-                map_both_name_same[link_name] := "SAME"             ; 此处标记，后续扫描跳过第二个循环中的该快捷方式
-                map_both_name_same[icon_name] := "SAME"             ; 此处标记，后续扫描跳过第一个循环中的该图标
+                map_both_name_same[StrLower(link_name)] := "SAME"             ; 此处标记，后续扫描跳过第二个循环中的该快捷方式（注意：数组的键是区分大小写的）
+                map_both_name_same[StrLower(icon_name)] := "SAME"             ; 此处标记，后续扫描跳过第一个循环中的该图标（注意数组的键是区分大小写的）
                 last_link_target_type := LV.GetText(A_Index, 3)     ; 此处记录，后续除了判断上述两个条件外，另需判断是否名称相同文件类型不同的情况
             }
             ; 获取快捷方式信息
