@@ -146,7 +146,7 @@ Class CreateButton
     ; *******************************************************************************************************
     ; tab_prop := {}
     ; tab_prop.label_name := ["Home", "Other", "Log", "Help", "About"]
-    ; tab_prop.label_prop := {distance:"0" ,text_options:"+0x200", font_options:"s10 Bold cffffff", font:"", font_active_color:""}
+    ; tab_prop.label_prop := {distance:"0" ,text_options:"+0x200", font_options:"s10 Bold cffffff", font:"", font_normal_color:"",font_active_color:""}
     ; tab_prop.label_active  := {margin_left:"", margin_top:"", w:"", h:"", R:"5", color:""}
     ; tab_prop.label_indicator := {margin_left:"", margin_top:"", w:"", h:"", R:"5", color:""}
     ; tab_prop.logo_png_base64 := [png_1:='', png_2:='', png_3:='', png_4:='', png_5:='']   ; You can choose not to add a logo
@@ -179,6 +179,23 @@ Class CreateButton
                 ,  logo_w := tab_prop.logo_prop.w
                 ,  logo_x := trim(tab_prop.logo_prop.margin_left)="center" ? (active_x + (tab_prop.label_active.w - logo_w)/2) : this._x + (tab_prop.logo_prop.margin_left)
                 ,  logo_y := trim(tab_prop.logo_prop.margin_top)="center" ? (active_y + (tab_prop.label_active.h - logo_h)/2 + 1) : (active_y + tab_prop.logo_prop.margin_top)
+        }
+        ; Change to correct color format, e.g. text color: 000000, active color:0xff000000 (修改为正确的颜色格式，如0xff000000)
+        For obj_name in tab_prop.OwnProps()
+        {
+            If !RegExMatch(obj_name, "i)label_prop|label_active|label_indicator")
+                Continue
+            For color_name, descriptor in tab_prop.%obj_name%.OwnProps()
+            {
+                If !Instr(color_name, "color")
+                    Continue
+                Switch StrLen(color := descriptor)
+                {
+                Case 6  : tab_prop.%obj_name%.%color_name% := (color_name = "color") ? ("0xff" . color) : color
+                Case 8  : tab_prop.%obj_name%.%color_name% := (color_name = "color") ? RegExReplace(color, "i)^0x", "0xff") : RegExReplace(color,  "i)^0x")   ; 不能直接obj.obj_name，因为obj_name是值不是变量，使用%name%调用一个名为name的变量，不理解可用不理解可用obj.DefineProp("",{value:""})
+                Case 10 : tab_prop.%obj_name%.%color_name% := (color_name = "color") ? color : RegExReplace(color, "i)^0x..")
+                }
+            }
         }
         ; Create the Tab control （创建标签页控件）
         global Tab := MyGui.AddTab("x0 y0 w0 h0 -wrap -tabstop")
@@ -234,7 +251,7 @@ Gdip_SetPicRoundedRectangle(GuiCtrl, Color, R, isFill)
         ; 创建实心圆角矩形背景（注意笔刷画图的xy是相对位图距离，不是窗口距离）
         pBrushBack := Gdip_BrushCreateSolid(Color)
         ;pBrushBack := Gdip_CreateLineBrushFromRect(0, 0, w, h, color, 0xff485563, LinearGradientMode:=0, WrapMode:=1)
-        Gdip_FillRoundedRectangle(G, pBrushBack, -0.5, -0.5, W, H, R*(A_ScreenDPI/192))
+        Gdip_FillRoundedRectangle(G, pBrushBack, 0, 0, W-1, H-1, R*(A_ScreenDPI/192))
         Gdip_DeleteBrush(pBrushBack)
     }
     Else

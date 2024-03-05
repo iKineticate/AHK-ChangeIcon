@@ -37,7 +37,7 @@ Class CreateModernGUI
             Switch StrLen(color:=descriptor)
             {
             Case 8  : Obj.%obj_name% := RegExReplace(color,  "i)^0x" )   ; 不能直接obj.obj_name，因为obj_name是值不是变量，使用%name%调用一个名为name的变量，不理解可用不理解可用obj.DefineProp("",{value:""})
-            Case 10 : Obj.%obj_name% := RegExReplace(color, "i)^0xff")
+            Case 10 : Obj.%obj_name% := RegExReplace(color, "i)^0x..")
             }
         }
 
@@ -61,7 +61,7 @@ Class CreateModernGUI
             Switch StrLen(color:=descriptor)
             {
             Case 6 : Obj.%obj_name% := (obj_name="active_color") ? color : "0xff" . color   ; 不能直接obj.obj_name，因为这里的obj_name是一个值不是变量
-            Case 8 : Obj.%obj_name% := (obj_name="active_color") ? RegExReplace(color,"i)^0x") : StrReplace(color, "0x", "0xff")
+            Case 8 : Obj.%obj_name% := (obj_name="active_color") ? RegExReplace(color,"i)^0x") : RegExReplace(color, "i)^0x", "0xff")
             Case 10: Obj.%obj_name% := (obj_name="active_color") ? RegExReplace(color, "i)^0x..") : color
             }
         }

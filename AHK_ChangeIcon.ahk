@@ -81,13 +81,13 @@ ahkGUI.CreateWindowsControlButton( {margin_top:"0", margin_right:"0", button_w:4
 ; 创建左侧背景
 MyGui.AddPicture("x0 y0" . " w" . 240/2 . " h" . 650/2 . " background252525")
 ; 创建软件LOGO
-MyGui.AddPicture("x" . 60/2 . " y" . 42/2 . " w" . 120/2 . " h" . 116/2 . " BackgroundTrans", "HICON:" Base64PNG_to_HICON(LOGO_PNG_BASE64, height := 512))
+MyGui.AddPicture("x" . 70/2 . " y" . 42/2 . " w" . 100/2 . " h" . 100/2 . " BackgroundTrans", "HICON:" Base64PNG_to_HICON(LOGO_PNG_BASE64, height := 512))
 ; 设置标签页的各项参数
 tab_prop := {}
 tab_prop.label_name := [Text.HOME, Text.Other, Text.LOG, Text.HELP, Text.ABOUT]
-tab_prop.label_prop := {distance:0, text_options:"center +0x200", font_options:"Bold cf5f5f5 s11", font:"Microsoft YaHei", normal_color:"ffffff", font_active_color:"ad62fd"}   ; 输入空格来调整标签按钮里的文本相对按钮的x位置
-tab_prop.label_active  := {margin_left:0, margin_top:"center", w:220/2, h:72/2, R:24/2, color:"0xfff5f5f5"}
-tab_prop.label_indicator := {margin_left:20/2, margin_top:"center", w:10/2, h:28/2, R:4/2, color:"0xffad62fd"}
+tab_prop.label_prop := {distance:0, text_options:"center +0x200", font_options:"Bold cf5f5f5 s11", font:"Microsoft YaHei", font_normal_color:"ffffff", font_active_color:"ad62fd"}   ; 输入空格来调整标签按钮里的文本相对按钮的x位置
+tab_prop.label_active  := {margin_left:0, margin_top:"center", w:220/2, h:72/2, R:24/2, color:"f5f5f5"}
+tab_prop.label_indicator := {margin_left:20/2, margin_top:"center", w:10/2, h:28/2, R:4/2, color:"ad62fd"}
 ;tab_prop.logo_prop := {margin_left:0, margin_top:"center", w:34/2, h:34/2, quality:"256"}
 ;tab_prop.logo_png_base64 := [HOME_PNG_BASE64, OTHERS_PNG_BASE64, LOG_PNG_BASE64, HELP_PNG_BASE64, ABOUT_PNG_BASE64 ]
 tab_item := CreateButton( {name:"logo", x:10/2, y:180/2, w:220/2, h:85/2} ).NewTab( tab_prop )
@@ -177,11 +177,11 @@ MyGui["Unchanged_Count"].Value := LV.GetCount() - MyGui["Changed_Count"].Value
 ; 第二个标签页：其他(其他)
 ;==========================================================================
 Tab.UseTab(2)
-CreateButton( {name:"Add_Desktop", x:320/2, y:80/2, w:800/2, h:90/2} ).LogoText( {R:30/2, normal_color:"5D656B", active_color:"999999", text:Text.ADD_DESKTOP_TO_LV, text_options:"+0x200", text_margin:10, font_options:"cffffff s13", font:"", logo_png_base64:ADD_DESKTOP_PNG_BASE64, logo_x:25/2, logo_y:"center", logo_w:50/2, logo_h:50/2, logo_quality:"256"} )
-CreateButton( {name:"Add_Start", x:320/2, y:190/2, w:800/2, h:90/2} ).LogoText( {R:30/2, normal_color:"5D656B", active_color:"999999", text:Text.ADD_START_TO_LV, text_options:"+0x200", text_margin:10, font_options:"cffffff s13", font:"", logo_png_base64:START_MENU_PNG_BASE64, logo_x:25/2, logo_y:"center", logo_w:50/2, logo_h:50/2, logo_quality:"256"} )
-CreateButton( {name:"Add_Other", x:320/2, y:300/2, w:800/2, h:90/2} ).LogoText( {R:30/2, normal_color:"5D656B", active_color:"999999", text:Text.ADD_OTHER_TO_LV, text_options:"+0x200", text_margin:10, font_options:"cffffff s13", font:"", logo_png_base64:OTHER_FOLDER_PNG_BASE64, logo_x:25/2, logo_y:"center", logo_w:50/2, logo_h:50/2, logo_quality:"256"} )
-CreateButton( {name:"Add_UWP_WSA", x:320/2, y:410/2, w:800/2, h:90/2} ).LogoText( {R:30/2, normal_color:"5D656B", active_color:"999999", text:Text.ADD_UWP_WSA_TO_LV, text_options:"+0x200", text_margin:10, font_options:"cffffff s13", font:"", logo_png_base64:UWP_APP_PNG_BASE64, logo_x:25/2, logo_y:"center", logo_w:50/2, logo_h:50/2, logo_quality:"256"} )
-CreateButton( {name:"BackUp", x:320/2, y:520/2, w:800/2, h:90/2} ).LogoText( {R:30/2, normal_color:"5D656B", active_color:"999999", text:Text.BACKUP_LV_LINK, text_options:"+0x200", text_margin:10, font_options:"cffffff s13", font:"", logo_png_base64:BACKUP_PNG_BASE64, logo_x:25/2, logo_y:"center", logo_w:50/2, logo_h:50/2, logo_quality:"256"} )
+CreateButton( {name:"Add_Desktop", x:320/2, y:80/2, w:800/2, h:90/2} ).LogoText( {R:24/2, normal_color:"5D656B", active_color:"999999", text:Text.ADD_DESKTOP_TO_LV, text_options:"+0x200", text_margin:10, font_options:"cffffff s13", font:"", logo_png_base64:ADD_DESKTOP_PNG_BASE64, logo_x:25/2, logo_y:"center", logo_w:50/2, logo_h:50/2, logo_quality:"256"} )
+CreateButton( {name:"Add_Start", x:320/2, y:190/2, w:800/2, h:90/2} ).LogoText( {R:24/2, normal_color:"5D656B", active_color:"999999", text:Text.ADD_START_TO_LV, text_options:"+0x200", text_margin:10, font_options:"cffffff s13", font:"", logo_png_base64:START_MENU_PNG_BASE64, logo_x:25/2, logo_y:"center", logo_w:50/2, logo_h:50/2, logo_quality:"256"} )
+CreateButton( {name:"Add_Other", x:320/2, y:300/2, w:800/2, h:90/2} ).LogoText( {R:24/2, normal_color:"5D656B", active_color:"999999", text:Text.ADD_OTHER_TO_LV, text_options:"+0x200", text_margin:10, font_options:"cffffff s13", font:"", logo_png_base64:OTHER_FOLDER_PNG_BASE64, logo_x:25/2, logo_y:"center", logo_w:50/2, logo_h:50/2, logo_quality:"256"} )
+CreateButton( {name:"Add_UWP_WSA", x:320/2, y:410/2, w:800/2, h:90/2} ).LogoText( {R:24/2, normal_color:"5D656B", active_color:"999999", text:Text.ADD_UWP_WSA_TO_LV, text_options:"+0x200", text_margin:10, font_options:"cffffff s13", font:"", logo_png_base64:UWP_APP_PNG_BASE64, logo_x:25/2, logo_y:"center", logo_w:50/2, logo_h:50/2, logo_quality:"256"} )
+CreateButton( {name:"BackUp", x:320/2, y:520/2, w:800/2, h:90/2} ).LogoText( {R:24/2, normal_color:"5D656B", active_color:"999999", text:Text.BACKUP_LV_LINK, text_options:"+0x200", text_margin:10, font_options:"cffffff s13", font:"", logo_png_base64:BACKUP_PNG_BASE64, logo_x:25/2, logo_y:"center", logo_w:50/2, logo_h:50/2, logo_quality:"256"} )
 
 
 ;==========================================================================
@@ -204,11 +204,11 @@ MyGui["Help_Control"].Setfont("s10")
 ; 第五个标签页：关于(About) 
 ;==========================================================================
 Tab.UseTab(5)
-CreateButton( {name:"github", x:320/2, y:80/2, w:800/2, h:90/2} ).Text( {R:30/2, normal_color:"5D656B", active_color:"0x00ffffff", text_options:"+0x200",text_margin:"5", font_options:"s12 cffffff", font:"Arial", text:"Github: iKineticate"} )
-CreateButton( {name:"software", x:320/2, y:190/2, w:800/2, h:90/2} ).Text( {R:30/2, normal_color:"5D656B", active_color:"0x00ffffff", text_options:"+0x200",text_margin:"5", font_options:"s12 cffffff", font:"Arial", text:"Software: AHK-ChangeIcon"} )
-CreateButton( {name:"version", x:320/2, y:300/2, w:800/2, h:90/2} ).Text( {R:30/2, normal_color:"5D656B", active_color:"0x00ffffff", text_options:"+0x200",text_margin:"5", font_options:"s12 cffffff", font:"Arial", text:"Version: 2.5.0"} )
-CreateButton( {name:"CoolMarket", x:320/2, y:410/2, w:800/2, h:90/2} ).Text( {R:30/2, normal_color:"5D656B", active_color:"0x00ffffff", text_options:"+0x200",text_margin:"5", font_options:"s12 cffffff", font:"", text:"酷安：林琼雅"} )
-CreateButton( {name:"programming_language", x:320/2, y:520/2, w:800/2, h:90/2} ).Text( {R:30/2, normal_color:"5D656B", active_color:"0x00ffffff", text_options:"+0x200",text_margin:"5", font_options:"s12 cffffff", font:"Arial", text:"Programming Language: Autohotkey 2.0"} )
+CreateButton( {name:"github", x:320/2, y:80/2, w:800/2, h:90/2} ).Text( {R:16/2, normal_color:"5D656B", active_color:"0x00ffffff", text_options:"+0x200",text_margin:"5", font_options:"s12 cffffff", font:"Arial", text:"Github: iKineticate"} )
+CreateButton( {name:"software", x:320/2, y:190/2, w:800/2, h:90/2} ).Text( {R:16/2, normal_color:"5D656B", active_color:"0x00ffffff", text_options:"+0x200",text_margin:"5", font_options:"s12 cffffff", font:"Arial", text:"Software: AHK-ChangeIcon"} )
+CreateButton( {name:"version", x:320/2, y:300/2, w:800/2, h:90/2} ).Text( {R:16/2, normal_color:"5D656B", active_color:"0x00ffffff", text_options:"+0x200",text_margin:"5", font_options:"s12 cffffff", font:"Arial", text:"Version: 2.5.0"} )
+CreateButton( {name:"CoolMarket", x:320/2, y:410/2, w:800/2, h:90/2} ).Text( {R:16/2, normal_color:"5D656B", active_color:"0x00ffffff", text_options:"+0x200",text_margin:"5", font_options:"s12 cffffff", font:"", text:"酷安：林琼雅"} )
+CreateButton( {name:"logo_from", x:320/2, y:520/2, w:800/2, h:90/2} ).Text( {R:16/2, normal_color:"5D656B", active_color:"0x00ffffff", text_options:"+0x200",text_margin:"5", font_options:"s12 cffffff", font:"Arial", text:"LOGO: Flaticon--iconfield"} )
 
 ;==========================================================================
 ; 深色模式(Drak Mode) 
@@ -304,7 +304,7 @@ WM_MOUSELEAVE(*)
         indicator_name := StrReplace(MyGui.active_control.name, "_Tab_Button", "_INDICATOR")
         MyGui[active_name].Visible  := False
         MyGui[indicator_name].Visible := False
-        MyGui[MyGui.active_control.name].SetFont("c" . tab_prop.label_prop.normal_color)
+        MyGui[MyGui.active_control.name].SetFont("c" . tab_prop.label_prop.font_normal_color)
     }
     Else
     {
@@ -358,7 +358,7 @@ Tab_Click(tab_name)
         MyGui[indicator_name].Visible := (name=tab_name) ? True:False
     }
     MyGui[tab_name].SetFont("c" . tab_prop.label_prop.font_active_color)
-    MyGui.Focus_Tab.SetFont("c" . tab_prop.label_prop.normal_color)
+    MyGui.Focus_Tab.SetFont("c" . tab_prop.label_prop.font_normal_color)
     MyGui.Focus_Tab := MyGui[tab_name]
 }
 
@@ -417,7 +417,7 @@ Add_Folder_Link_To_LV(link_folder_path, Mode)      ; Mode:="R"扫描子文件夹
             link_target_ext := "uwp"
         Case InStr(link_target_path, "WindowsSubsystemForAndroid") :
             link_target_ext := "app"
-        Case isUpper(link_target_ext) :
+        Default :
             link_target_ext := StrLower(link_target_ext)
         }
 
@@ -426,8 +426,8 @@ Add_Folder_Link_To_LV(link_folder_path, Mode)      ; Mode:="R"扫描子文件夹
         ; LTD = Link Target Dir  = 快捷方式的目标目录（UWP无法查看）
         ; LP  = Link Path        = 快捷方式的路径
         ; LD  = Link Dir         = 快捷方式的目录
-        link_map[link_name . "LTP"] := link_target_path = "" ? Text.SAFE_UNAVAILABLE:link_target_path
-        link_map[link_name . "LTD"] := link_target_dir = "" ? Text.SAFE_UNAVAILABLE:link_target_dir
+        link_map[link_name . "LTP"] := (!link_target_path) ? Text.SAFE_UNAVAILABLE : link_target_path
+        link_map[link_name . "LTD"] := (!link_target_dir) ? Text.SAFE_UNAVAILABLE : link_target_dir
         link_map[link_name . "LP"]  := A_LoopFilePath
         link_map[link_name . "LD"]  := link_dir
 
@@ -495,7 +495,7 @@ Refresh_Display_Icon(LV, Item)
     }
     Catch
     {
-        MyGui["Show_Old_Icon"].Value := "*icon3 shell32.dll"    ; 设置无无图标应用
+        MyGui["Show_Old_Icon"].Value := "*icon3 shell32.dll"    ; 从系统中调用图标
     }
 }
 
@@ -512,12 +512,12 @@ Change_Link_Icon(LV, Item)
     COM_Link_Attribute(&Link_Path, &Link_Attribute, &Link_Icon_Location)        ; 调用WshShell对象的函数，获取快捷方式属性
 
     select_icon_path := FileSelect(3,, "请选择一张ICO图片", "Icon files(*.ico)")    ; 选择文件格式为“.ico”的图标并赋予图标路径给该变量
-    If ((select_icon_path = "") OR (select_icon_path = Link_Icon_Location))     ; 若未选择照片或更换图片是现在的图标则返回
+    If ((!select_icon_path) OR (select_icon_path = Link_Icon_Location))     ; 若未选择照片或更换图片是现在的图标则返回
         Return
     Link_Attribute.IconLocation := select_icon_path     ; 否则更换图片并保存
     Link_Attribute.Save()
 
-    If (LV.GetText(Item, 2) = "")       ; 更新显示的数据
+    If !LV.GetText(Item, 2)     ; 更新显示的数据
     {
         MyGui["Changed_Count"].Value += 1
         MyGui["Unchanged_Count"].Value -= 1
@@ -560,7 +560,7 @@ LV_Context_Menu(LV, Item, IsRightClick, X, Y)
     link_menu.Add
     link_menu.Add(Text.MENU_RENAME, Link_Rename)
 
-    If LV_link_from != "Desktop"   ; 若当前列表中非桌面快捷方式，则菜单选项添加一行"添加至桌面"
+    If (LV_link_from != "Desktop")   ; 若当前列表中非桌面快捷方式，则菜单选项添加一行"添加至桌面"
     {
         link_menu.Add
         link_menu.Add(Text.MENU_ADD_LINK_TO_DESKTOP, Link_Add_Desktop)
@@ -600,7 +600,7 @@ LV_Context_Menu(LV, Item, IsRightClick, X, Y)
     Link_Restore(*)     ; 恢复快捷方式的默认图标的函数
     {
         ; 若图标为默认图标则返回     ; 否则恢复为默认图标并保存
-        If ((Link_Icon_Location = link_target_path) OR (Link_Icon_Location = ""))
+        If ((Link_Icon_Location = link_target_path) OR (!Link_Icon_Location))
             Return
         Link_Attribute.IconLocation := link_target_path
         Link_Attribute.Save()
@@ -676,12 +676,12 @@ LV_Context_Menu(LV, Item, IsRightClick, X, Y)
 ;==========================================================================
 Search_Bar_Focus(*)
 {
-    MyGui["Search_Edit"].Value := MyGui["Search_Edit"].Value = Text.PLEASE_INPUT_NAME ? "":MyGui["Search_Edit"].Value
+    MyGui["Search_Edit"].Value := (MyGui["Search_Edit"].Value = Text.PLEASE_INPUT_NAME) ? "" : MyGui["Search_Edit"].Value
     MyGui["Search_Edit"].Focus()    ; 焦点搜索栏时，再次让它焦点即可实现全选搜索栏中的内容
 }
 Search_Bar_LoseFocus(*)
 {
-    MyGui["Search_Edit"].Value := MyGui["Search_Edit"].Value = "" ? Text.PLEASE_INPUT_NAME:MyGui["Search_Edit"].Value
+    MyGui["Search_Edit"].Value := (!MyGui["Search_Edit"].Value) ? Text.PLEASE_INPUT_NAME : MyGui["Search_Edit"].Value
 }
 
 
@@ -734,10 +734,10 @@ Change_All_Shortcut_Icons(*)
         map_iconName_iconPath[RegExReplace(A_LoopFileName, "i)\.ico$")] := A_LoopFilePath
     }
     ; 若选择文件夹无图标则提醒并返回
-    If map_iconName_iconPath.Count = "0"
-        Return Msgbox("There is no icon in the folder", "(っ °Д °;)っ")
+    If !map_iconName_iconPath.Count
+        Return (Msgbox("There is no icon in the folder", "(っ °Д °;)っ"))
     ; 提醒正在扫描、更换图标，在完成扫描、更换操作前禁止与GUI交互
-    TrayTip(Text.CHANGING)                              
+    TrayTip(Text.CHANGING)
     MyGui.Opt("+Disabled")
     ; 从图标组合中枚举，并从列表开头开始循环
     For icon_name, icon_path in map_iconName_iconPath
@@ -764,11 +764,11 @@ Change_All_Shortcut_Icons(*)
                 If !InStr(no_space_link_name, no_space_icon_name)
                     Continue 
             Case 0:
-                If (no_space_link_name != no_space_icon_name)       ; 若快捷方式名称与文件名称不同，则下一循环，相同给数组添加两个键
+                If (no_space_link_name != no_space_icon_name)           ; 若快捷方式名称与文件名称不同，则下一循环，相同给数组添加两个键
                     Continue 
-                map_both_name_same[StrLower(link_name)] := "SAME"             ; 此处标记，后续扫描跳过第二个循环中的该快捷方式（注意：数组的键是区分大小写的）
-                map_both_name_same[StrLower(icon_name)] := "SAME"             ; 此处标记，后续扫描跳过第一个循环中的该图标（注意数组的键是区分大小写的）
-                last_link_target_type := LV.GetText(A_Index, 3)     ; 此处记录，后续除了判断上述两个条件外，另需判断是否名称相同文件类型不同的情况
+                map_both_name_same[StrLower(link_name)] := "SAME"       ; 此处标记，后续扫描跳过第二个循环中的该快捷方式（注意：数组的键是区分大小写的）
+                map_both_name_same[StrLower(icon_name)] := "SAME"       ; 此处标记，后续扫描跳过第一个循环中的该图标（注意数组的键是区分大小写的）
+                last_link_target_type := LV.GetText(A_Index, 3)         ; 此处记录，后续除了判断上述两个条件外，另需判断文件类型是否相同情况
             }
             ; 获取快捷方式信息
             link_path := Link_Map[link_name . "LP"]
@@ -800,7 +800,7 @@ Change_All_Shortcut_Icons(*)
     ; 恢复与窗口的交互
     MyGui.Opt("-Disabled")
     ; 若未记录到更换信息，则显示“未更换任何图标”
-    If (changed_log_msgbox = "")
+    If !changed_log_msgbox
         Return Msgbox(Text.NO_CHANGE, "╰(￣ω￣ｏ)")
     Msgbox(changed_log_msgbox, Text.SUCCESS)
     ; 更新托盘提醒
