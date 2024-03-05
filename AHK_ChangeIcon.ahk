@@ -483,9 +483,16 @@ Refresh_Display_Icon(LV, Item)
     Link_Path := Link_Map[LV.GetText(Item, 1) . "LP"]
     link_target_path := Link_Map[LV.GetText(Item, 1) . "LTP"]
 
-    hIcon := DllCall_Get_Icon(Link_Path)
-    MyGui["Show_New_Icon"].Value := "HICON:" hIcon    ; 调用DllCall_Get_Icon函数重新刷新顶部显示图标区域的图片内容
-    DllCall("DestroyIcon", "ptr", hIcon)
+    Try
+    {
+        hIcon := DllCall_Get_Icon(Link_Path)
+        MyGui["Show_New_Icon"].Value := "HICON:" hIcon    ; 调用DllCall_Get_Icon函数重新刷新顶部显示图标区域的图片内容
+        DllCall("DestroyIcon", "ptr", hIcon)
+    }
+    Catch
+    {
+        MyGui["Show_New_Icon"].Value := "*icon3 shell32.dll"    ; 从系统中调用图标   
+    }
 
     Try     ; 无法获取某些应用(如UWP)目标的路径，或应用目标路径不存在时，采用Try
     {
@@ -542,10 +549,10 @@ LV_Context_Menu(LV, Item, IsRightClick, X, Y)
         Return
 
     link_name := LV.GetText(Item, 1)                    ; 快捷方式的名称
-    link_target_path := Link_Map[link_name . "LTP"]     ; 快捷方式的目标路径
-    link_target_dir := Link_Map[link_name . "LTD"]      ; 快捷方式的目标目录
-    link_path := Link_Map[link_name . "LP"]             ; 快捷方式的路径
-    link_dir := Link_Map[link_name . "LD"]              ; 快捷方式的目录
+    link_target_path := Link_Map[link_name . "LTP"]     ; 快捷方式的目标路径    lnk[link_name].LTP
+    link_target_dir := Link_Map[link_name . "LTD"]      ; 快捷方式的目标目录    lnk[link_name].LTD
+    link_path := Link_Map[link_name . "LP"]             ; 快捷方式的路径        lnk[link_name].LP
+    link_dir := Link_Map[link_name . "LD"]              ; 快捷方式的目录        lnk[link_name].LD
 
     COM_Link_Attribute(&link_path, &Link_Attribute, &Link_Icon_Location)    ; 调用WshShell对象的函数，获取快捷方式属性
 
