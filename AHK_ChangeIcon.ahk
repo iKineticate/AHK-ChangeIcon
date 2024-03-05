@@ -19,12 +19,13 @@
 ;@Ahk2Exe-SetLegalTrademarks AHK-ChangeIcon
 
 #Requires AutoHotkey v2.0
+#Include "AHK_Language.ahk"
 #Include "lib\Class_Button.ahk"
 #Include "lib\Class_MyGui.ahk"
 #Include "lib\Class_LV_Colors.ahk"  ; https://github.com/AHK-just-me/AHK2_LV_Colors
 #Include "lib\Gdip_All.ahk"         ; https://github.com/buliasz/AHKv2-Gdip
+#Include "lib\GuiCtrlTips.ahk"      ; https://www.autohotkey.com/boards/viewtopic.php?f=83&t=116218
 #Include "lib\AHK_Base64PNG.ahk"
-#Include "AHK_Language.ahk"
 #SingleInstance Force
 
 SetControlDelay(-1)
@@ -73,6 +74,11 @@ global info_ini_path := A_AppData . "\AHK-ChangeIcon\info.ini"
 ahkGUI := CreateModernGUI( {x:"center", y:"center", w:1200/2, h:650/2, back_color:"202020", gui_options:"-caption -Resize +Border", gui_name:"AHK-ChangeIcon", gui_font_options:"Bold cffffff s8", gui_font:"Microsoft YaHei", show_options:""} )
 ; 创建窗口控制按钮（关闭、最大化、最小化）
 ahkGUI.CreateWindowsControlButton( {margin_top:"0", margin_right:"0", button_w:48/2, button_h:30/2, pen_width:3, active_color:"AD62FD", close_color:"DBDBDB"} )
+; 设置提示选项
+MyGui.Tooltips := GuiCtrlTips(MyGui)
+MyGui.ToolTips.Setfont(,"Microsoft YaHei",,)
+MyGui.ToolTips.SetBkColor("0xff303030")
+MyGui.ToolTips.SetTxColor("0xff999999")
 
 
 ;========================================================================================================
@@ -136,8 +142,11 @@ MyGui.AddButton("v Hidden_BTN yp w26 h26 Default Hidden").OnEvent("Click", Searc
 
 ; 恢复默认图标的PNG图片按钮
 CreateButton( {name:"Restore_All", x:815/2, y:68/2, w:175/2, h:79/2} ).PNG( {normal_png_base64:RESTORE_ALL_NORMAL_PNG_BASE64, active_png_base64:RESTORE_ALL_ACTIVE_PNG_BASE64, png_quality:"300"} )
+MyGui.ToolTips.SetTip(MyGui["Restore_All_BUTTON"], TEXT.TIP_RESTORE)
 ; 更换所有图标的PNG图片按钮
 CreateButton( {name:"Change_All", x:1008/2, y:68/2, w:175/2, h:79/2} ).PNG( {normal_png_base64:CHANGE_ALL_NORMAL_PNG_BASE64, active_png_base64:CHANGE_ALL_ACTIVE_PNG_BASE64, png_quality:"300"} )
+MyGui.ToolTips.SetTip(MyGui["Change_All_BUTTON"], TEXT.TIP_CHANGE)
+
 
 ; 创建列表(+LV0x10000: 双缓冲，redraw: 加载数据后在redraw， -Multi: 禁止多选)
 LV := MyGui.AddListView("x" . 440/2 . " y" . 180/2 . " w" . 760/2 . " h" . 470/2 . " Background232323 -redraw -Multi -E0x200 +LV0x10000", ["Name", "Y/N", "Type"])
@@ -183,6 +192,8 @@ CreateButton( {name:"Add_Other", x:320/2, y:300/2, w:800/2, h:90/2} ).LogoText( 
 CreateButton( {name:"Add_UWP_WSA", x:320/2, y:410/2, w:800/2, h:90/2} ).LogoText( {R:24/2, normal_color:"5D656B", active_color:"999999", text:Text.ADD_UWP_WSA_TO_LV, text_options:"+0x200", text_margin:10, font_options:"cffffff s13", font:"", logo_png_base64:UWP_APP_PNG_BASE64, logo_x:25/2, logo_y:"center", logo_w:50/2, logo_h:50/2, logo_quality:"256"} )
 CreateButton( {name:"BackUp", x:320/2, y:520/2, w:800/2, h:90/2} ).LogoText( {R:24/2, normal_color:"5D656B", active_color:"999999", text:Text.BACKUP_LV_LINK, text_options:"+0x200", text_margin:10, font_options:"cffffff s13", font:"", logo_png_base64:BACKUP_PNG_BASE64, logo_x:25/2, logo_y:"center", logo_w:50/2, logo_h:50/2, logo_quality:"256"} )
 
+; MyGui.AddText("vWindow x160 y95 w45 h45 Background5D656B +0x200 center", chr(0xE8A9))
+; MyGui["Window"].Setfont("s23 cffffff", "Segoe Fluent Icons")
 
 ;==========================================================================
 ; 第三个标签页：日志(Log) 

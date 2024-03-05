@@ -95,6 +95,8 @@
 
 3.设置列表颜色库：[AHK2_LV_Colors](https://github.com/AHK-just-me/AHK2_LV_Colors)
 
+4.工具提示库：[GuiCtrlTips](https://www.autohotkey.com/boards/viewtopic.php?f=83&t=116218)
+
 ## 更新内容
 
 1.新的窗口界面和按钮
