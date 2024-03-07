@@ -4,22 +4,22 @@
 
 ## 关于
 
-这是一款用 AHK 编写的软件，它解决了用户在更换快捷方式图标时的繁琐操作，<font color=SeaGreen>只需一步</font>，即可随心更换。无论是更换单个图标还是<font color=SeaGreen>批量更换</font>，都可以轻松满足。它不仅支持更换桌面快捷方式的图标，它还支持更换"开始"菜单和其他文件夹中的快捷方式图标。
+这是一款用 AHK 编写的软件，它解决了用户在更换快捷方式图标时的繁琐操作，<span style="color: #9657db;">只需一步</span>，即可随心更换。无论是更换单个图标还是<span style="color: #9657db;">批量更换</span>，都可以轻松满足。它不仅支持更换桌面快捷方式的图标，它还支持更换"开始"菜单和其他文件夹中的快捷方式图标。
 
 ## 使用
 
 1.为了正常使用它，使用前请授予软件管理员权限
 
 2.一键更换/恢复所有快捷方式图标：
-* **<font color=#9657db>紫色</font>按钮**：一键<font color=#9657db>更换</font>所有快捷方式的图标
+* <span style="color: #9657db;">紫色</span>按钮：一键<span style="color: #9657db;">更换</span>所有快捷方式的图标
 
-* **<font color=#b54646>红色</font>按钮**：一键<font color=#b54646>恢复</font>所有快捷方式的默认图标
+* <span style="color: #b54646;">红色</span>按钮：一键<span style="color: #b54646;">恢复</span>所有快捷方式的默认图标
 
 * 图标（.ico）的名称需按照以下规范命名
 
-    * 图标的名称包含于快捷方式的名称（例如ico图标名称为"Chrome"，快捷方式名称为"Chrome Canary"）
+    * 图标的全名称包含于快捷方式的名称（例如图标名称为"Chrome"，快捷方式名称为"Chrome Canary"）
 
-    * 快捷方式的名称包含于图标的名称（例如ico图标名称为"崩坏：星穹铁道"，快捷方式名称为"星穹铁道"）
+    * 快捷方式的全名称包含于图标的名称（例如图标名称为"崩坏：星穹铁道"，快捷方式名称为"星穹铁道"）
 
 ![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/Introduction/change_and_restore.gif)
 
@@ -77,7 +77,9 @@
 
     解决办法：从"其他"功能中添加UWP快捷方式至桌面并修改其图标，然后粘贴至开始菜单的文件夹，最后在"开始菜单"的"所有应用"中固定到"开始"屏幕
 
-6.在处理来自文件夹的快捷方式时，当快捷方式无属性时无法区分其类型，例如UWP和APP无法进行鉴别（目前尚无解决办法）
+6.在处理来自AppsFolder的快捷方式时，若快捷方式无属性，则无法区分其类型，例如UWP和APP无法进行相互鉴别（目前尚无解决办法）
+
+    解决办法：从"开始"菜单中的"所有应用"中，拖拽其中的快捷方式至桌面
 
 ## 推荐
 
@@ -91,16 +93,20 @@
 
 1.图标来源网站：[iconfont](https://www.iconfont.cn) 和 [flaticon](https://www.flaticon.com/)
 
-2.v2版本的GDIP库：[AHKv2-Gdip](https://github.com/buliasz/AHKv2-Gdip)
+2.GDIP_All库：[AHKv2-Gdip](https://github.com/buliasz/AHKv2-Gdip)
 
 3.设置列表颜色库：[AHK2_LV_Colors](https://github.com/AHK-just-me/AHK2_LV_Colors)
 
-4.工具提示库：[GuiCtrlTips](https://www.autohotkey.com/boards/viewtopic.php?f=83&t=116218)
+4.控件提示库：[GuiCtrlTips](https://www.autohotkey.com/boards/viewtopic.php?f=83&t=116218)
 
 ## 更新内容
 
-1.新的窗口界面和按钮
+1.文字图标代替PNG显示图标
 
-2.修复部分问题，优化部分代码
+2.检索配置内容
 
-3.删除功能：按下鼠标滚轮键/F2键更换图标
+3.默认字体更换为UI
+
+4.垂直标签页添加图标
+
+5.修复部分问题，优化部分代码
