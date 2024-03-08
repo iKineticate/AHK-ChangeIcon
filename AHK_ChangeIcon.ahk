@@ -19,14 +19,14 @@
 ;@Ahk2Exe-SetLegalTrademarks AHK-ChangeIcon
 
 #Requires AutoHotkey v2.0
-#Include "AHK_Language.ahk"
-#Include "lib\Class_Button.ahk"
-#Include "lib\Class_MyGui.ahk"
-#Include "lib\Class_LV_Colors.ahk"  ; https://github.com/AHK-just-me/AHK2_LV_Colors
-#Include "lib\Gdip_All.ahk"         ; https://github.com/buliasz/AHKv2-Gdip
-#Include "lib\GuiCtrlTips.ahk"      ; https://www.autohotkey.com/boards/viewtopic.php?f=83&t=116218
-#Include "lib\AHK_Base64PNG.ahk"
-#SingleInstance Force
+#Include AHK_Language.ahk
+#Include <Class_Button>
+#Include <Class_MyGui>
+#Include <Class_LV_Colors>  ; https://github.com/AHK-just-me/AHK2_LV_Colors
+#Include <Gdip_All>         ; https://github.com/buliasz/AHKv2-Gdip
+#Include <GuiCtrlTips>      ; https://www.autohotkey.com/boards/viewtopic.php?f=83&t=116218
+#Include <AHK_Base64PNG>
+#SingleInstance Ignore
 
 SetControlDelay(-1)
 SetWinDelay(-1)
@@ -62,21 +62,26 @@ OnExit ExitFunc
 ;========================================================================================================
 ; 创建初始化文件
 ;======================================================================================================== 
-global info_ini_path := A_AppData . "\AHK-ChangeIcon\info.ini"
-(!FileExist(A_AppData . "\AHK-ChangeIcon")) ? DirCreate(A_AppData . "\AHK-ChangeIcon"):""
-(!FileExist(info_ini_path)) ? FileAppend("[info]`nlast_selected_other_path=`nlast_icons_folder_path=", info_ini_path):""
-
+global info_ini_path := A_AppData . "\AHK-ChangeIcon\info.ini"      ; 配置路径
+(!FileExist(A_AppData . "\AHK-ChangeIcon")) ? DirCreate(A_AppData . "\AHK-ChangeIcon"):""   ; 若不存在则创建配置文件的目录
+(!FileExist(info_ini_path)) ? FileAppend("[info]`nlast_selected_other_path=`nlast_icons_folder_path=", info_ini_path):""    ; 若不存在配置文件，则创建文件并写入段名、键名
+For Value in ["last_selected_other_path", "last_icons_folder_path"]
+{
+    If IniRead(info_ini_path, "info", Value, "0")   ; 若配置文件不存在任意一个键，则在同一段中创建该键（兼容旧版）
+        Continue
+    iniWrite("", info_ini_path, "info", Value)
+}
 
 ;========================================================================================================
 ; 创建窗口
 ;======================================================================================================== 
 ; 创建现代风格GUI
-ahkGUI := CreateModernGUI( {x:"center", y:"center", w:1200/2, h:650/2, back_color:"202020", gui_options:"-caption -Resize +Border", gui_name:"AHK-ChangeIcon", gui_font_options:"Bold cffffff s8", gui_font:"Microsoft YaHei", show_options:""} )
+ahkGUI := CreateModernGUI( {x:"center", y:"center", w:1200/2, h:650/2, back_color:"202020", gui_options:"-caption -Resize +Border", gui_name:"AHK-ChangeIcon", gui_font_options:"Bold cffffff s8", gui_font:"Microsoft YaHei UI", show_options:""} )
 ; 创建窗口控制按钮（关闭、最大化、最小化）
-ahkGUI.CreateWindowsControlButton( {margin_top:"0", margin_right:"0", button_w:48/2, button_h:30/2, pen_width:3, active_color:"AD62FD", close_color:"DBDBDB"} )
+ahkGUI.CreateWindowsControlButton( {margin_top:"0", margin_right:"0", button_w:54/2, button_h:40/2, pen_width:3, active_color:"AD62FD"} )
 ; 设置提示选项
 MyGui.Tooltips := GuiCtrlTips(MyGui)
-MyGui.ToolTips.Setfont(,"Microsoft YaHei",,)
+MyGui.ToolTips.Setfont(,"Microsoft YaHei UI",,)
 MyGui.ToolTips.SetBkColor("0xff303030")
 MyGui.ToolTips.SetTxColor("0xff999999")
 
@@ -91,11 +96,12 @@ MyGui.AddPicture("x" . 70/2 . " y" . 42/2 . " w" . 100/2 . " h" . 100/2 . " Back
 ; 设置标签页的各项参数
 tab_prop := {}
 tab_prop.label_name := [Text.HOME, Text.Other, Text.LOG, Text.HELP, Text.ABOUT]
-tab_prop.label_prop := {distance:0, text_options:"center +0x200", font_options:"Bold cf5f5f5 s11", font:"Microsoft YaHei", font_normal_color:"ffffff", font_active_color:"ad62fd"}   ; 输入空格来调整标签按钮里的文本相对按钮的x位置
+tab_prop.label_prop := {distance:0, text_options:"center +0x200", font_options:"Bold cf5f5f5 s11", font:"", font_normal_color:"f5f5f5", font_active_color:"ad62fd"}   ; 输入空格来调整标签按钮里的文本相对按钮的x位置
 tab_prop.label_active  := {margin_left:0, margin_top:"center", w:220/2, h:72/2, R:24/2, color:"f5f5f5"}
-tab_prop.label_indicator := {margin_left:20/2, margin_top:"center", w:10/2, h:28/2, R:4/2, color:"ad62fd"}
-;tab_prop.logo_prop := {margin_left:0, margin_top:"center", w:34/2, h:34/2, quality:"256"}
-;tab_prop.logo_png_base64 := [HOME_PNG_BASE64, OTHERS_PNG_BASE64, LOG_PNG_BASE64, HELP_PNG_BASE64, ABOUT_PNG_BASE64 ]
+;tab_prop.label_indicator := {margin_left:20/2, margin_top:"center", w:10/2, h:28/2, R:4/2, color:"ad62fd"}
+tab_prop.logo_symbol  := {margin_left:2, font_name:"Segoe UI Symbol"}
+tab_prop.logo_size    := [22/2, 20/2, 24/2, 24/2, 30/2]
+tab_prop.logo_unicode := ["0xE10F", "0xE292", "0x1F4DC", "0xE115", "0x24D8"]
 tab_item := CreateButton( {name:"logo", x:10/2, y:180/2, w:220/2, h:85/2} ).NewTab( tab_prop )
 
 
@@ -109,19 +115,20 @@ MyGui.AddPicture("x" . 240/2 . " y0" . " w" . 200/2 . " h" . 650/2 . " backgroun
 MyGui.AddPicture("vTop_Group_Box x" . 250/2 . " y" . 59/2 . " w" 180/2*(A_ScreenDPI/96) . " h" . 304/2*(A_ScreenDPI/96) . " BackgroundTrans +0xE -E0x200")
 Gdip_SetPicRoundedRectangle(MyGui["Top_Group_Box"], "0xff999999", 15, isFill:="1")
 ; 上方快捷方式的旧图标
-MyGui.AddPicture("vShow_Old_Icon x" . 300/2 . " y" . 88/2 . " w" . 80/2 . " h" . 80/2 . " BackgroundTrans")
-; 转换图标
-MyGui.AddPicture("vReplace_Png x" . 312/2 . " y" . 182/2 . " w" . 56/2 . " h" . 56/2 . " BackgroundTrans", "HICON:" Base64PNG_to_HICON(DOWN_PNG_BASE64, height := 72))
+MyGui.AddPicture("vShow_Old_Icon x" . 295/2 . " y" . 83/2 . " w" . 90/2 . " h" . 90/2 . " BackgroundTrans")
+; 转换符号
+FontSymbol( {name:"Replace_Symbol", x:250/2, y:59/2, w:180/2, h:304/2, unicode:0xE1FD, font_name:"Segoe UI Symbol", text_color:"999999", back_color:"trans", font_options:"s" 56/4, text_options:"+0x200 center"} )
 ; 下方快捷方式的新图标
-MyGui.AddPicture("vShow_New_Icon x" . 300/2 . " y" . 252/2 . " w" . 80/2 . " h" . 80/2 . " BackgroundTrans")
+MyGui.AddPicture("vShow_New_Icon x" . 295/2 . " y" . 248/2 . " w" . 90/2 . " h" . 90/2 . " BackgroundTrans")
 
 ; 下方的框
 MyGui.AddPicture("vBottom_Goup_Box x" . 250/2 . " y" . 395/2 . " w" . 180/2*(A_ScreenDPI/96) . " h" . 196/2*(A_ScreenDPI/96) . " BackgroundTrans +0xE -E0x200")
 Gdip_SetPicRoundedRectangle(MyGui["Bottom_Goup_Box"], "0xff999999", 15, isFill:="1")
-; 下方已更换、未更换、总共图标（使用GDIP可以针对小图片使用抗锯齿，但图片大小得预先设置好不受DPI缩放影响）
-MyGui.AddPicture("vchange_png x" . 265/2 . " y" . 423/2 . " w" . 32/2 . " h" . 32/2 . " BackgroundTrans", "HICON:" Base64PNG_to_HICON(CHANGED_PNG_BASE64, height := 72))
-MyGui.AddPicture("vunchange_png x" . 265/2 . " y" . 479/2 . " w" . 32/2 . " h" . 32/2 . " BackgroundTrans", "HICON:" Base64PNG_to_HICON(UNCHANGED_PNG_BASE64, height := 72))
-MyGui.AddPicture("vtotal_png x" . 265/2 . " y" . 535/2 . " w" . 32/2 . " h" . 32/2 . " BackgroundTrans", "HICON:" Base64PNG_to_HICON(TOTAL_PNG_BASE64, height := 72))
+; 下方已更换、未更换、总共符号
+FontSymbol( {name:"Change_Symbol", x:250/2, y:416/2, w:55/2, h:38/2, unicode:0x25CB, font_name:"Segoe UI Symbol", text_color:"999999", back_color:"trans", font_options:"s" 32/2, text_options:"+0x200 center"} )
+FontSymbol( {name:"Yes_Symbol", x:250/2, y:420/2, w:55/2, h:36/2, unicode:0x2714, font_name:"Segoe UI Symbol", text_color:"999999", back_color:"trans", font_options:"s" 32/4, text_options:"+0x200 center"} )
+FontSymbol( {name:"Uchange_Symbol", x:250/2, y:472/2, w:55/2, h:38/2, unicode:0x25CE, font_name:"Segoe UI Symbol", text_color:"999999", back_color:"trans", font_options:"s" 32/2, text_options:"+0x200 center"} )
+FontSymbol( {name:"Total_Symbol", x:250/2, y:528/2, w:55/2, h:38/2, unicode:0x25C9, font_name:"Segoe UI Symbol", text_color:"999999", back_color:"trans", font_options:"s" 32/2, text_options:"+0x200 center"} )
 ; 已更换、未更换、总共文本
 MyGui.AddText("x" . 305/2 . " y" . 420/2 . " w" . 75/2 . " h" . 36/2 . " BackgroundTrans +0x200", Text.CHANGED_ICON)
 MyGui.AddText("x" . 305/2 . " y" . 476/2 . " w" . 75/2 . " h" . 36/2 . " BackgroundTrans +0x200", Text.UNCHANGED_ICON)
@@ -132,9 +139,9 @@ MyGui.AddText("vUnchanged_Count x" . 382/2 . " y" . 476/2 . " w" . 42/2 . " h" .
 MyGui.AddText("vTotal_Count x" . 382/2 . " y" . 532/2 . " w" . 42/2 . " h" . 36/2 . " BackgroundTrans +0x200", "0")
 
 ; 搜索栏(搜索背景+搜索图标+Edit控件)
-MyGui.AddPicture("vSearch_Back x" . 477.5/2 . " y" . 70/2 . " w" . 320/2 . " h" . 74/2 . " BackgroundTrans", "HICON:" Base64PNG_to_HICON(SEARCH_BACK_PNG_BASE64, height := 512))
-MyGui.AddPicture("vsearch_Logo_png x" . 494/2 . " y" . 89/2 . " w" . 36/2 . " h" . 36/2 . " BackgroundTrans", "HICON:" Base64PNG_to_HICON(SEARCH_LOGO_PNG_BASE64, height := 512))
-MyGui.AddEdit("vSearch_Edit x" . 532/2 . " y" . 92/2 . " w" . 240/2 . " h" . 37/2 . " Background303030 r1 -E0X200", Text.PLEASE_INPUT_NAME) ; r1可以隐藏该控件的上下导航栏
+MyGui.AddPicture("vSearch_Back x" . 478/2 . " y" . 70/2 . " w" . 320/2 . " h" . 74/2 . " BackgroundTrans", "HICON:" Base64PNG_to_HICON(SEARCH_BACK_PNG_BASE64, height := 512))
+FontSymbol( {name:"Search_Symbol", x:478/2, y:70/2, w:70/2, h:74/2, unicode:0xE11A, font_name:"Segoe UI Symbol", text_color:"999999", back_color:"trans", font_options:"s" 55/4, text_options:"+0x200 center"} )
+MyGui.AddEdit("vSearch_Edit x" . 532/2 . " y" . 92/2 . " w" . 240/2 . " h" . 35/2 . " Background2E2E2E r1 -E0X200", Text.PLEASE_INPUT_NAME) ; r1可以隐藏该控件的上下导航栏
 MyGui["Search_Edit"].SetFont("c999999")
 MyGui["Search_Edit"].OnEvent("LoseFocus", Search_Bar_LoseFocus)
 MyGui["Search_Edit"].OnEvent("Focus", Search_Bar_Focus)
@@ -146,7 +153,6 @@ MyGui.ToolTips.SetTip(MyGui["Restore_All_BUTTON"], TEXT.TIP_RESTORE)
 ; 更换所有图标的PNG图片按钮
 CreateButton( {name:"Change_All", x:1008/2, y:68/2, w:175/2, h:79/2} ).PNG( {normal_png_base64:CHANGE_ALL_NORMAL_PNG_BASE64, active_png_base64:CHANGE_ALL_ACTIVE_PNG_BASE64, png_quality:"300"} )
 MyGui.ToolTips.SetTip(MyGui["Change_All_BUTTON"], TEXT.TIP_CHANGE)
-
 
 ; 创建列表(+LV0x10000: 双缓冲，redraw: 加载数据后在redraw， -Multi: 禁止多选)
 LV := MyGui.AddListView("x" . 440/2 . " y" . 180/2 . " w" . 760/2 . " h" . 470/2 . " Background232323 -redraw -Multi -E0x200 +LV0x10000", ["Name", "Y/N", "Type"])
@@ -171,10 +177,11 @@ SetLV := LV_Colors(LV, 0, 0, 0)
 SetLV.Critical := 100
 Loop LV.GetCount()
 {
-    If IsFloat(RegExMatch(A_Index/2, "i)\.0$") ? RegExReplace(A_Index, "i)\.0$") : A_Index/2)
+    If (Mod(A_Index, 2) = 0)
         Continue
     SetLV.Row(A_Index, 0x292929)
 }
+SetLV.ShowColors(true)
 LV.Opt("+Redraw")
 ; 更新计数
 MyGui["Total_Count"].Value := LV.GetCount()
@@ -186,20 +193,27 @@ MyGui["Unchanged_Count"].Value := LV.GetCount() - MyGui["Changed_Count"].Value
 ; 第二个标签页：其他(其他)
 ;==========================================================================
 Tab.UseTab(2)
-CreateButton( {name:"Add_Desktop", x:320/2, y:80/2, w:800/2, h:90/2} ).LogoText( {R:24/2, normal_color:"5D656B", active_color:"999999", text:Text.ADD_DESKTOP_TO_LV, text_options:"+0x200", text_margin:10, font_options:"cffffff s13", font:"", logo_png_base64:ADD_DESKTOP_PNG_BASE64, logo_x:25/2, logo_y:"center", logo_w:50/2, logo_h:50/2, logo_quality:"256"} )
-CreateButton( {name:"Add_Start", x:320/2, y:190/2, w:800/2, h:90/2} ).LogoText( {R:24/2, normal_color:"5D656B", active_color:"999999", text:Text.ADD_START_TO_LV, text_options:"+0x200", text_margin:10, font_options:"cffffff s13", font:"", logo_png_base64:START_MENU_PNG_BASE64, logo_x:25/2, logo_y:"center", logo_w:50/2, logo_h:50/2, logo_quality:"256"} )
-CreateButton( {name:"Add_Other", x:320/2, y:300/2, w:800/2, h:90/2} ).LogoText( {R:24/2, normal_color:"5D656B", active_color:"999999", text:Text.ADD_OTHER_TO_LV, text_options:"+0x200", text_margin:10, font_options:"cffffff s13", font:"", logo_png_base64:OTHER_FOLDER_PNG_BASE64, logo_x:25/2, logo_y:"center", logo_w:50/2, logo_h:50/2, logo_quality:"256"} )
-CreateButton( {name:"Add_UWP_WSA", x:320/2, y:410/2, w:800/2, h:90/2} ).LogoText( {R:24/2, normal_color:"5D656B", active_color:"999999", text:Text.ADD_UWP_WSA_TO_LV, text_options:"+0x200", text_margin:10, font_options:"cffffff s13", font:"", logo_png_base64:UWP_APP_PNG_BASE64, logo_x:25/2, logo_y:"center", logo_w:50/2, logo_h:50/2, logo_quality:"256"} )
-CreateButton( {name:"BackUp", x:320/2, y:520/2, w:800/2, h:90/2} ).LogoText( {R:24/2, normal_color:"5D656B", active_color:"999999", text:Text.BACKUP_LV_LINK, text_options:"+0x200", text_margin:10, font_options:"cffffff s13", font:"", logo_png_base64:BACKUP_PNG_BASE64, logo_x:25/2, logo_y:"center", logo_w:50/2, logo_h:50/2, logo_quality:"256"} )
+CreateButton( {name:"Add_Desktop", x:320/2, y:80/2, w:800/2, h:90/2} ).Text( {R:24/2, normal_color:"5D656B", active_color:"999999", text:Text.ADD_DESKTOP_TO_LV, text_options:"+0x200", text_margin:10, font_options:"cffffff s13", font:""} )
+FontSymbol( {name:"Add_Desktop_Symbol", x:325/2, y:78/2, w:90/2, h:90/2, unicode:0xE2CB, font_name:"Segoe UI Symbol", text_color:"ffffff", back_color:"trans", font_options:"s" 90/4, text_options:"+0x200 center"} )
 
-; MyGui.AddText("vWindow x160 y95 w45 h45 Background5D656B +0x200 center", chr(0xE8A9))
-; MyGui["Window"].Setfont("s23 cffffff", "Segoe Fluent Icons")
+CreateButton( {name:"Add_Start", x:320/2, y:190/2, w:800/2, h:90/2} ).Text( {R:24/2, normal_color:"5D656B", active_color:"999999", text:Text.ADD_START_TO_LV, text_options:"+0x200", text_margin:10, font_options:"cffffff s13", font:""} )
+FontSymbol( {name:"Add_Start_Symbol", x:325/2, y:191/2, w:90/2, h:90/2, unicode:0xE154, font_name:"Segoe UI Symbol", text_color:"ffffff", back_color:"trans", font_options:"s" 90/4, text_options:"+0x200 center"} )
+
+CreateButton( {name:"Add_Other", x:320/2, y:300/2, w:800/2, h:90/2} ).Text( {R:24/2, normal_color:"5D656B", active_color:"999999", text:Text.ADD_OTHER_TO_LV, text_options:"+0x200", text_margin:10, font_options:"cffffff s13", font:""} )
+FontSymbol( {name:"Add_Other_Symbol", x:325/2, y:304/2, w:90/2, h:90/2, unicode:0xE1C1, font_name:"Segoe UI Symbol", text_color:"ffffff", back_color:"trans", font_options:"s" 90/5, text_options:"+0x200 center"} )
+
+CreateButton( {name:"Add_UWP_WSA", x:320/2, y:410/2, w:800/2, h:90/2} ).Text( {R:24/2, normal_color:"5D656B", active_color:"999999", text:Text.ADD_UWP_WSA_TO_LV, text_options:"+0x200", text_margin:10, font_options:"cffffff s13", font:""} )
+FontSymbol( {name:"Add_UWP_WSA_Symbol", x:325/2, y:409/2, w:90/2, h:90/2, unicode:0xE2F8, font_name:"Segoe UI Symbol", text_color:"ffffff", back_color:"trans", font_options:"s" 90/3.5, text_options:"+0x200 center"} )
+
+CreateButton( {name:"Add_BackUp", x:320/2, y:520/2, w:800/2, h:90/2} ).Text( {R:24/2, normal_color:"5D656B", active_color:"999999", text:Text.BACKUP_LV_LINK, text_options:"+0x200", text_margin:10, font_options:"cffffff s13", font:""} )
+FontSymbol( {name:"Add_BackUp_Symbol", x:325/2, y:522/2, w:90/2, h:90/2, unicode:0xE17C, font_name:"Segoe UI Symbol", text_color:"ffffff", back_color:"trans", font_options:"s" 90/5, text_options:"+0x200 center"} )
+
 
 ;==========================================================================
 ; 第三个标签页：日志(Log) 
 ;==========================================================================
 Tab.UseTab(3)
-MyGui.AddEdit("vLog x" . 240/2 . " y" . 55/2 . " w" . 960/2 . " h" . 595/2 . " Background303030 -E0x200 -WantReturn -Wrap +0x100000 +ReadOnly") ; +0x100000: 水平滚动条
+MyGui.AddEdit("vLog x" . 240/2 . " y" . 40/2 . " w" . 960/2 . " h" . 610/2 . " Background303030 -E0x200 -WantReturn -Wrap +0x100000 +ReadOnly") ; +0x100000: 水平滚动条
 MyGui["Log"].SetFont("s10")
 
 
@@ -207,27 +221,25 @@ MyGui["Log"].SetFont("s10")
 ; 第四个标签页：帮助(Help) 
 ;==========================================================================
 Tab.UseTab(4)
-MyGui.AddText("vHelp_Control x" 285/2 " y" 55/2 " w" 870/2 " h" 555/2 " Background303030", TEXT.HELP_CONTENTS)
-MyGui["Help_Control"].Setfont("s10")
 
 
 ;==========================================================================
 ; 第五个标签页：关于(About) 
 ;==========================================================================
 Tab.UseTab(5)
-CreateButton( {name:"github", x:320/2, y:80/2, w:800/2, h:90/2} ).Text( {R:16/2, normal_color:"5D656B", active_color:"0x00ffffff", text_options:"+0x200",text_margin:"5", font_options:"s12 cffffff", font:"Arial", text:"Github: iKineticate"} )
-CreateButton( {name:"software", x:320/2, y:190/2, w:800/2, h:90/2} ).Text( {R:16/2, normal_color:"5D656B", active_color:"0x00ffffff", text_options:"+0x200",text_margin:"5", font_options:"s12 cffffff", font:"Arial", text:"Software: AHK-ChangeIcon"} )
-CreateButton( {name:"version", x:320/2, y:300/2, w:800/2, h:90/2} ).Text( {R:16/2, normal_color:"5D656B", active_color:"0x00ffffff", text_options:"+0x200",text_margin:"5", font_options:"s12 cffffff", font:"Arial", text:"Version: 2.5.0"} )
-CreateButton( {name:"CoolMarket", x:320/2, y:410/2, w:800/2, h:90/2} ).Text( {R:16/2, normal_color:"5D656B", active_color:"0x00ffffff", text_options:"+0x200",text_margin:"5", font_options:"s12 cffffff", font:"", text:"酷安：林琼雅"} )
-CreateButton( {name:"logo_from", x:320/2, y:520/2, w:800/2, h:90/2} ).Text( {R:16/2, normal_color:"5D656B", active_color:"0x00ffffff", text_options:"+0x200",text_margin:"5", font_options:"s12 cffffff", font:"Arial", text:"LOGO: Flaticon--iconfield"} )
+CreateButton( {name:"software", x:320/2, y:80/2, w:800/2, h:90/2} ).Text( {R:16/2, normal_color:"5D656B", active_color:"0x00ffffff", text_options:"+0x200",text_margin:"3", font_options:"s12 cffffff", font:"Verdana", text:"AHK-ChangeIcon"} )
+CreateButton( {name:"version", x:320/2, y:190/2, w:800/2, h:90/2} ).Text( {R:16/2, normal_color:"5D656B", active_color:"0x00ffffff", text_options:"+0x200",text_margin:"3", font_options:"s12 cffffff", font:"Verdana", text:"Version: 2.5.2"} )
+CreateButton( {name:"github", x:320/2, y:300/2, w:800/2, h:90/2} ).Text( {R:16/2, normal_color:"5D656B", active_color:"0x00ffffff", text_options:"+0x200",text_margin:"3", font_options:"s12 cffffff", font:"Verdana", text:"Github: iKineticate"} )
+CreateButton( {name:"CoolMarket", x:320/2, y:410/2, w:800/2, h:90/2} ).Text( {R:16/2, normal_color:"5D656B", active_color:"0x00ffffff", text_options:"+0x200",text_margin:"3", font_options:"s12 cffffff", font:"", text:"酷安：林琼雅"} )
+CreateButton( {name:"logo_from", x:320/2, y:520/2, w:800/2, h:90/2} ).Text( {R:16/2, normal_color:"5D656B", active_color:"0x00ffffff", text_options:"+0x200",text_margin:"3", font_options:"s12 cffffff", font:"Verdana", text:"LOGO by iconfield from Flaticon"} )
 
 ;==========================================================================
 ; 深色模式(Drak Mode) 
 ;==========================================================================
 Tab.UseTab()
 ; （1）窗口标题栏（根据Windows版本赋予attr不同的值）
-;dwAttr:= VerCompare(A_OSVersion, "10.0.18985") >= 0 ? 20 : VerCompare(A_OSVersion, "10.0.17763") >= 0 ? 19 : ""
-;DllCall("dwmapi\DwmSetWindowAttribute", "Ptr", MyGui.Hwnd, "int", dwAttr, "int*", True, "int", 4)
+dwAttr:= VerCompare(A_OSVersion, "10.0.18985") >= 0 ? 20 : VerCompare(A_OSVersion, "10.0.17763") >= 0 ? 19 : ""
+DllCall("dwmapi\DwmSetWindowAttribute", "Ptr", MyGui.Hwnd, "int", dwAttr, "int*", True, "int", 4)
 ; （2）呼出的菜单（1：根据系统显示模式调整深浅，2：深色，3：浅色）
 DllCall(DllCall("GetProcAddress", "Ptr", DllCall("GetModuleHandle", "Str", "uxtheme", "Ptr"), "Ptr", 135, "Ptr"), "int", 2)
 DllCall(DllCall("GetProcAddress", "Ptr", DllCall("GetModuleHandle", "Str", "uxtheme", "Ptr"), "Ptr", 136, "Ptr"))
@@ -235,10 +247,6 @@ DllCall(DllCall("GetProcAddress", "Ptr", DllCall("GetModuleHandle", "Str", "uxth
 LV_header_hwnd := SendMessage(0x101F, 0, 0, LV.hWnd)     ;列表标题栏的hwnd
 DllCall("uxtheme\SetWindowTheme", "Ptr", LV_header_hwnd, "Str", "DarkMode_ItemsView", "Ptr", 0)
 DllCall("uxtheme\SetWindowTheme", "Ptr", LV.hWnd, "Str", "DarkMode_Explorer", "Ptr", 0)
-; 设置标题透明
-; DllCall("SetWindowLongPtr", "Ptr", LV_header_hwnd, "int", -20, "Int", 0x80000)
-; DllCall("SetLayeredWindowAttributes", "Ptr", LV_header_hwnd, "Uint", 0xff62cd54, "Uchar", 180, "Uint", 0x2) 
-; DllCall("ShowWindow", "Ptr", LV_header_hwnd, "int", 1)
 ; （4）日志(Edit)的滚动条
 DllCall("uxtheme\SetWindowTheme", "Ptr", MyGui["Log"].hWnd, "Str", "DarkMode_Explorer", "Ptr", 0)
 
@@ -277,11 +285,13 @@ WM_MOUSEMOVE(wParam, lParam, Msg, Hwnd)
 
         If Instr(current_control.name, "_Tab_Button")   ; 若当前控件为标签页，则设置为活动状态
         {
-            active_name    := StrReplace(current_control.name, "_Tab_Button", "_ACTIVE")
-            indicator_name := StrReplace(current_control.name, "_Tab_Button", "_INDICATOR")
+            active_name      := StrReplace(current_control.name, "_Tab_Button", "_ACTIVE")
+            indicator_name   := StrReplace(current_control.name, "_Tab_Button", "_INDICATOR")
+            logo_symbol_name := StrReplace(current_control.name, "_Tab_Button", "_SYMBOL")
             thisGui[active_name].Visible  := True
-            thisGui[indicator_name].Visible := True
+            (tab_prop.HasOwnProp("label_indicator")) ? (thisGui[indicator_name].Visible := True) : False
             thisGui[current_control.name].SetFont("c" . tab_prop.label_prop.font_active_color)
+            (tab_prop.HasOwnProp("logo_symbol")) ? thisGui[logo_symbol_name].SetFont("c" . tab_prop.label_prop.font_active_color) : False
         }
         Else    ; 若不为标签页，则无需特殊处理设置为活动状态
         {
@@ -313,9 +323,12 @@ WM_MOUSELEAVE(*)
     {
         active_name  := StrReplace(MyGui.active_control.name, "_Tab_Button", "_ACTIVE")
         indicator_name := StrReplace(MyGui.active_control.name, "_Tab_Button", "_INDICATOR")
+        logo_symbol_name := StrReplace(MyGui.active_control.name, "_Tab_Button", "_SYMBOL")
+
         MyGui[active_name].Visible  := False
-        MyGui[indicator_name].Visible := False
+        (tab_prop.HasOwnProp("label_indicator")) ? (MyGui[indicator_name].Visible := False) : False
         MyGui[MyGui.active_control.name].SetFont("c" . tab_prop.label_prop.font_normal_color)
+        (tab_prop.HasOwnProp("logo_symbol")) ? MyGui[logo_symbol_name].SetFont("c" . tab_prop.label_prop.font_normal_color) : False
     }
     Else
     {
@@ -346,7 +359,7 @@ ButtonFunc(GuiCtrlObj, Info, *)
     Case "Add_Start" : Add_Sart_To_LV()
     Case "Add_Other" : Add_Other_To_LV()
     Case "Add_UWP_WSA" : Add_UWP_APP_To_LV()
-    Case "BackUp" : Backup_LV_Link_To_Folder()
+    Case "Add_BackUp" : Backup_LV_Link_To_Folder()
     }
 }
 
@@ -365,11 +378,19 @@ Tab_Click(tab_name)
     {
         active_name  := StrReplace(name, "_Tab_Button", "_ACTIVE")
         indicator_name := StrReplace(name, "_Tab_Button", "_INDICATOR")
+
         MyGui[active_name].Visible := (name=tab_name) ? True:False
-        MyGui[indicator_name].Visible := (name=tab_name) ? True:False
+        (tab_prop.HasOwnProp("label_indicator")) ? (MyGui[indicator_name].Visible := (name=tab_name) ? True:False) : False
     }
+    ; 本次被点击标签页激活活跃态
+    logo_symbol_name := StrReplace(MyGui[tab_name].name, "_Tab_Button", "_SYMBOL")
     MyGui[tab_name].SetFont("c" . tab_prop.label_prop.font_active_color)
+    (tab_prop.HasOwnProp("logo_symbol")) ? MyGui[logo_symbol_name].SetFont("c" . tab_prop.label_prop.font_active_color) : False
+    ; 上次被点击的标签页恢复常态
+    logo_symbol_name := StrReplace(MyGui.Focus_Tab.name, "_Tab_Button", "_SYMBOL")
     MyGui.Focus_Tab.SetFont("c" . tab_prop.label_prop.font_normal_color)
+    (tab_prop.HasOwnProp("logo_symbol")) ? MyGui[logo_symbol_name].SetFont("c" . tab_prop.label_prop.font_normal_color) : False
+    ; 上次被点击标签页=本次
     MyGui.Focus_Tab := MyGui[tab_name]
 }
 
@@ -529,7 +550,7 @@ Change_Link_Icon(LV, Item)
     link_target_path := Link_Map[link_name . "LTP"]
     COM_Link_Attribute(&Link_Path, &Link_Attribute, &Link_Icon_Location)        ; 调用WshShell对象的函数，获取快捷方式属性
 
-    select_icon_path := FileSelect(3,, "请选择一张ICO图片", "Icon files(*.ico)")    ; 选择文件格式为“.ico”的图标并赋予图标路径给该变量
+    select_icon_path := FileSelect(3,, TEXT.SELECT_A_ICON, "Icon files(*.ico)")    ; 选择文件格式为“.ico”的图标并赋予图标路径给该变量
     If ((!select_icon_path) OR (select_icon_path = Link_Icon_Location))     ; 若未选择照片或更换图片是现在的图标则返回
         Return
     Link_Attribute.IconLocation := select_icon_path     ; 否则更换图片并保存
@@ -547,7 +568,7 @@ Change_Link_Icon(LV, Item)
     ; 添加至日志
     MyGui["Log"].Value .= FormatTime(A_Now, "`syyyy/MM/dd HH:mm:ss`n`s")    
         . Text.LOG_CHANGED_LINK . link_name . "`n`s" 
-        . Text.Source_OF_ICON . select_icon_path . "`n`n" 
+        . Text.Source_OF_ICON . select_icon_path . "`n`n======================================`n`n" 
 }
 
 
@@ -634,7 +655,7 @@ LV_Context_Menu(LV, Item, IsRightClick, X, Y)
         LV.Modify(Item,,,"")
         ; 添加至日志
         MyGui["Log"].Value .= FormatTime(A_Now, "`syyyy/MM/dd HH:mm:ss`n`s")
-            . Text.LOG_RESTORE_LINK . link_name . "`n`n" 
+            . Text.LOG_RESTORE_LINK . link_name . "`n`n======================================`n`n" 
     }
 
     Link_Rename(*)      ; 重命名快捷方式名称的函数
@@ -664,7 +685,7 @@ LV_Context_Menu(LV, Item, IsRightClick, X, Y)
         ; 添加至日志
         MyGui["Log"].Value .= FormatTime(A_Now, "`syyyy/MM/dd HH:mm:ss`n`s")
             . Text.LOG_OLD_NAME . link_name . "`n`s" 
-            . Text.LOG_NEW_NAME . IB.Value . "`n`n" 
+            . Text.LOG_NEW_NAME . IB.Value . "`n`n======================================`n`n" 
         ; 更新列表快捷方式名称（最后更新可避免过早更新使映射数组中的link_name发生改变而不能删除对应键值）
         LV.Modify(Item,, IB.Value)
     }
@@ -676,7 +697,7 @@ LV_Context_Menu(LV, Item, IsRightClick, X, Y)
             FileCopy(link_path, A_Desktop)
 
             MyGui["Log"].Value .= FormatTime(A_Now, "`syyyy/MM/dd HH:mm:ss`n`s")    ; 添加至日志
-            . "“`s" . link_name . "`s”被添加至当前用户的桌面" . "`n`n" 
+            . "“`s" . link_name . "`s”被添加至当前用户的桌面" . "`n`n======================================`n`n" 
 
             Msgbox("成功添加“`s" . link_name . "`s”至当前用户的桌面", "Ciallo～(∠・ω< )⌒★")
         }
@@ -743,7 +764,8 @@ Change_All_Shortcut_Icons(*)
         Return
     iniWrite(selected_folder_path, info_ini_path, "info", "last_icons_folder_path")
     ; 创建数组
-    changed_log_msgbox := "", last_link_target_type:=""
+    changed_log_msgbox := ""
+    last_link_target_type := ""
     map_iconName_iconPath := map()
     map_both_name_same := map()
     ; 以被选择文件夹的图标名称为键，图标路径为值添加至映射数组(R：扫描包括子文件夹的文件)
@@ -815,11 +837,12 @@ Change_All_Shortcut_Icons(*)
                 . Text.SOURCE_OF_ICON . icon_name . ".ico`n`n"
         }
     }
+    MyGui["Log"].Value .= "======================================`n`n"
     ; 恢复与窗口的交互
     MyGui.Opt("-Disabled")
     ; 若未记录到更换信息，则显示“未更换任何图标”
     If !changed_log_msgbox
-        Return Msgbox(Text.NO_CHANGE, "╰(￣ω￣ｏ)")
+        Return (Msgbox(Text.NO_CHANGE, "╰(￣ω￣ｏ)") and TrayTip)
     Msgbox(changed_log_msgbox, Text.SUCCESS)
     ; 更新托盘提醒
     TrayTip
@@ -861,8 +884,9 @@ Restore_All_Shortcut_Icons(*)
         LV.Modify(A_Index, "+Select +Focus +Vis",,"")
         ; 添加至日志
         MyGui["Log"].Value .= FormatTime(A_Now, "`syyyy/MM/dd HH:mm:ss`n`s")
-        . Text.LOG_RESTORE_LINK . LV.GetText(A_Index, 1) . "`n`n" 
+        . Text.LOG_RESTORE_LINK . LV.GetText(A_Index, 1) . "`n`n"
     }
+    MyGui["Log"].Value .= "======================================`n`n"
     ; 提醒
     TrayTip(Text.COMPLETED,"Ciallo～(∠・ω< )⌒★","Mute"), SetTimer(TrayTip, -2500)
 }
@@ -904,7 +928,7 @@ Add_Desktop_To_LV(*)
     MyGui["Unchanged_Count"].Value := LV.GetCount() - MyGui["Changed_Count"].Value
     ; 添加至日志
     MyGui["Log"].Value .= FormatTime(A_Now, "`syyyy/MM/dd HH:mm:ss`n`s")
-    . Text.ADD_DESKTOP_TO_LV . "`n`n" 
+    . Text.ADD_DESKTOP_TO_LV . "`n`n======================================`n`n" 
     ; 返回主页
     ControlClick(MyGui[StrReplace(tab_prop.label_name[1], "`s") . "_Tab_BUTTON"])
 }
@@ -933,7 +957,7 @@ Add_Sart_To_LV(*)
     MyGui["Unchanged_Count"].Value := LV.GetCount() - MyGui["Changed_Count"].Value
     ; 添加至日志
     MyGui["Log"].Value .= FormatTime(A_Now, "`syyyy/MM/dd HH:mm:ss`n`s")
-    . Text.ADD_START_TO_LV . "`n`n" 
+    . Text.ADD_START_TO_LV . "`n`n======================================`n`n" 
     ; 返回主页
     ControlClick(MyGui[StrReplace(tab_prop.label_name[1], "`s") . "_Tab_BUTTON"])
     TrayTip(Text.COMPLETED,"Ciallo～(∠・ω< )⌒★","Mute"), SetTimer(TrayTip, -2500)
@@ -965,7 +989,7 @@ Add_Other_To_LV(*)
     MyGui["Unchanged_Count"].Value := LV.GetCount() - MyGui["Changed_Count"].Value
     ; 添加至日志
     MyGui["Log"].Value .= FormatTime(A_Now, "`syyyy/MM/dd HH:mm:ss`n`s")
-    . Text.ADD_OTHER_TO_LV . "`n`n" 
+    . Text.ADD_OTHER_TO_LV . "`n`n======================================`n`n" 
     ; 返回主页
     ControlClick(MyGui[StrReplace(tab_prop.label_name[1], "`s") . "_Tab_BUTTON"])
     TrayTip(Text.COMPLETED,"Ciallo～(∠・ω< )⌒★","Mute"), SetTimer(TrayTip, -2500)           
@@ -1010,7 +1034,7 @@ Backup_LV_Link_To_Folder(*)
     }
     ; 添加至日志
     MyGui["Log"].Value .= FormatTime(A_Now, "`syyyy/MM/dd HH:mm:ss`n`s")
-    . Text.HAVE_BACKUP . StrReplace(backup_folder_path, A_DesktopCommon . "\") . "`n`n" 
+    . Text.HAVE_BACKUP . StrReplace(backup_folder_path, A_DesktopCommon . "\") . "`n`n======================================`n`n" 
     ; 提醒已完成
     TrayTip(Text.COMPLETED,"Ciallo～(∠・ω< )⌒★","Mute"), SetTimer(TrayTip, -2500)
 }

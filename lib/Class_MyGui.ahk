@@ -27,75 +27,54 @@ Class CreateModernGUI
     ; Note          After using this function to create the caption, if you don't use this class to create controls , remember to subtract the height of the caption from the "y" value of these controls
     ;              使用这个函数创建标题栏后，若不使用这个类来创建控件，需要记得给这些控件的y值减去标题的高
     ;========================================================================================================   
-    CreateCaption( obj:={h:"48", button_w:"72", back_color:"", font_color:"", close_normal_png_base64:'', close_active_png_base64:'', maxi_normal_png_base64:'', maxi_active_png_base64:'', mini_normal_png_base64:'', mini_active_png_base64:'', png_quality:""} )
+    CreateCaption( obj:={caption_h:"", title_color:"", back_color:"", button_w:"", button_active_color:""} )
     {
-        ; Change to correct color format, e.g. ffffff (修改为正确的颜色格式)
+        ; Change to the correct colour format (e.g. ffffff)
         For obj_name, descriptor in obj.OwnProps()
         {
-            If !Instr(obj_name, "_color")
+            If !RegExMatch(obj_name, "back_color|title_color")  ; 不需要格式化"button_active_color"
                 Continue
-            Switch StrLen(color:=descriptor)
-            {
-            Case 8  : Obj.%obj_name% := RegExReplace(color,  "i)^0x" )   ; 不能直接obj.obj_name，因为obj_name是值不是变量，使用%name%调用一个名为name的变量，不理解可用不理解可用obj.DefineProp("",{value:""})
+            Switch StrLen(color:=Trim(descriptor))
+            {   ; 不可直接使用obj.obj_name，obj_name是值不是变量，使用%name%调用一个名为name的变量
+            Case 4  : Obj.%obj_name% := "000000"    ; 避免输入trans
+            Case 8  : Obj.%obj_name% := RegExReplace(color,  "i)^0x" )
             Case 10 : Obj.%obj_name% := RegExReplace(color, "i)^0x..")
             }
         }
-
-        close_button    := CreateButton( {name:"Close",    x:(this.W - obj.button_w),   y:0, w:obj.button_w, h:obj.h} ).PNG( {normal_png_base64:obj.close_normal_png_base64, active_png_base64:obj.close_active_png_base64, png_quality:obj.png_quality} )
-        maximize_button := CreateButton( {name:"Maximize", x:(this.W - 2*obj.button_w), y:0, w:obj.button_w, h:obj.h} ).PNG( {normal_png_base64:obj.maxi_normal_png_base64 , active_png_base64:obj.maxi_active_png_base64 , png_quality:obj.png_quality} )
-        minimize_button := CreateButton( {name:"Minimize", x:(this.W - 3*obj.button_w), y:0, w:obj.button_w, h:obj.h} ).PNG( {normal_png_base64:obj.mini_normal_png_base64 , active_png_base64:obj.mini_active_png_base64 , png_quality:obj.png_quality} )
-        MyGui.AddText("vCaption x0 y0 w" . this.W . " h" . obj.h . " c" . obj.font_color . " Background" . obj.back_color . " +0x4000000 +0x200", "`s`s" . this.gui_name).OnEvent("DoubleClick", (*) => "")
-        global _caption_h := obj.h    ; 使后续使用CreateButton类来创建的按钮控件自动减去标题的高
+        ; Create Windows Ctrl button
+        this.CreateWindowsControlButton({margin_top:"0", margin_right:"0", button_w:obj.button_w, button_h:obj.caption_h, active_color:obj.button_active_color, symbol_backcolor:obj.back_color})
+        ; Create a title for the caption
+        MyGui.AddText("vCaption x0 y0 w" . this.W . " h" . obj.caption_h . " c" . obj.title_color . " Background" . obj.back_color . " +0x4000000 +0x200", "`s`s" . this.gui_name).OnEvent("DoubleClick", (*) => "")
+        global _caption_h := obj.caption_h    ; 使后续使用CreateButton类来创建的按钮控件自动减去标题的高
     }
 
     ;========================================================================================================
     ; Create Windows Control Button（创建关闭、最大化、最小化按钮）
     ;========================================================================================================  
-    CreateWindowsControlButton( obj:={margin_top:"", margin_right:"10", button_w:"", button_h:"", pen_width:"", active_color:"", close_color:""} )
+    CreateWindowsControlButton( obj:={margin_top:"", margin_right:"", button_w:"", button_h:"", active_color:"", symbol_backcolor:""} )
     {
-        ; Change to correct color format, e.g. active_color=000000, close_color=0xff000000 (修改为正确的颜色格式)
-        For obj_name, descriptor in obj.OwnProps()  ; 不能直接obj.obj_name，因为obj_name是值不是变量，使用%name%调用一个名为name的变量，不理解可用不理解可用obj.DefineProp("",{value:""})
+        ; Change to the correct colour format (e.g. 000000)
+        Switch StrLen(color:=Trim(obj.active_color))
         {
-            If !Instr(obj_name, "_color")
-                Continue
-            Switch StrLen(color:=descriptor)
-            {
-            Case 6 : Obj.%obj_name% := (obj_name="active_color") ? color : "0xff" . color   ; 不能直接obj.obj_name，因为这里的obj_name是一个值不是变量
-            Case 8 : Obj.%obj_name% := (obj_name="active_color") ? RegExReplace(color,"i)^0x") : RegExReplace(color, "i)^0x", "0xff")
-            Case 10: Obj.%obj_name% := (obj_name="active_color") ? RegExReplace(color, "i)^0x..") : color
-            }
+        Case 6 : obj.active_color:=  color   ; 不能直接obj.obj_name，因为这里的obj_name是一个值不是变量
+        Case 8 : obj.active_color:= RegExReplace(color,"i)^0x")
+        Case 10: obj.active_color:= RegExReplace(color, "i)^0x..")
         }
-        ;=========================================================
-        ; Close Button
-        ;=========================================================
-        local close_button_x := this.w - obj.margin_right - obj.button_w
-        local close_button_y := obj.margin_top
-        ; 活跃态
-        MyGui.AddPicture("vClose_ACTIVE x" . close_button_x . " y" . close_button_y . " w" . obj.button_w . " h" . obj.button_h . " background" . obj.active_color . " +Hidden -E0x200")
-        ; 关闭按钮（启动了+DPIScale，且被GDIP绘制，宽高需*(A_ScreenDPI/96) )
-        MyGui.AddPicture("vClose_BUTTON x" . close_button_x . " y" . close_button_y . " w" . obj.button_w*(A_ScreenDPI/96) . " h" . obj.button_h*(A_ScreenDPI/96) . " BackgroundTrans +0xE -E0x200")
-        GDIP_CreateCloseButton(MyGui["Close_BUTTON"], obj.close_color, obj.button_w*(A_ScreenDPI/96), obj.button_h*(A_ScreenDPI/96), obj.pen_width)
-        MyGui["Close_BUTTON"].OnEvent("Click", ButtonFunc)
-        ;=========================================================
-        ; Maximize Button
-        ;=========================================================
-        local max_button_x := this.w - (obj.margin_right + 2*obj.button_w)
-        local max_button_y := obj.margin_top
-        ; 无活跃态
-        ; 最大化按钮
-        MyGui.AddPicture("vMaximize_BUTTON x" . max_button_x . " y" . max_button_y . " w" . obj.button_w*(A_ScreenDPI/96) . " h" . obj.button_h*(A_ScreenDPI/96) . " BackgroundTrans +0xE -E0x200")
-        GDIP_CreateMaxButton(MyGui["Maximize_BUTTON"], obj.close_color, obj.button_w*(A_ScreenDPI/96), obj.button_h*(A_ScreenDPI/96), obj.pen_width)
-        ;=========================================================
-        ; Minimize Button
-        ;=========================================================
-        local min_button_x := this.w - (obj.margin_right + 3*obj.button_w)
-        local min_button_y := obj.margin_top
-        ; 活跃态
-        MyGui.AddPicture("vMinimize_ACTIVE x" . min_button_x . " y" . min_button_y . " w" . obj.button_w . " h" . obj.button_h . " background" . obj.active_color . " +Hidden -E0x200")
-        ; 最小化按钮（启动了+DPIScale，且被GDIP绘制，宽高需*(A_ScreenDPI/96) )
-        MyGui.AddPicture("vMinimize_BUTTON x" . min_button_x . " y" . min_button_y . " w" . obj.button_w*(A_ScreenDPI/96) . " h" . obj.button_h*(A_ScreenDPI/96) . " BackgroundTrans +0xE -E0x200")
-        GDIP_CreateMiniButton(MyGui["Minimize_BUTTON"], obj.close_color, obj.button_w*(A_ScreenDPI/96), obj.button_h*(A_ScreenDPI/96), obj.pen_width)
-        MyGui["Minimize_BUTTON"].OnEvent("Click", ButtonFunc)
+
+        ; Create Windows Control Buttons (Replace button icons with font symbols) (创建文本符号的控制窗口按钮)
+        For key, value in map("Close", "0x2716", "Maximize", "0x25A2", "Minimize", "0xE0B8")
+        {
+            active_name := key . "_ACTIVE"
+            button_name := key . "_BUTTON"
+            button_x := this.w - (obj.margin_right + A_Index * obj.button_w)
+            button_y := obj.margin_top
+            (!obj.HasOwnProp("symbol_backcolor")) ? "" : MyGui.AddPicture("x" . button_x . " y" . button_y . " w" . obj.button_w . " h" . obj.button_h . " background" . obj.symbol_backcolor . " -E0x200")
+            ; 活跃态
+            (key="Maximize") ? "" : MyGui.AddPicture("v" active_name " x" . button_x . " y" . button_y . " w" . obj.button_w . " h" . obj.button_h . " background" . obj.active_color . " +Hidden -E0x200")
+            ; 文本按钮
+            FontSymbol( {name:button_name, x:button_x, y:button_y, w:obj.button_w, h:obj.button_h, unicode:value, font_name:"Segoe UI Symbol", text_color:"ffffff", back_color:"Trans", font_options:"s" obj.button_h/2, text_options:"+0x200 center"} )
+            (key="Maximize") ? "" : MyGui[button_name].OnEvent("Click", ButtonFunc)            
+        }
     }
 
     GuiShow(options)
@@ -118,14 +97,21 @@ Class CreateModernGUI
     _SetGuiProperties(obj)
     {
         ; If there is no object, or the value is null, or the value is 'center', then take the default value
-        ; 若不存在对象、存在对象但值未空或存在对象但值为"center"，则取默认值
         this.w := Obj.HasOwnProp("w") ? (obj.w ? obj.w : this.w) : this.w
         this.h := Obj.HasOwnProp("h") ? (obj.h ? obj.h : this.h) : this.h
         this.x := Obj.HasOwnProp("x") ? (obj.x ? (!Instr(Trim(obj.x), "center") ? obj.x : "center") : "center") : "center"
         this.y := Obj.HasOwnProp("y") ? (obj.y ? (!Instr(Trim(obj.y), "center") ? obj.y : "center") : "center") : "center"
-        ; The color format must comply with formats such as "ffffff" or "0xffffff".If it is in the format such as "0xff000000", remove the "0x**" at the beginning of the color
-        ; 颜色格式需符合如ffffff或0xffffff格式，如果像0xff000000格式，则删除颜色文本开头的"0x**
-        this.back_color := Obj.HasOwnProp("back_color") ? (obj.back_color ? ( StrLen(obj.back_color)>9 ? RegExReplace(obj.back_color, "i)^0x..") : (obj.back_color ?  obj.back_color : this.back_color)) : this.back_color) : this.back_color
+        ; Change to the correct color format (e.g. ffffff)
+        If !obj.HasOwnProp("back_color") or !obj.back_color
+        {
+            this.back_color := "ffffff"
+        }
+        Else
+        {
+            this.back_color:= (StrLen(obj.back_color)=8)  ? RegExReplace(obj.back_color, "i)^0x")   : obj.back_color
+            this.back_color:= (StrLen(obj.back_color)=10) ? RegExReplace(obj.back_color, "i)^0x..") : obj.back_color
+        }
+        
         this.gui_options := Obj.HasOwnProp("gui_options") ? (!obj.gui_options ? this.gui_options : obj.gui_options) : this.gui_options
         this.gui_name := Obj.HasOwnProp("gui_name") ? (!obj.gui_name ? this.gui_name : obj.gui_name) : this.gui_name
         this.gui_font := Obj.HasOwnProp("gui_font") ? (!obj.gui_font ? this.gui_font : obj.gui_font) : this.gui_font
@@ -149,73 +135,26 @@ Class CreateModernGUI
 }
 
 
+
 ;=========================================================
-; 创建关闭按钮函数
+; 创建文字符号
 ;=========================================================
-GDIP_CreateCloseButton(GuiCtrl, close_color, button_w, button_h, pen_width)
+FontSymbol( obj:={name:"", x:"", y:"", w:"", h:"", unicode:"", font_name:"", text_color:"", back_color:"", font_options:"", text_options:"+0x200 center"} )
 {
-    close_picture_h := close_picture_w := button_h/2
-    x1 := (button_w - close_picture_w)/2, y1 := (button_h - close_picture_h)/2
-    x2 := (x1 + close_picture_w), y2 := y1 + close_picture_h
-    x3 := button_w/2, y3 := button_h/2
-    x4 := x1, y4 := y2
-    x5 := x2, y5 := y1
-    points := x1 . "," . y1 . "|" . x2 . "," . y2 . "|" . x3 . "," . y3 . "|" . x4 . "," . y4 . "|" . x5 . "," . y5 
-
-	hwnd := GuiCtrl.Hwnd, GuiCtrl.GetPos(,,&W,&H)
-
-	pBitmap := Gdip_CreateBitmap(W, H), G := Gdip_GraphicsFromImage(pBitmap), Gdip_SetSmoothingMode(G, 4)
-
-    pPen := Gdip_CreatePen(close_color, pen_width), Gdip_DrawLines(G, pPen, points)
-    
-	hBitmap := Gdip_CreateHBITMAPFromBitmap(pBitmap),  SetImage(hwnd, hBitmap)
-
-	Gdip_DeletePen(pPen), Gdip_DeleteGraphics(G), Gdip_DisposeImage(pBitmap), DeleteObject(hBitmap)
-
-	Return 0
-}
-
-;=========================================================
-; 创建最大化按钮函数
-;=========================================================
-GDIP_CreateMaxButton(GuiCtrl, close_color, button_w, button_h, pen_width)
-{
-    max_picture_h := button_h/2
-    max_picture_w := max_picture_h * 5/4
-    max_picture_X := (button_w - max_picture_w)/2
-    max_picture_Y := (button_h - max_picture_h)/2
-
-    hwnd := GuiCtrl.Hwnd, GuiCtrl.GetPos(,,&W,&H)
-
-	pBitmap := Gdip_CreateBitmap(W, H), G := Gdip_GraphicsFromImage(pBitmap), Gdip_SetSmoothingMode(G, 4)
-
-    pPen := Gdip_CreatePen("0xffffffff", (pen_width-1)), Gdip_DrawRoundedRectangle(G, pPen, max_picture_X, max_picture_Y, max_picture_w, max_picture_h, "3")
-    
-	hBitmap := Gdip_CreateHBITMAPFromBitmap(pBitmap),  SetImage(hwnd, hBitmap)
-
-	Gdip_DeletePen(pPen), Gdip_DeleteGraphics(G), Gdip_DisposeImage(pBitmap), DeleteObject(hBitmap)
-
-	Return 0
-}
-
-;=========================================================
-; 创建最小化按钮函数
-;=========================================================
-GDIP_CreateMiniButton(GuiCtrl, close_color, button_w, button_h, pen_width)
-{
-    mini_picture_w := button_w/2.5
-    mini_picture_x := (button_w - mini_picture_w)/2
-    mini_picture_y := button_h/2
-
-	hwnd := GuiCtrl.Hwnd, GuiCtrl.GetPos(,,&W,&H)
-
-	pBitmap := Gdip_CreateBitmap(W, H), G := Gdip_GraphicsFromImage(pBitmap), Gdip_SetSmoothingMode(G, 4)
-
-    pPen := Gdip_CreatePen(close_color, pen_width), Gdip_DrawLine(G, pPen, mini_picture_x , mini_picture_y, mini_picture_x + mini_picture_w, mini_picture_y)
-    
-	hBitmap := Gdip_CreateHBITMAPFromBitmap(pBitmap),  SetImage(hwnd, hBitmap)
-
-	Gdip_DeletePen(pPen), Gdip_DeleteGraphics(G), Gdip_DisposeImage(pBitmap), DeleteObject(hBitmap)
-
-	Return 0
+    If !IsObject(obj)
+        Return
+    For obj_name, descriptor in obj.OwnProps()
+    {
+        If !Instr(obj_name, "color")
+            Continue
+        Switch StrLen(color:=descriptor)
+        {
+        Case 6  : obj.%obj_name% := (obj_name="text_color") ? "c" color : "Background" . color
+        Case 8  : obj.%obj_name% := (obj_name="text_color") ? "c" RegExReplace(color,"i)^0x") : "Background" . RegExReplace(color,"i)^0x")
+        Case 10 : obj.%obj_name% := (obj_name="text_color") ? "c" RegExReplace(color, "i)^0x..") : "Background" . RegExReplace(color, "i)^0x..")
+        Default : obj.%obj_name% := (obj_name="text_color") ? "cffffff" : "BackgroundTrans"
+        }
+    }
+    text := MyGui.AddText("v" RegExReplace(obj.name,"`s") " x" obj.x " y" obj.y " w" obj.w " h" obj.h " " obj.back_color " " obj.text_options, chr(obj.unicode))
+    text.SetFont(obj.font_options " " obj.text_color, Trim(obj.font_name))
 }

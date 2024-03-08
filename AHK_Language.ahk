@@ -24,20 +24,20 @@ Default    : zh := False
 Text :=
 {
     ; Label Name
-     HOME_ZH : "主 页"
-    ,HOME_EN : "Home"
+     HOME_ZH : "  主 页"
+    ,HOME_EN : "    Home"
 
-    ,OTHER_ZH : "其 他"
-    ,OTHER_EN : "Other"
+    ,OTHER_ZH : "  其 他"
+    ,OTHER_EN : "   Other"
 
-    ,LOG_ZH : "日 志"
+    ,LOG_ZH : "  日 志"
     ,LOG_EN : "Log"
 
-    ,HELP_ZH : "帮 助"
-    ,HELP_EN : "Help"
+    ,HELP_ZH : "  设 置"
+    ,HELP_EN : "       Settings"
 
-    ,ABOUT_ZH : "关 于"
-    ,ABOUT_EN : "About"
+    ,ABOUT_ZH : "  关 于"
+    ,ABOUT_EN : "    About"
 
     ;==========================================================================
     ; Tab: Home
@@ -55,9 +55,6 @@ Text :=
     ; Change/Restore （改变/恢复按钮的消息）
     ,IS_RESTORE_ALL_ICON_ZH : "是否恢复列表的所有快捷方式图标为默认图标?"
     ,IS_RESTORE_ALL_ICON_EN : "Do you want to restore the icons of all shortcuts in the list to the default icons?"
-
-    ;,IS_CHANGE_ALL_ICON_ZH : "是否更换列表的所有快捷方式图标?（不再提醒请点击`"取消`"）"
-    ;,IS_CHANGE_ALL_ICON_EN : "Do you want to replace all shortcut icons in the list? (If you want to no longer be reminded, please click 'Cancel')"
 
     ,COMPLETED_ZH : "已完成！"
     ,COMPLETED_EN : "Completed!"
@@ -102,6 +99,12 @@ Text :=
     ,COPY_LINK_ICON_PATH_ZH : "复制图标路径："
     ,COPY_LINK_ICON_PATH_EN : "Copy icon path:  "
 
+    ,TIP_CHANGE_ZH : "更换所有快捷方式图标"
+    ,TIP_CHANGE_EN : "Change all shortcut icons"
+
+    ,TIP_RESTORE_ZH : "恢复所有快捷方式默认图标"
+    ,TIP_RESTORE_EN : "Restore all shortcut icons to default"
+
     ;==========================================================================
     ; Tab: Other
     ;==========================================================================
@@ -137,12 +140,6 @@ Text :=
     
     ,IS_BACKUP_TO_FOLDER_ZH : "是否备份列表的快捷方式至桌面文件夹——`""
     ,IS_BACKUP_TO_FOLDER_EN : "Do you want to back up the list's shortcuts to a desktop folder named `""
-
-    ; ,HAVE_ADD_MENU_TO_LV_ZH : "成功添加`"开始`"菜单的快捷方式至列表中"
-    ; ,HAVE_ADD_MENU_TO_LV_EN : "Successfully added the `"Start menu`" shortcut to the list"
-
-    ; ,HAVE_ADD_OTHER_TO_LV_ZH : "成功添加指定文件夹的快捷方式至列表中"
-    ; ,HAVE_ADD_OTHER_TO_LV_EN : "Successfully added the shortcut to the specified folder to the list"
     
     ,HAVE_BACKUP_ZH : "已备份至桌面文件夹`n`s文件夹名："
     ,HAVE_BACKUP_EN : "The shortcut has been backed up to the desktop folder`n`sFolder Name:`s"
@@ -200,9 +197,6 @@ Text :=
     
     ,VERSION_ZH : "`s`s版本：2.5"
     ,VERSION_EN : "`s`sVersion: 2.5"
-
-    ,HELP_CONTENTS_ZH : "`s1.UWP/WSA快捷方式图标无法恢复默认图标`n`s`s`s`s解决办法：从`"其他功能`"中重新创建它们的快捷方式`n`n`s2.无法修改开始菜单的UWP软件图标`n`s`s`s解决办法：从`"其他`"功能中添加UWP快捷方式至桌面并修改其图标，然后将其粘贴至开始菜单的文件夹中，最后“开始菜单”的“所有应用”中找到它并固定到屏幕`n`n`s3.未曾手动更换图标的快捷方式在列表中显示`"√`"`n`s`s`s原因：该快捷方式使用其目标文件的(父/子)目录中的图标`n`n`s4.某些应用更新后，其快捷方式恢复为默认图标`n`s`s`s解决办法：前往应用目标目录中，手动创建其快捷方式至桌面"
-    ,HELP_CONTENTS_EN : "`s1.UWP/WSA shortcuts cannot be restored to default icons`n`s`s`s`sSolve: Recreate their shortcuts from `"Other`"`n`n`s2.Unable to change UWP softwares icons in start menu`n`s`s`sSolve: Add the UWP shortcut to the desktop from the `"Other`", then change its icon and paste it into the folder of the Start menu, finally fix it to the `"Start`" Screen in the `"All Apps`" section of the Start menu`"`n`n`s3.Some shortcuts whose icons have not changed, but the list shows as replaced（√）`n`s`s`sCause: The app's shortcut icon is derived from the icon in its (parent/child) directory"
 }
 
 For name, Descriptor in Text.OwnProps()
