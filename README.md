@@ -84,6 +84,13 @@
 
     解决办法：单独更换其他快捷方式图标
 
+## 下载
+
+Github：[AHK-ChangeIcon](https://github.com/iKineticate/AHK-ChangeIcon/releases)
+
+蓝奏云：[AHK-ChangeIcon](https://wwu.lanzoul.com/b03rjy4ud) (密码：6666)
+
+
 ## 推荐
 
 1.一键转化其他图标为ICO图标的软件：[Drop Icons](https://github.com/genesistoxical/drop-icons)
