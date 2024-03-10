@@ -1,15 +1,15 @@
 ;// @Name                   AHK-ChangeIcon
 ;// @Author                 iKineticate
-;// @Version                v2.5
+;// @Version                v2.5.3
 ;// @Destription:zh-CN      快速更换桌面快捷方式图标
 ;// @Destription:en         Quickly change of desktop shortcut icons
 ;// @HomepageURL            https://github.com/iKineticate/AHK-ChangeIcon
 ;// @Icon Source            https://www.iconfont.cn and https://www.flaticon.com
 ;// @Date                   2024/03/04
 
-;@Ahk2Exe-SetVersion 2.5
-;@Ahk2Exe-SetFileVersion 2.5
-;@Ahk2Exe-SetProductVersion 2.5
+;@Ahk2Exe-SetVersion 2.5.3
+;@Ahk2Exe-SetFileVersion 2.5.3
+;@Ahk2Exe-SetProductVersion 2.5.3
 ;@Ahk2Exe-SetName AHK-ChangeIcon
 ;@Ahk2Exe-ExeName AHK-ChangeIcon
 ;@Ahk2Exe-SetCompanyName AHK-ChangeIcon
@@ -76,12 +76,12 @@ For Value in ["last_selected_other_path", "last_icons_folder_path"]
 ; 创建窗口
 ;======================================================================================================== 
 ; 创建现代风格GUI
-ahkGUI := CreateModernGUI( {x:"center", y:"center", w:1200/2, h:650/2, back_color:"202020", gui_options:"-caption -Resize +Border", gui_name:"AHK-ChangeIcon", gui_font_options:"Bold cffffff s8", gui_font:"Microsoft YaHei UI", show_options:""} )
+ahkGUI := CreateModernGUI( {x:"center", y:"center", w:1200/2, h:650/2, back_color:"202020", gui_options:"-caption -Resize +Border +DPIScale", gui_name:"AHK-ChangeIcon", gui_font_options:"Bold cffffff s8", gui_font:"Microsoft YaHei UI", show_options:""} )
 ; 创建窗口控制按钮（关闭、最大化、最小化）
 ahkGUI.CreateWindowsControlButton( {margin_top:"0", margin_right:"0", button_w:54/2, button_h:40/2, pen_width:3, active_color:"AD62FD"} )
 ; 设置提示选项
 MyGui.Tooltips := GuiCtrlTips(MyGui)
-MyGui.ToolTips.Setfont(,"Microsoft YaHei UI",,)
+MyGui.ToolTips.SetFont(,"Microsoft YaHei UI",,)
 MyGui.ToolTips.SetBkColor("0xff303030")
 MyGui.ToolTips.SetTxColor("0xff999999")
 
@@ -97,10 +97,10 @@ MyGui.AddPicture("x" . 70/2 . " y" . 42/2 . " w" . 100/2 . " h" . 100/2 . " Back
 tab_prop := {}
 tab_prop.label_name := [Text.HOME, Text.Other, Text.LOG, Text.HELP, Text.ABOUT]
 tab_prop.label_prop := {distance:0, text_options:"center +0x200", font_options:"Bold cf5f5f5 s11", font:"", font_normal_color:"f5f5f5", font_active_color:"ad62fd"}   ; 输入空格来调整标签按钮里的文本相对按钮的x位置
-tab_prop.label_active  := {margin_left:0, margin_top:"center", w:220/2, h:72/2, R:24/2, color:"f5f5f5"}
+tab_prop.label_active  := {margin_left:0, margin_top:"center", w:220/2, h:72/2, R:24/2, color:"0xE6f5f5f5"}
 ;tab_prop.label_indicator := {margin_left:20/2, margin_top:"center", w:10/2, h:28/2, R:4/2, color:"ad62fd"}
 tab_prop.logo_symbol  := {margin_left:2, font_name:"Segoe UI Symbol"}
-tab_prop.logo_size    := [22/2, 20/2, 24/2, 24/2, 30/2]
+tab_prop.logo_size    := [22/2, 20/2, 24/2, 24/2, 32/2]
 tab_prop.logo_unicode := ["0xE10F", "0xE292", "0x1F4DC", "0xE115", "0x24D8"]
 tab_item := CreateButton( {name:"logo", x:10/2, y:180/2, w:220/2, h:85/2} ).NewTab( tab_prop )
 
@@ -170,7 +170,7 @@ For Desktop in [A_Desktop, A_DesktopCommon]
     Add_Folder_Link_To_LV(Desktop, Mode := "")
 }
 ; 设置、调整列表
-LV.ModifyCol(1, 480/2)
+LV.ModifyCol(1, 460/2)
 LV.ModifyCol(2, "+AutoHdr")
 LV.ModifyCol(3, "+AutoHdr")
 SetLV := LV_Colors(LV, 0, 0, 0)
@@ -193,19 +193,19 @@ MyGui["Unchanged_Count"].Value := LV.GetCount() - MyGui["Changed_Count"].Value
 ; 第二个标签页：其他(其他)
 ;==========================================================================
 Tab.UseTab(2)
-CreateButton( {name:"Add_Desktop", x:320/2, y:80/2, w:800/2, h:90/2} ).Text( {R:24/2, normal_color:"5D656B", active_color:"999999", text:Text.ADD_DESKTOP_TO_LV, text_options:"+0x200", text_margin:10, font_options:"cffffff s13", font:""} )
+CreateButton( {name:"Add_Desktop", x:320/2, y:80/2, w:800/2, h:90/2} ).Text( {R:24/2, normal_color:"0x26ffffff", active_color:"909090", text:Text.ADD_DESKTOP_TO_LV, text_options:"+0x200", text_margin:10, font_options:"cffffff s13", font:""} )
 FontSymbol( {name:"Add_Desktop_Symbol", x:325/2, y:78/2, w:90/2, h:90/2, unicode:0xE2CB, font_name:"Segoe UI Symbol", text_color:"ffffff", back_color:"trans", font_options:"s" 90/4, text_options:"+0x200 center"} )
 
-CreateButton( {name:"Add_Start", x:320/2, y:190/2, w:800/2, h:90/2} ).Text( {R:24/2, normal_color:"5D656B", active_color:"999999", text:Text.ADD_START_TO_LV, text_options:"+0x200", text_margin:10, font_options:"cffffff s13", font:""} )
+CreateButton( {name:"Add_Start", x:320/2, y:190/2, w:800/2, h:90/2} ).Text( {R:24/2, normal_color:"0x26ffffff", active_color:"909090", text:Text.ADD_START_TO_LV, text_options:"+0x200", text_margin:10, font_options:"cffffff s13", font:""} )
 FontSymbol( {name:"Add_Start_Symbol", x:325/2, y:191/2, w:90/2, h:90/2, unicode:0xE154, font_name:"Segoe UI Symbol", text_color:"ffffff", back_color:"trans", font_options:"s" 90/4, text_options:"+0x200 center"} )
 
-CreateButton( {name:"Add_Other", x:320/2, y:300/2, w:800/2, h:90/2} ).Text( {R:24/2, normal_color:"5D656B", active_color:"999999", text:Text.ADD_OTHER_TO_LV, text_options:"+0x200", text_margin:10, font_options:"cffffff s13", font:""} )
+CreateButton( {name:"Add_Other", x:320/2, y:300/2, w:800/2, h:90/2} ).Text( {R:24/2, normal_color:"0x26ffffff", active_color:"909090", text:Text.ADD_OTHER_TO_LV, text_options:"+0x200", text_margin:10, font_options:"cffffff s13", font:""} )
 FontSymbol( {name:"Add_Other_Symbol", x:325/2, y:304/2, w:90/2, h:90/2, unicode:0xE1C1, font_name:"Segoe UI Symbol", text_color:"ffffff", back_color:"trans", font_options:"s" 90/5, text_options:"+0x200 center"} )
 
-CreateButton( {name:"Add_UWP_WSA", x:320/2, y:410/2, w:800/2, h:90/2} ).Text( {R:24/2, normal_color:"5D656B", active_color:"999999", text:Text.ADD_UWP_WSA_TO_LV, text_options:"+0x200", text_margin:10, font_options:"cffffff s13", font:""} )
+CreateButton( {name:"Add_UWP_WSA", x:320/2, y:410/2, w:800/2, h:90/2} ).Text( {R:24/2, normal_color:"0x26ffffff", active_color:"909090", text:Text.ADD_UWP_WSA_TO_LV, text_options:"+0x200", text_margin:10, font_options:"cffffff s13", font:""} )
 FontSymbol( {name:"Add_UWP_WSA_Symbol", x:325/2, y:409/2, w:90/2, h:90/2, unicode:0xE2F8, font_name:"Segoe UI Symbol", text_color:"ffffff", back_color:"trans", font_options:"s" 90/3.5, text_options:"+0x200 center"} )
 
-CreateButton( {name:"Add_BackUp", x:320/2, y:520/2, w:800/2, h:90/2} ).Text( {R:24/2, normal_color:"5D656B", active_color:"999999", text:Text.BACKUP_LV_LINK, text_options:"+0x200", text_margin:10, font_options:"cffffff s13", font:""} )
+CreateButton( {name:"Add_BackUp", x:320/2, y:520/2, w:800/2, h:90/2} ).Text( {R:24/2, normal_color:"0x26ffffff", active_color:"909090", text:Text.BACKUP_LV_LINK, text_options:"+0x200", text_margin:10, font_options:"cffffff s13", font:""} )
 FontSymbol( {name:"Add_BackUp_Symbol", x:325/2, y:522/2, w:90/2, h:90/2, unicode:0xE17C, font_name:"Segoe UI Symbol", text_color:"ffffff", back_color:"trans", font_options:"s" 90/5, text_options:"+0x200 center"} )
 
 
@@ -227,11 +227,36 @@ Tab.UseTab(4)
 ; 第五个标签页：关于(About) 
 ;==========================================================================
 Tab.UseTab(5)
-CreateButton( {name:"software", x:320/2, y:80/2, w:800/2, h:90/2} ).Text( {R:16/2, normal_color:"5D656B", active_color:"0x00ffffff", text_options:"+0x200",text_margin:"3", font_options:"s12 cffffff", font:"Verdana", text:"AHK-ChangeIcon"} )
-CreateButton( {name:"version", x:320/2, y:190/2, w:800/2, h:90/2} ).Text( {R:16/2, normal_color:"5D656B", active_color:"0x00ffffff", text_options:"+0x200",text_margin:"3", font_options:"s12 cffffff", font:"Verdana", text:"Version: 2.5.2"} )
-CreateButton( {name:"github", x:320/2, y:300/2, w:800/2, h:90/2} ).Text( {R:16/2, normal_color:"5D656B", active_color:"0x00ffffff", text_options:"+0x200",text_margin:"3", font_options:"s12 cffffff", font:"Verdana", text:"Github: iKineticate"} )
-CreateButton( {name:"CoolMarket", x:320/2, y:410/2, w:800/2, h:90/2} ).Text( {R:16/2, normal_color:"5D656B", active_color:"0x00ffffff", text_options:"+0x200",text_margin:"3", font_options:"s12 cffffff", font:"", text:"酷安：林琼雅"} )
-CreateButton( {name:"logo_from", x:320/2, y:520/2, w:800/2, h:90/2} ).Text( {R:16/2, normal_color:"5D656B", active_color:"0x00ffffff", text_options:"+0x200",text_margin:"3", font_options:"s12 cffffff", font:"Verdana", text:"LOGO by iconfield from Flaticon"} )
+; 背景
+MyGui.AddPicture("vAbout_Background x" . 270/2 . " y" . 45/2 . " w" 900/2*(A_ScreenDPI/96) . " h" . 585/2*(A_ScreenDPI/96) . " BackgroundTrans +0xE -E0x200")
+Gdip_SetPicRoundedRectangle(MyGui["About_Background"], "0x0Dffffff", 15, isFill:="true")
+; 软件名
+MyGui.AddText("vsoftware x" 320/2 " y" 80/2 " w" 540/2 " h" 60/2 " 0x200 backgroundtrans", "AHK-ChangeIcon")
+MyGui["software"].SetFont("s18 cffffff", "Verdana")
+; 版本
+MyGui.AddText("vVersion x" 320/2 " y" 140/2 " w" 240/2 " h" 40/2 " 0x200 backgroundtrans", "Version 2.5.3 (x64)")
+MyGui["Version"].SetFont("s10 cffffff", "Calibri")
+; 作者
+MyGui.AddText("vAuthor x" 320/2 " y" 180/2 " w" 240/2 " h" 40/2 " 0x200 backgroundtrans", "Author: iKineticate")
+MyGui["Author"].SetFont("s10 cffffff", "Calibri")
+; 跳转至网页
+CreateButton( {name:"github", x:316/2, y:220/2, w:222/2, h:55/2} ).Text( {R:8/2, normal_color:"0x00ffffff", active_color:"0x1Affffff", text_options:"+0x200",text_margin:"2", font_options:"s11 c87eea3", font:"", text:TEXT.GITHUB} )
+CreateButton( {name:"download", x:316/2, y:275/2, w:222/2, h:55/2} ).Text( {R:8/2, normal_color:"0x00ffffff", active_color:"0x1Affffff", text_options:"+0x200",text_margin:"2", font_options:"s11 c87eea3", font:"", text:TEXT.DOWNLOAD} )
+CreateButton( {name:"help", x:316/2, y:330/2, w:222/2, h:55/2} ).Text( {R:8/2, normal_color:"0x00ffffff", active_color:"0x1Affffff", text_options:"+0x200",text_margin:"2", font_options:"s11 c87eea3", font:"", text:TEXT.ABOUT_HELP} )
+CreateButton( {name:"issues", x:316/2, y:385/2, w:222/2, h:55/2} ).Text( {R:8/2, normal_color:"0x00ffffff", active_color:"0x1Affffff", text_options:"+0x200",text_margin:"2", font_options:"s11 c87eea3", font:"", text:TEXT.ISSUES} )
+CreateButton( {name:"Contributors", x:316/2, y:440/2, w:222/2, h:55/2} ).Text( {R:8/2, normal_color:"0x00ffffff", active_color:"0x1Affffff", text_options:"+0x200",text_margin:"2", font_options:"s11 c87eea3", font:"", text:TEXT.CONTRIBUTORS} )
+MyGui.ToolTips.SetTip(MyGui["github_BUTTON"], "https://github.com/iKineticate/AHK-ChangeIcon")
+MyGui.ToolTips.SetTip(MyGui["download_BUTTON"], "https://github.com/iKineticate/AHK-ChangeIcon/releases")
+MyGui.ToolTips.SetTip(MyGui["help_BUTTON"], "https://github.com/iKineticate/AHK-ChangeIcon?tab=readme-ov-file#已知问题") ; 根据中英文更换链接
+MyGui.ToolTips.SetTip(MyGui["issues_BUTTON"], "https://github.com/iKineticate/AHK-ChangeIcon/issues")
+MyGui.ToolTips.SetTip(MyGui["Contributors_BUTTON"], "https://github.com/iKineticate/AHK-ChangeIcon?tab=readme-ov-file#感谢")
+; 灰色
+MyGui.SetFont("s10 c666666", "Calibri")
+MyGui.AddText("vcopy_right x" 320/2 " y" 510/2 " w" 600/2 " h" 30/2 " 0x200 backgroundtrans", "Licensed under the MIT License")
+MyGui.AddText("vicon_from x" 320/2 " y" 545/2 " w" 600/2 " h" 30/2 " 0x200 backgroundtrans", "Icons from www.iconfont.cn and www.flaticon.com")
+MyGui.AddText("vlogo_from x" 320/2 " y" 580/2 " w" 600/2 " h" 30/2 " 0x200 backgroundtrans", "Logo by iconfield from www.flaticon.com")
+
+
 
 ;==========================================================================
 ; 深色模式(Drak Mode) 
@@ -253,7 +278,7 @@ DllCall("uxtheme\SetWindowTheme", "Ptr", MyGui["Log"].hWnd, "Str", "DarkMode_Exp
 ahkGUI.GuiShow(ahkGUI.show_options) ; 展示GUI
 
 OnMessage(0x200, WM_MOUSEMOVE)      ; 检测MyGui内的鼠标移动
-OnMessage(0x2A3, WM_MOUSELEAVE)     ; 监测MyGui外的鼠标移动
+;OnMessage(0x2A3, WM_MOUSELEAVE)     ; 监测MyGui外的鼠标移动
 
 ;==========================================================================
 Return
@@ -360,6 +385,11 @@ ButtonFunc(GuiCtrlObj, Info, *)
     Case "Add_Other" : Add_Other_To_LV()
     Case "Add_UWP_WSA" : Add_UWP_APP_To_LV()
     Case "Add_BackUp" : Backup_LV_Link_To_Folder()
+    Case "github" : Run("https://github.com/iKineticate/AHK-ChangeIcon")
+    Case "download" : Run("https://github.com/iKineticate/AHK-ChangeIcon/releases")
+    Case "help" : Run("https://github.com/iKineticate/AHK-ChangeIcon?tab=readme-ov-file#已知问题")
+    Case "issues" : Run("https://github.com/iKineticate/AHK-ChangeIcon/issues")
+    Case "Contributors" : Run("https://github.com/iKineticate/AHK-ChangeIcon?tab=readme-ov-file#感谢")
     }
 }
 
@@ -367,31 +397,30 @@ ButtonFunc(GuiCtrlObj, Info, *)
 ;==========================================================================
 ; 标签被点击的函数（选择并聚焦该标签页、取消其他标签页活跃态）
 ;==========================================================================
-Tab_Click(tab_name)
+Tab_Click(current_tab_name)
 {
-    If MyGui[tab_name] = MyGui.Focus_Tab
+    If MyGui[current_tab_name] = MyGui.Focus_Tab
         Return
 
-    Tab.Choose(StrReplace(tab_name, "_Tab_Button"))     ; 选择对应的隐藏标签页
+    Tab.Choose(StrReplace(current_tab_name, "_Tab_Button"))     ; 选择对应的隐藏标签页
 
-    For name in [MyGui.Focus_Tab.name, tab_name]
+    For name in [MyGui.Focus_Tab.name, current_tab_name]
     {
         active_name  := StrReplace(name, "_Tab_Button", "_ACTIVE")
         indicator_name := StrReplace(name, "_Tab_Button", "_INDICATOR")
-
-        MyGui[active_name].Visible := (name=tab_name) ? True:False
-        (tab_prop.HasOwnProp("label_indicator")) ? (MyGui[indicator_name].Visible := (name=tab_name) ? True:False) : False
+        MyGui[active_name].Visible := (name=current_tab_name) ? True:False
+        (tab_prop.HasOwnProp("label_indicator")) ? (MyGui[indicator_name].Visible := (name=current_tab_name) ? True:False) : False
     }
     ; 本次被点击标签页激活活跃态
-    logo_symbol_name := StrReplace(MyGui[tab_name].name, "_Tab_Button", "_SYMBOL")
-    MyGui[tab_name].SetFont("c" . tab_prop.label_prop.font_active_color)
+    logo_symbol_name := StrReplace(MyGui[current_tab_name].name, "_Tab_Button", "_SYMBOL")
+    MyGui[current_tab_name].SetFont("c" . tab_prop.label_prop.font_active_color)
     (tab_prop.HasOwnProp("logo_symbol")) ? MyGui[logo_symbol_name].SetFont("c" . tab_prop.label_prop.font_active_color) : False
     ; 上次被点击的标签页恢复常态
     logo_symbol_name := StrReplace(MyGui.Focus_Tab.name, "_Tab_Button", "_SYMBOL")
     MyGui.Focus_Tab.SetFont("c" . tab_prop.label_prop.font_normal_color)
     (tab_prop.HasOwnProp("logo_symbol")) ? MyGui[logo_symbol_name].SetFont("c" . tab_prop.label_prop.font_normal_color) : False
     ; 上次被点击标签页=本次
-    MyGui.Focus_Tab := MyGui[tab_name]
+    MyGui.Focus_Tab := MyGui[current_tab_name]
 }
 
 
@@ -415,19 +444,33 @@ Add_Folder_Link_To_LV(link_folder_path, Mode)      ; Mode:="R"扫描子文件夹
         If ((LV_link_from = "Start") AND (RegExMatch(A_LoopFileName, "i)uninstall|卸载")))      ; 若添加的是菜单，且快捷方式名为"卸载"，则下一轮循环（避免添加软件的卸载程序）
             Continue
 
-        link_name := RegExReplace(A_LoopFileName, "i)\.lnk$")       ; 去除了后缀名的快捷方式的名称
-
-        If link_map.Has(link_name . "LP")             ; 上一次添加某快捷方式后，若数组存在重复名称(区分大小写)且二者扩展名称相同，则跳过（根据数组中是否存在对应键-值来判断）
-            Continue
-
         link_path := A_LoopFilePath
         COM_Link_Attribute(&link_path, &link_attribute, &link_icon_location)        ; 调用WshShell对象的函数，获取快捷方式属性
         link_target_path := link_attribute.TargetPath
-        link_target_dir := (link_target_path AND !link_attribute.WorkingDirectory) ? RegExReplace(link_target_path, "\\[^\\]+$"):link_attribute.WorkingDirectory
- 
+        link_target_dir := (link_target_path AND !link_attribute.WorkingDirectory) ? RegExReplace(link_target_path, "\\[^\\]+$"):link_attribute.WorkingDirectory    ; 解决目标目录未填写的情况
+        link_name := RegExReplace(A_LoopFileName, "i)\.lnk$")       ; 去除了后缀名的快捷方式的名称
+        ; 快捷方式的目标扩展名
+        SplitPath(link_target_path,,, &link_target_ext)     
+        Switch
+        {
+        Case !link_target_ext :     ; 空则为UWP
+            link_target_ext := "uwp"
+        Case InStr(link_target_path, "WindowsSubsystemForAndroid") :    ; 安卓应用
+            link_target_ext := "app"
+        Case InStr(link_target_path, "schtasks") :  ; 命令任务(计划程序)的快捷方式
+            link_target_ext := "schtasks"
+        Default :
+            link_target_ext := StrLower(link_target_ext)
+        }
+
+        key := link_name . link_target_ext
+
+        ; 若本次循环快捷方式名称跟既往循环快捷方式名称相同(即数组存在)，且二者扩展名称相同，则跳过（有些同名称但目标扩展类型不同）
+        If link_map.Has(key)
+            Continue
+
         SplitPath(link_path,, &link_dir)                    ; 快捷方式的目录
-        SplitPath(link_target_path,,, &link_target_ext)     ; 快捷方式的目标扩展名
- 
+
         If !link_icon_location
         or link_icon_location = link_target_path
         or RegExMatch(link_icon_location, "i)%[^%]*%|WindowsSubsystemForAndroid|system32\\.*dll|\{[^\{]*\}\\[^\\]*\.exe$")  ; WSA或系统图标
@@ -443,27 +486,18 @@ Add_Folder_Link_To_LV(link_folder_path, Mode)      ; Mode:="R"扫描子文件夹
             MyGui["Changed_Count"].Value += 1
         }
         
-        Switch      ; 快捷方式的目标扩展名转换为小写、记录为UWP、记录WSA软件为APP
-        {
-        Case link_target_ext = "" :
-            link_target_ext := "uwp"
-        Case InStr(link_target_path, "WindowsSubsystemForAndroid") :
-            link_target_ext := "app"
-        Default :
-            link_target_ext := StrLower(link_target_ext)
-        }
-
         ; 以"快捷方式名称+路径英文缩写"为键，其对应的路径为值，填入link_map数组
         ; LTP = Link Target Path = 快捷方式的目标路径（UWP无法查看）
         ; LTD = Link Target Dir  = 快捷方式的目标目录（UWP无法查看）
         ; LP  = Link Path        = 快捷方式的路径
         ; LD  = Link Dir         = 快捷方式的目录
-        link_map[link_name . "LTP"] := (!link_target_path) ? Text.SAFE_UNAVAILABLE : link_target_path
-        link_map[link_name . "LTD"] := (!link_target_dir) ? Text.SAFE_UNAVAILABLE : link_target_dir
-        link_map[link_name . "LP"]  := A_LoopFilePath
-        link_map[link_name . "LD"]  := link_dir
+        link_map[key] := {}
+        link_map[key].LTP := (!link_target_path) ? Text.SAFE_UNAVAILABLE : link_target_path
+        link_map[key].LTD := (!link_target_dir) ? Text.SAFE_UNAVAILABLE : link_target_dir
+        link_map[key].LP  := A_LoopFilePath
+        link_map[key].LD  := link_dir
 
-        ; 调用DllCall_Get_Icon函数和图像列表替换函数，添加图标并赋予给icon_number--刷新列表左侧图标
+        ; 调用DllCall_Get_Icon函数和图像列表替换函数，添加图标给数组，赋予给icon_number--刷新列表左侧图标
         hIcon := DllCall_Get_Icon(A_LoopFilePath)
         icon_number := DllCall("ImageList_ReplaceIcon", "Ptr", image_list_ID, "Int", -1, "Ptr", hIcon) + 1
         DllCall("DestroyIcon", "ptr", hIcon)
@@ -498,8 +532,9 @@ DllCall_Get_Icon(link_target_path)
 Refresh_LV_Icon(LV, Item)
 {
     LV.Focus()
-    Link_Path := Link_Map[LV.GetText(Item, 1) . "LP"]
-    hIcon := DllCall_Get_Icon(Link_Path)
+    key := LV.GetText(Item, 1) . LV.GetText(Item, 3)
+    link_path := link_map[key].LP
+    hIcon := DllCall_Get_Icon(link_path)
     icon_number := DllCall("ImageList_ReplaceIcon", "Ptr", image_list_ID, "Int", -1, "Ptr", hIcon) + 1   ; 调用DllCall_Icon函数重新刷新列表指定项目图标
     DllCall("DestroyIcon", "ptr", hIcon)
     LV.Modify(Item, "Icon" . icon_number)
@@ -512,8 +547,9 @@ Refresh_LV_Icon(LV, Item)
 Refresh_Display_Icon(LV, Item)
 {
     LV.Focus()
-    Link_Path := Link_Map[LV.GetText(Item, 1) . "LP"]
-    link_target_path := Link_Map[LV.GetText(Item, 1) . "LTP"]
+    key := LV.GetText(Item, 1) . LV.GetText(Item, 3)
+    link_path := link_map[key].LP
+    link_target_path := link_map[key].LTP
 
     Try
     {
@@ -546,8 +582,10 @@ Change_Link_Icon(LV, Item)
     MyGui.Opt("+OwnDialogs")        ; 解除对话框(如Msgbox等)后才可于GUI窗口交互
 
     link_name := LV.GetText(Item, 1)
-    link_path := Link_Map[link_name . "LP"]
-    link_target_path := Link_Map[link_name . "LTP"]
+    key := LV.GetText(Item, 1) . LV.GetText(Item, 3)
+    link_path := link_map[key].LP
+    link_target_path := link_map[key].LTP
+
     COM_Link_Attribute(&Link_Path, &Link_Attribute, &Link_Icon_Location)        ; 调用WshShell对象的函数，获取快捷方式属性
 
     select_icon_path := FileSelect(3,, TEXT.SELECT_A_ICON, "Icon files(*.ico)")    ; 选择文件格式为“.ico”的图标并赋予图标路径给该变量
@@ -568,7 +606,7 @@ Change_Link_Icon(LV, Item)
     ; 添加至日志
     MyGui["Log"].Value .= FormatTime(A_Now, "`syyyy/MM/dd HH:mm:ss`n`s")    
         . Text.LOG_CHANGED_LINK . link_name . "`n`s" 
-        . Text.Source_OF_ICON . select_icon_path . "`n`n======================================`n`n" 
+        . Text.Source_OF_ICON . select_icon_path . "`n`n===========================================`n`n" 
 }
 
 
@@ -581,10 +619,11 @@ LV_Context_Menu(LV, Item, IsRightClick, X, Y)
         Return
 
     link_name := LV.GetText(Item, 1)                    ; 快捷方式的名称
-    link_target_path := Link_Map[link_name . "LTP"]     ; 快捷方式的目标路径    lnk[link_name].LTP
-    link_target_dir := Link_Map[link_name . "LTD"]      ; 快捷方式的目标目录    lnk[link_name].LTD
-    link_path := Link_Map[link_name . "LP"]             ; 快捷方式的路径        lnk[link_name].LP
-    link_dir := Link_Map[link_name . "LD"]              ; 快捷方式的目录        lnk[link_name].LD
+    key := link_name . LV.GetText(Item, 3)
+    link_target_path := link_map[key].LTP
+    link_target_dir  := link_map[key].LTD
+    link_path        := link_map[key].LP
+    link_dir         := link_map[key].LD
 
     COM_Link_Attribute(&link_path, &Link_Attribute, &Link_Icon_Location)    ; 调用WshShell对象的函数，获取快捷方式属性
 
@@ -655,7 +694,7 @@ LV_Context_Menu(LV, Item, IsRightClick, X, Y)
         LV.Modify(Item,,,"")
         ; 添加至日志
         MyGui["Log"].Value .= FormatTime(A_Now, "`syyyy/MM/dd HH:mm:ss`n`s")
-            . Text.LOG_RESTORE_LINK . link_name . "`n`n======================================`n`n" 
+            . Text.LOG_RESTORE_LINK . link_name . "`n`n===========================================`n`n" 
     }
 
     Link_Rename(*)      ; 重命名快捷方式名称的函数
@@ -663,29 +702,26 @@ LV_Context_Menu(LV, Item, IsRightClick, X, Y)
         MyGui.Opt("+OwnDialogs")    ; 解除对话框后才可于GUI窗口交互
         ; 重命名输入窗口
         IB := InputBox(Text.RENAME_NEW_NAME, link_name, "W300 H100", Trim(link_name))
-        If IB.Result="CANCEL"
+        If (IB.Result = "CANCEL")
             Return
-        ; 赋予新名称给变量，然后重命名
+        ; 排除重复名称
         IB.Value := RegExReplace(IB.Value, "i).lnk$")
+        Loop LV.GetCount()
+        {
+            If IB.Value = LV.GetText(A_Index, 1)
+                Return MsgBox(TEXT.SAME_NAME, "(・∀・(・∀・(・∀・*)", "icon!")
+        }
+        ; 赋予新名称给变量，然后重命名
         new_link_path := link_dir . "\" . IB.Value . ".lnk"
         FileMove(link_path, new_link_path)
         ; 重命名后，添加新的键值和删除旧的键值于映射数组
-        For Value in ["LP", "LTP", "LTD", "LD"]
-        {
-            Switch Value
-            {
-            Case "LP" : 
-                Link_Map[IB.Value . Value] := new_link_path     ; link_map[IB.Value] := {LP:新的, LD:不变, LTP:不变, LTD:不变}
-                Link_Map.Delete(link_name . Value)              ; link_map.delete(link_name)
-            Default   : 
-                Link_Map[IB.Value . Value] := Link_Map[link_name . Value]
-                Link_Map.Delete(link_name . Value)
-            }
-        }
-        ; 添加至日志
+        new_key := IB.Value . LV.GetText(Item, 3)
+        link_map[new_key] := {LP:new_link_path, LD:link_dir, LTP:link_target_path, LTD:link_target_dir}
+        link_map.Delete(key)
+        ; 记录日志
         MyGui["Log"].Value .= FormatTime(A_Now, "`syyyy/MM/dd HH:mm:ss`n`s")
             . Text.LOG_OLD_NAME . link_name . "`n`s" 
-            . Text.LOG_NEW_NAME . IB.Value . "`n`n======================================`n`n" 
+            . Text.LOG_NEW_NAME . IB.Value . "`n`n===========================================`n`n" 
         ; 更新列表快捷方式名称（最后更新可避免过早更新使映射数组中的link_name发生改变而不能删除对应键值）
         LV.Modify(Item,, IB.Value)
     }
@@ -697,7 +733,7 @@ LV_Context_Menu(LV, Item, IsRightClick, X, Y)
             FileCopy(link_path, A_Desktop)
 
             MyGui["Log"].Value .= FormatTime(A_Now, "`syyyy/MM/dd HH:mm:ss`n`s")    ; 添加至日志
-            . "“`s" . link_name . "`s”被添加至当前用户的桌面" . "`n`n======================================`n`n" 
+            . "“`s" . link_name . "`s”被添加至当前用户的桌面" . "`n`n===========================================`n`n" 
 
             Msgbox("成功添加“`s" . link_name . "`s”至当前用户的桌面", "Ciallo～(∠・ω< )⌒★")
         }
@@ -765,7 +801,6 @@ Change_All_Shortcut_Icons(*)
     iniWrite(selected_folder_path, info_ini_path, "info", "last_icons_folder_path")
     ; 创建数组
     changed_log_msgbox := ""
-    last_link_target_type := ""
     map_iconName_iconPath := map()
     map_both_name_same := map()
     ; 以被选择文件夹的图标名称为键，图标路径为值添加至映射数组(R：扫描包括子文件夹的文件)
@@ -785,12 +820,14 @@ Change_All_Shortcut_Icons(*)
         no_space_icon_name := RegExReplace(icon_name, "[`s`n`t]")
         Loop LV.GetCount()
         {
-            link_name := LV.GetText(A_Index, 1), no_space_link_name := RegExReplace(link_name, "[`s`n`t]")
+            link_name := LV.GetText(A_Index, 1)
+            key := link_name . LV.GetText(A_Index, 3)
+            no_space_link_name := RegExReplace(link_name, "[`s`n`t]")
+
             ; 若快捷方式已更换过与快捷方式相同名称的ICO图标，则跳过这一次循环（比如QQ音乐软件换了"QQ音乐"图标后，可能会更换"QQ"图标，因此需要截停）
             ; 注意：不能根据列表"√"来跳过循环（比如QQ音乐先换了"QQ"图标，要是跳过就不能换"QQ音乐"图标）
             ; 注意：若要跳过这一次循环，用Continue，Return会退出所有循环和函数
-            If  (LV.GetText(A_Index, 3) = last_link_target_type) 
-            and (map_both_name_same.has(StrLower(link_name)) OR (map_both_name_same.has(StrLower(icon_name))))
+            If  (map_both_name_same.has(key) OR (map_both_name_same.has(key)))
                 Continue
             ; 根据快捷方式和图标名称长度来检查二者的包含关系，包含则更换，不包含执行下一次循环
             ; 优势：部分应用因版本不同而快捷方式名称不同，如Adobe PhtotShop 2024/2023/2022，使用该方法可以使图标名称只要是"PhtotShop即可匹配更换
@@ -806,12 +843,11 @@ Change_All_Shortcut_Icons(*)
             Case 0:
                 If (no_space_link_name != no_space_icon_name)           ; 若快捷方式名称与文件名称不同，则下一循环，相同给数组添加两个键
                     Continue 
-                map_both_name_same[StrLower(link_name)] := "SAME"       ; 此处标记，后续扫描跳过第二个循环中的该快捷方式（注意：数组的键是区分大小写的）
-                map_both_name_same[StrLower(icon_name)] := "SAME"       ; 此处标记，后续扫描跳过第一个循环中的该图标（注意数组的键是区分大小写的）
-                last_link_target_type := LV.GetText(A_Index, 3)         ; 此处记录，后续除了判断上述两个条件外，另需判断文件类型是否相同情况
+                map_both_name_same[key] := "SAME"       ; 此处标记，后续扫描跳过第二个循环中的该快捷方式（注意：数组的键是区分大小写的）
+                map_both_name_same[key] := "SAME"       ; 此处标记，后续扫描跳过第一个循环中的该图标（注意数组的键是区分大小写的）
             }
             ; 获取快捷方式信息
-            link_path := Link_Map[link_name . "LP"]
+            link_path := link_map[key].LP
             COM_Link_Attribute(&Link_Path, &Link_Attribute, &Link_Icon_Location)
             ; 若快捷方式图标的路径与文件图标的路径相同，则跳过这一次循环
             If (Link_Icon_Location = icon_path)
@@ -866,11 +902,12 @@ Restore_All_Shortcut_Icons(*)
             Continue
 
         link_name := LV.GetText(A_Index, 1)
-        link_path := Link_Map[Link_Name . "LP"]
-        link_target_path := Link_Map[Link_Name . "LTP"]
+        key := link_name . LV.GetText(A_Index, 3)
+        link_path := link_map[key].LP
+        link_target_path := link_map[key].LTP
         ; 获取快捷方式的属性，并恢复默认图标（即更换为目标文件图标）
         COM_Link_Attribute(&Link_Path, &Link_Attribute, &Link_Icon_Location)    
-        Link_Attribute.IconLocation := Link_Target_Path
+        Link_Attribute.IconLocation := link_target_path
         Link_Attribute.Save()
         ; 更新显示的数据
         If (LV.GetText(A_Index, 2) = "√")                                       
@@ -897,8 +934,8 @@ Restore_All_Shortcut_Icons(*)
 ;==========================================================================
 Clean_LV(*)
 {
-    LV.Delete()
-    Link_Map.Clear()        ; 删除存储的数组
+    LV.Delete()             ; 清空列表
+    link_map.Clear()        ; 清空数组
     MyGui["Changed_Count"].Value := 0
     MyGui["Unchanged_Count"].Value := 0
     MyGui["Total_Count"].Value := 0
@@ -928,7 +965,7 @@ Add_Desktop_To_LV(*)
     MyGui["Unchanged_Count"].Value := LV.GetCount() - MyGui["Changed_Count"].Value
     ; 添加至日志
     MyGui["Log"].Value .= FormatTime(A_Now, "`syyyy/MM/dd HH:mm:ss`n`s")
-    . Text.ADD_DESKTOP_TO_LV . "`n`n======================================`n`n" 
+    . Text.ADD_DESKTOP_TO_LV . "`n`n===========================================`n`n" 
     ; 返回主页
     ControlClick(MyGui[StrReplace(tab_prop.label_name[1], "`s") . "_Tab_BUTTON"])
 }
@@ -957,7 +994,7 @@ Add_Sart_To_LV(*)
     MyGui["Unchanged_Count"].Value := LV.GetCount() - MyGui["Changed_Count"].Value
     ; 添加至日志
     MyGui["Log"].Value .= FormatTime(A_Now, "`syyyy/MM/dd HH:mm:ss`n`s")
-    . Text.ADD_START_TO_LV . "`n`n======================================`n`n" 
+    . Text.ADD_START_TO_LV . "`n`n===========================================`n`n" 
     ; 返回主页
     ControlClick(MyGui[StrReplace(tab_prop.label_name[1], "`s") . "_Tab_BUTTON"])
     TrayTip(Text.COMPLETED,"Ciallo～(∠・ω< )⌒★","Mute"), SetTimer(TrayTip, -2500)
@@ -973,10 +1010,14 @@ Add_Other_To_LV(*)
     ; 确认是否添加
     If Msgbox(Text.IS_ADD_OTHER, "Ciallo～(∠・ω< )⌒★", "Icon? OKCancel") = "Cancel"
         Return
-    ; 访问ini，选择文件，写入选择的文件夹路径ini
-    last_selected_other_path := iniRead(info_ini_path, "info", "last_selected_other_path")       
+    ; 访问ini
+    last_selected_other_path := iniRead(info_ini_path, "info", "last_selected_other_path")
+    ; 选择目录
     If not (selected_other_path := DirSelect("*" . last_selected_other_path, 0, Text.SELECT_ICONS_FOLDER))
         Return
+    ; 检查文件夹名称的最后一个字符是否为反斜杠（避免文件名包含"\"，导致最终变成C:**\**\\这种错误格式）
+    (SubStr(selected_other_path, -1, 1) = "\") ? (selected_other_path := SubStr(selected_other_path, 1, -1)) : False
+    ; 写入ini
     iniWrite(selected_other_path, info_ini_path, "info", "last_selected_other_path")
     ; 清空列表、计数、数组
     Clean_LV()      
@@ -989,7 +1030,7 @@ Add_Other_To_LV(*)
     MyGui["Unchanged_Count"].Value := LV.GetCount() - MyGui["Changed_Count"].Value
     ; 添加至日志
     MyGui["Log"].Value .= FormatTime(A_Now, "`syyyy/MM/dd HH:mm:ss`n`s")
-    . Text.ADD_OTHER_TO_LV . "`n`n======================================`n`n" 
+    . Text.ADD_OTHER_TO_LV . "`n`n===========================================`n`n" 
     ; 返回主页
     ControlClick(MyGui[StrReplace(tab_prop.label_name[1], "`s") . "_Tab_BUTTON"])
     TrayTip(Text.COMPLETED,"Ciallo～(∠・ω< )⌒★","Mute"), SetTimer(TrayTip, -2500)           
@@ -1028,13 +1069,14 @@ Backup_LV_Link_To_Folder(*)
     ; 循环复制粘贴快捷方式至备份文件夹
     Loop LV.GetCount()                                                          
     {
-        Link_Name := LV.GetText(A_Index, 1)
-        Link_Path := Link_Map[Link_Name . "LP"]
+        link_name := LV.GetText(A_Index, 1)
+        key := LV.GetText(A_Index, 1) . LV.GetText(A_Index, 3)
+        link_path := link_map[key].LP
         FileCopy(Link_Path, backup_folder_path, 1)
     }
     ; 添加至日志
     MyGui["Log"].Value .= FormatTime(A_Now, "`syyyy/MM/dd HH:mm:ss`n`s")
-    . Text.HAVE_BACKUP . StrReplace(backup_folder_path, A_DesktopCommon . "\") . "`n`n======================================`n`n" 
+    . Text.HAVE_BACKUP . StrReplace(backup_folder_path, A_DesktopCommon . "\") . "`n`n===========================================`n`n" 
     ; 提醒已完成
     TrayTip(Text.COMPLETED,"Ciallo～(∠・ω< )⌒★","Mute"), SetTimer(TrayTip, -2500)
 }

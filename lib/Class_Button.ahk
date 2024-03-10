@@ -73,9 +73,10 @@ Class CreateButton
     Text( obj:={R:15, normal_color:"", active_color:"", Text:"", text_options:"+0x200 center", text_margin:"", font_options:"", font:""} )
     {
         default_name := StrReplace(this._name, "`s") . "_NORMAL"
-        active_name := StrReplace(this._name, "`s") . "_ACTIVE"
-        button_name := StrReplace(this._name, "`s") . "_BUTTON"
-        
+        active_name  := StrReplace(this._name, "`s") . "_ACTIVE"
+        button_name  := StrReplace(this._name, "`s") . "_BUTTON"
+        obj.R        := Obj.HasOwnProp("R") ? ((!obj.R) ? "0" : obj.R*(A_ScreenDPI/96)) : "0"
+
         ; Change to the correct colour format (e.g. 0xff000000)
         For obj_name, descriptor in obj.OwnProps()
         {
@@ -95,19 +96,25 @@ Class CreateButton
         }
 
         ; Normal PNG image (常态图片)
-        MyGui.AddPicture("x" . this._x . " y" . this._y . " w" . this._w*(A_ScreenDPI/96) . " h" . this._h*(A_ScreenDPI/96) . " v" . default_name . " +0xE -E0x200")
+        If !Instr(obj.normal_color, "0x00")
+        {
+            MyGui.AddPicture("x" . this._x . " y" . this._y . " w" . this._w*(A_ScreenDPI/96) . " h" . this._h*(A_ScreenDPI/96) . " v" . default_name . " +0xE -E0x200 BackgroundTrans")
+            Gdip_SetPicRoundedRectangle(MyGui[default_name], obj.normal_color, obj.r, isFill:="True")
+        }
         ; Active PNG image (活跃态图片)
-        MyGui.AddPicture("x" . this._x . " y" . this._y . " w" . this._w*(A_ScreenDPI/96) . " h" . this._h*(A_ScreenDPI/96) . " v" . active_name . " +0xE -E0x200 Hidden")
-        ; Setting the rounded corners of pictures（设置图片圆角）
-        obj.R := Obj.HasOwnProp("R") ? ((!obj.R) ? "0" : obj.R*(A_ScreenDPI/96)) : "0"
-        Gdip_SetPicRoundedRectangle(MyGui[default_name], obj.normal_color, obj.r, isFill:="True")
-        Gdip_SetPicRoundedRectangle(MyGui[active_name], obj.active_color, obj.r, isFill:="True")
+        If !Instr(obj.active_color, "0x00")
+        {
+            MyGui.AddPicture("x" . this._x . " y" . this._y . " w" . this._w*(A_ScreenDPI/96) . " h" . this._h*(A_ScreenDPI/96) . " v" . active_name . " +0xE -E0x200 Hidden BackgroundTrans")
+            Gdip_SetPicRoundedRectangle(MyGui[active_name], obj.active_color, obj.r, isFill:="True")
+        }
+
         ; Top text button (顶层文本按钮)
         MyGui.AddText("x" . this._x . " y" . this._y . " w" . this._w . " h" . this._h . " v" . button_name . " BackgroundTrans " . obj.text_options, obj.Text)
         If (obj.HasOwnProp("font_options") and obj.HasOwnProp("font"))
         {
             MyGui[button_name].SetFont(obj.font_options, obj.font)
         }
+
         ; If the active_color format is 0x00, the control is simply an image and not a button（若活跃态颜色是0x00，则返回，即创建图片而不是按钮）
         If Instr(obj.active_color, "0x00")
             Return
@@ -176,16 +183,16 @@ Class CreateButton
         If (tab_prop.HasOwnProp("label_indicator"))
         {
             static indicator_x := tab_prop.label_indicator.margin_left="center" ? this._x + ((this._w - tab_prop.label_indicator.w) / 2) : (this._x + tab_prop.label_indicator.margin_left)
-            ,  indicator_y     := tab_prop.label_indicator.margin_top="center" ? this._y + ((this._h - tab_prop.label_indicator.h) / 2) : (this._y + tab_prop.label_indicator.margin_top)
-            ,  indicator_r     := (tab_prop.label_indicator.HasOwnProp("R") and tab_prop.label_indicator.R!="") ? tab_prop.label_indicator.R*(A_ScreenDPI/96) : "0"
+            ,      indicator_y := tab_prop.label_indicator.margin_top="center" ? this._y + ((this._h - tab_prop.label_indicator.h) / 2) : (this._y + tab_prop.label_indicator.margin_top)
+            ,      indicator_r := (tab_prop.label_indicator.HasOwnProp("R") and tab_prop.label_indicator.R!="") ? tab_prop.label_indicator.R*(A_ScreenDPI/96) : "0"
         }        
         ; Set logo properties
         If (tab_prop.HasOwnProp("logo_symbol"))
         {
             static symbol_x := tab_prop.logo_symbol.margin_left="center" ? this._x : (this._x + tab_prop.logo_symbol.margin_left)
-            ,  symbol_y     := this._y
-            ,  symbol_w     := this._h
-            ,  symbol_h     := this._h
+            ,      symbol_y := this._y
+            ,      symbol_w := this._h
+            ,      symbol_h := this._h
         }
         ; Change to the correct colour format (e.g. text color:=000000, active color:=0xff000000)
         For obj_name in tab_prop.OwnProps()
@@ -211,7 +218,7 @@ Class CreateButton
         ; Loop to create labels to the tab
         Loop tab_prop.label_name.Length
         { 
-            actve_name     := StrReplace(tab_prop.label_name[A_Index], "`s") . "_ACTIVE"    ; 使用StrReplace: 控件名称v不支持空格
+            active_name    := StrReplace(tab_prop.label_name[A_Index], "`s") . "_ACTIVE"    ; 使用StrReplace: 控件名称v不支持空格
             indicator_name := StrReplace(tab_prop.label_name[A_Index], "`s") . "_INDICATOR"
             button_name    := StrReplace(tab_prop.label_name[A_Index], "`s") . "_Tab_BUTTON"
             symbol_name    := StrReplace(tab_prop.label_name[A_Index], "`s") . "_SYMBOL"
@@ -219,10 +226,10 @@ Class CreateButton
             ; Create the label to Hidden the Tab (创建标签至隐藏的标签页)
             Tab.Add([StrReplace(tab_prop.label_name[A_Index], "`s")])    ; 后续的文本按钮文本显示有空格，但文本按钮名称不包含空格，后续Tab_Click函数根据名称来判断，所以创建隐藏Tab也要去空格
             ; Create active/indicator Picture (and Set Rounded Corners) （创建活跃图片、活跃指示器，并设置圆角）
-            MyGui.AddPicture("x" . active_x . " y" . ((this._h + label_distance)*(A_Index-1) + active_y) . " w" . tab_prop.label_active.w*(A_ScreenDPI/96) . " h" . tab_prop.label_active.h*(A_ScreenDPI/96) . " v" . actve_name . " backgroundtrans +0xE -E0x200 Hidden")
-            (tab_prop.HasOwnProp("label_indicator")) ? MyGui.AddPicture("x" . indicator_x . " y" . ((this._h + label_distance)*(A_Index-1) + indicator_y) . " w" . tab_prop.label_indicator.w*(A_ScreenDPI/96) . " h" . tab_prop.label_indicator.h*(A_ScreenDPI/96) . " v" . indicator_name . " backgroundtrans +0xE -E0x200 Hidden") : ""
-            Gdip_SetPicRoundedRectangle(MyGui[actve_name], tab_prop.label_active.color, active_r, isFill:="True")
-            (tab_prop.HasOwnProp("label_indicator")) ? Gdip_SetPicRoundedRectangle(MyGui[indicator_name], tab_prop.label_indicator.color, indicator_r, isFill:="True") : ""
+            MyGui.AddPicture("x" . active_x . " y" . ((this._h + label_distance)*(A_Index-1) + active_y) . " w" . tab_prop.label_active.w*(A_ScreenDPI/96) . " h" . tab_prop.label_active.h*(A_ScreenDPI/96) . " v" . active_name . " backgroundtrans +0xE -E0x200 Hidden")
+            Gdip_SetPicRoundedRectangle(MyGui[active_name], tab_prop.label_active.color, active_r, isFill:="True")
+            (tab_prop.HasOwnProp("label_indicator")) ? MyGui.AddPicture("x" . indicator_x . " y" . ((this._h + label_distance)*(A_Index-1) + indicator_y) . " w" . tab_prop.label_indicator.w*(A_ScreenDPI/96) . " h" . tab_prop.label_indicator.h*(A_ScreenDPI/96) . " v" . indicator_name . " backgroundtrans +0xE -E0x200 Hidden") : False
+            (tab_prop.HasOwnProp("label_indicator")) ? Gdip_SetPicRoundedRectangle(MyGui[indicator_name], tab_prop.label_indicator.color, indicator_r, isFill:="True") : False
 
             ; Create logo
             If tab_prop.HasOwnProp("logo_symbol")
@@ -241,10 +248,10 @@ Class CreateButton
             If (A_Index != 1)
                 Continue
             MyGui.Focus_Tab := MyGui[button_name]
-            MyGui[actve_name].Visible  := True
+            MyGui[active_name].Visible  := True
             (tab_prop.HasOwnProp("label_indicator")) ? (MyGui[indicator_name].Visible := True) : ""
             MyGui[button_name].SetFont("c" . tab_prop.label_prop.font_active_color)
-            (tab_prop.HasOwnProp("logo_symbol")) ? MyGui[symbol_name].Setfont("c" . tab_prop.label_prop.font_active_color) : ""
+            (tab_prop.HasOwnProp("logo_symbol")) ? MyGui[symbol_name].Setfont("c" . tab_prop.label_prop.font_active_color) : False
         }
     }
 }
