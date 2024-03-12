@@ -2,7 +2,7 @@
 
 ## About
 
-This is a software written in AHK, which can solves the tedious operation when replacing shortcut icons. With just **one step**, users can change their icons at will. Whether it's replacing a single icon or **batch replacement**, it can be easily satisfied.It not only supports changing Desktop shortcut icons, but also supports changine shortcut icons in the Start Menu and Other Folders
+This is a software written in AHK, which can solves the tedious operation when replacing shortcut icons. With just **one step**, users can change or restore their icons at will. Whether it's replacing a single icon or **batch replacement**, it can be easily satisfied.It not only supports changing Desktop shortcut icons, but also supports changine shortcut icons in the Start Menu and Other Folders
 
 ## Usage
 
@@ -24,10 +24,10 @@ This is a software written in AHK, which can solves the tedious operation when r
 ![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/Introduction/change_one.gif)
 
 4.List context menu
-*  Run the shortcut
+*  Lanuch the shortcut
 *  Change the shortcut icon
 *  Restore the default icon for the shortcut
-*  Open the shortcut target directory
+*  Explore the shortcut target directory
 *  Rename the shortcut
 *  Adds the non-desktop shortcut to the desktop
 *  View and copy the properties of shortcuts
@@ -36,9 +36,9 @@ This is a software written in AHK, which can solves the tedious operation when r
 
 ## Other Function
 
-1.Add shortcuts from (Desktop or Start Menu or Other Folder) to the list，and change their icons on the home page
+1.Manage shortcuts to the desktop, Start menu or other folders, such as changing icons, restoring default icons, renaming, etc.
 
-2.Add shortcuts to applications such as UWP/APP to the the desktop
+2.Manually add shortcuts to desktop for apps like UWP and WSA
 
 3.Backup shortcuts from the list to a desktop folder
 
@@ -52,11 +52,11 @@ This is a software written in AHK, which can solves the tedious operation when r
 
 2.After some applications are automatically updated, their shortcut icons will automatically return to their default icons
 
-    Solve: Create shortcuts manually——Find it in the application target directory and create its shortcut to the desktop
+    Solve: Rename the shortcuts
 
 3.Shortcuts for UWP and WSA applications do not support restoring default icons
 
-    Solve: Re-add shortcuts to UWP or WSA apps to desktop from "other functions"
+    Solve: Re-add shortcuts to UWP or WSA apps to desktop from "other" functions
 
 4.Some shortcuts have not had their icons replaced, but the list shows as replaced (√)
 
@@ -64,11 +64,11 @@ This is a software written in AHK, which can solves the tedious operation when r
 
 5.Unable to change the icon of UWP shortcut in the start menu
 
-    Solve: Add the UWP shortcut to the desktop from the "Other" function, then change its icon and paste it into the folder of the Start menu, finally fix it to the "Start" Screen in the "All Apps" section of the Start menu
+    Solve: Add the UWP shortcut to the desktop from the "Other" function, then change its icon and paste it into the folder of the Start menu ((C:\Users\your uer name\AppData\Roaming\Microsoft\Windows\Start Menu\Programs)), finally fix it to the "Start" Screen in the "All Apps" section of the Start menu
 
-6.When the icon name and the shortcut name exactly match (i.e. are the same), other shortcuts can't change the icon, even if the name of the shortcut is included in the name of the icon.
+6.WSA applications (app) are misclassified as UWP because it comes from Applications (shell:AppsFolder), AHK-ChangeIcon can't get the shortcut property and can't differentiate its target file type leading to the determination of UWP.
 
-    Solve:Change icon for other shortcut individually
+    Solve:Drag and drop the APP shortcut from "All Apps" in the "Start" menu to the desktop to identify it as a WSA application.
 
 ## Recommend:
 
