@@ -50,14 +50,14 @@ Class CreateButton
         active_name := StrReplace(this._name, "`s") . "_ACTIVE"
         button_name := StrReplace(this._name, "`s") . "_BUTTON"
         ; Normal PNG image (常态的PNG图片)
-        MyGui.AddPicture("x" . this._x . " y" . this._y . " w" . this._w . " h" . this._h, "HICON:" Base64PNG_to_HICON(obj.normal_png_base64, obj.png_quality))
+        MyGui.AddPicture("x" . this._x . " y" . this._y . " w" . this._w . " h" . this._h , "HICON:" Base64PNG_to_HICON(obj.normal_png_base64, obj.png_quality))
         ; 若PNG的Base64不存在或为空，则返回
         If (!obj.HasOwnProp("active_png_base64") or !obj.active_png_base64)
             Return
         ; Active PNG image (活跃态的PNG图片)
-        MyGui.AddPicture("x" . this._x . " y" . this._y . " w" . this._w . " h" . this._h . " v" . active_name . " Hidden", "HICON:" Base64PNG_to_HICON(obj.active_png_base64, obj.png_quality))
+        MyGui.AddPicture("v" . active_name . " x" . this._x . " y" . this._y . " w" . this._w . " h" . this._h . " Hidden", "HICON:" Base64PNG_to_HICON(obj.active_png_base64, obj.png_quality))
         ; Top button (顶层按钮) (+0x4000000：Top level buttons are displayed below other controls (顶层控件的显示在其他控件下方) )
-        MyGui.AddButton("x" . this._x . " y" . this._y . " w" . this._w . " h" . this._h . " v" . button_name . " -Tabstop +0x4000000").OnEvent("Click", ButtonFunc)
+        MyGui.AddButton("v" . button_name . " x" . this._x . " y" . this._y . " w" . this._w . " h" . this._h . " -Tabstop +0x4000000").OnEvent("Click", ButtonFunc)
     }
 
     ;========================================================================================================
@@ -219,27 +219,30 @@ Class CreateButton
         Loop tab_prop.label_name.Length
         { 
             active_name    := StrReplace(tab_prop.label_name[A_Index], "`s") . "_ACTIVE"    ; 使用StrReplace: 控件名称v不支持空格
+            focus_name     := StrReplace(tab_prop.label_name[A_Index], "`s") . "_FOCUS"
             indicator_name := StrReplace(tab_prop.label_name[A_Index], "`s") . "_INDICATOR"
             button_name    := StrReplace(tab_prop.label_name[A_Index], "`s") . "_Tab_BUTTON"
             symbol_name    := StrReplace(tab_prop.label_name[A_Index], "`s") . "_SYMBOL"
 
-            ; Create the label to Hidden the Tab (创建标签至隐藏的标签页)
-            Tab.Add([StrReplace(tab_prop.label_name[A_Index], "`s")])    ; 后续的文本按钮文本显示有空格，但文本按钮名称不包含空格，后续Tab_Click函数根据名称来判断，所以创建隐藏Tab也要去空格
-            ; Create active/indicator Picture (and Set Rounded Corners) （创建活跃图片、活跃指示器，并设置圆角）
-            MyGui.AddPicture("x" . active_x . " y" . ((this._h + label_distance)*(A_Index-1) + active_y) . " w" . tab_prop.label_active.w*(A_ScreenDPI/96) . " h" . tab_prop.label_active.h*(A_ScreenDPI/96) . " v" . active_name . " backgroundtrans +0xE -E0x200 Hidden")
-            Gdip_SetPicRoundedRectangle(MyGui[active_name], tab_prop.label_active.color, active_r, isFill:="True")
+            ; Create the "label" to Hidden the Tab
+            Tab.Add([StrReplace(tab_prop.label_name[A_Index], "`s")])    ; StrReplace: 文本按钮名称不包含空格，后续Tab_Click函数根据无空格名称来判断，所以创建隐藏Tab也要去空格
+            ; Create "active" Picture (and Set Rounded Corners)
+            MyGui.AddPicture("v" . active_name . " x" . active_x . " y" . ((this._h + label_distance)*(A_Index-1) + active_y) . " w" . tab_prop.label_active.w*(A_ScreenDPI/96) . " h" . tab_prop.label_active.h*(A_ScreenDPI/96) . " backgroundtrans +0xE -E0x200 Hidden")
+            Gdip_SetPicRoundedRectangle(MyGui[active_name], "0x1AFFFFFF", active_r, isFill:="True")
+            ; Create "focus" Picture (and Set Rounded Corners)
+            MyGui.AddPicture("v" . focus_name . " x" . active_x . " y" . ((this._h + label_distance)*(A_Index-1) + active_y) . " w" . tab_prop.label_active.w*(A_ScreenDPI/96) . " h" . tab_prop.label_active.h*(A_ScreenDPI/96) . " backgroundtrans +0xE -E0x200 Hidden")
+            Gdip_SetPicRoundedRectangle(MyGui[focus_name], tab_prop.label_active.color, active_r, isFill:="True")          
+            ; Create "indicator" Picture (and Set Rounded Corners)
             (tab_prop.HasOwnProp("label_indicator")) ? MyGui.AddPicture("x" . indicator_x . " y" . ((this._h + label_distance)*(A_Index-1) + indicator_y) . " w" . tab_prop.label_indicator.w*(A_ScreenDPI/96) . " h" . tab_prop.label_indicator.h*(A_ScreenDPI/96) . " v" . indicator_name . " backgroundtrans +0xE -E0x200 Hidden") : False
             (tab_prop.HasOwnProp("label_indicator")) ? Gdip_SetPicRoundedRectangle(MyGui[indicator_name], tab_prop.label_indicator.color, indicator_r, isFill:="True") : False
-
-            ; Create logo
+            ; Create "logo" symbol
             If tab_prop.HasOwnProp("logo_symbol")
             {
                 If tab_prop.label_name.Capacity != tab_prop.logo_unicode.Capacity    ; 标签页数与logo数量不匹
                     Return (MsgBox("标签数量与图标数量不等, 或格式不正确"))
                 FontSymbol( obj:={name:symbol_name, x:symbol_x, y:((this._h + label_distance)*(A_Index-1) + symbol_y), w:symbol_w, h:symbol_h, unicode:tab_prop.logo_unicode[A_Index], font_name:tab_prop.logo_symbol.font_name, text_color:tab_prop.label_prop.font_normal_color, back_color:"trans", font_options:"s" . tab_prop.logo_size[A_Index], text_options:"+0x200 center"} )
             }
-        
-            ; Create the label to Visible the Tab ( as a top text button) （创建标签至显示的标签页，并作为顶部的文本按钮）
+            ; Create the "label" to Visible the Tab ( as a top text button) （创建标签至显示的标签页，并作为顶部的文本按钮）
             MyGui.AddText("x" . this._x . " y" (this._y + (this._h + label_distance)*(A_Index-1)) . " h" . this._h . " w" . this._w . " v" . button_name .  " BackgroundTrans +0x200 " . tab_prop.label_prop.text_options, tab_prop.label_name[A_Index])
             MyGui[button_name].SetFont(tab_prop.label_prop.font_options, tab_prop.label_prop.font)
             MyGui[button_name].SetFont("c" . tab_prop.label_prop.font_normal_color)
@@ -248,9 +251,9 @@ Class CreateButton
             If (A_Index != 1)
                 Continue
             MyGui.Focus_Tab := MyGui[button_name]
-            MyGui[active_name].Visible  := True
-            (tab_prop.HasOwnProp("label_indicator")) ? (MyGui[indicator_name].Visible := True) : ""
+            MyGui[focus_name].Visible  := True
             MyGui[button_name].SetFont("c" . tab_prop.label_prop.font_active_color)
+            (tab_prop.HasOwnProp("label_indicator")) ? (MyGui[indicator_name].Visible := True) : False
             (tab_prop.HasOwnProp("logo_symbol")) ? MyGui[symbol_name].Setfont("c" . tab_prop.label_prop.font_active_color) : False
         }
     }

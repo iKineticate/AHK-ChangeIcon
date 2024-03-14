@@ -192,6 +192,9 @@ Text :=
     ,NO_CHANGE_ZH : "未更换任何快捷方式的图标"
     ,NO_CHANGE_EN : "The icon for any shortcut has not been replaced"
 
+    ,IS_DELETE_ZH : "——该快捷方式是无效的，是否删除该快捷方式？"
+    ,IS_DELETE_EN : "——The shortcut is invalid, do you need to delete the shortcut?"
+
     ;==========================================================================
     ; Tab: About
     ;==========================================================================
