@@ -25,19 +25,19 @@ Text :=
 {
     ; Label Name
      HOME_ZH : "  主 页"
-    ,HOME_EN : "     Home"
+    ,HOME_EN : "  Home"
 
     ,OTHER_ZH : "  其 他"
-    ,OTHER_EN : "    Other"
+    ,OTHER_EN : "  Other"
 
     ,LOG_ZH : "  日 志"
-    ,LOG_EN : " Log"
+    ,LOG_EN : "Log "
 
     ,HELP_ZH : "  设 置"
-    ,HELP_EN : "        Settings"
+    ,HELP_EN : "      Settings"
 
     ,ABOUT_ZH : "  关 于"
-    ,ABOUT_EN : "     About"
+    ,ABOUT_EN : "   About"
 
     ;==========================================================================
     ; Tab: Home
@@ -195,6 +195,15 @@ Text :=
     ,IS_DELETE_ZH : "——该快捷方式是无效的，是否删除该快捷方式？"
     ,IS_DELETE_EN : "——The shortcut is invalid, do you need to delete the shortcut?"
 
+    ,SYSTEM_ICONS_ZH : "浏览系统图标"
+    ,SYSTEM_ICONS_EN : "Browse system icons"
+
+    ,SYSTEM_ICONS_TITLE_ZH : "系统图标"
+    ,SYSTEM_ICONS_TITLE_EN : "System Icons"
+
+    ,USERS_ICONS_TITLE_ZH : "用户图标"
+    ,USERS_ICONS_TITLE_EN : "Users Icons"
+    
     ;==========================================================================
     ; Tab: About
     ;==========================================================================

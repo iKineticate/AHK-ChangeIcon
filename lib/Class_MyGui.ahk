@@ -60,7 +60,6 @@ Class CreateModernGUI
         Case 8 : obj.active_color:= RegExReplace(color,"i)^0x")
         Case 10: obj.active_color:= RegExReplace(color, "i)^0x..")
         }
-
         ; Create Windows Control Buttons (Replace button icons with font symbols) (创建文本符号的控制窗口按钮)
         For key, value in map("Close", "0x2716", "Maximize", "0x25A2", "Minimize", "0xE0B8")
         {
@@ -68,12 +67,14 @@ Class CreateModernGUI
             button_name := key . "_BUTTON"
             button_x := this.w - (obj.margin_right + A_Index * obj.button_w)
             button_y := obj.margin_top
-            (!obj.HasOwnProp("symbol_backcolor")) ? "" : MyGui.AddPicture("x" . button_x . " y" . button_y . " w" . obj.button_w . " h" . obj.button_h . " background" . obj.symbol_backcolor . " -E0x200")
+            text_color := (key="Maximize") ? "575757" : "ffffff"
+            ; 常态
+            (obj.HasOwnProp("symbol_backcolor")) ? MyGui.AddPicture("x" . button_x . " y" . button_y . " w" . obj.button_w . " h" . obj.button_h . " background" . obj.symbol_backcolor . " -E0x200") : False
             ; 活跃态
-            (key="Maximize") ? "" : MyGui.AddPicture("v" active_name " x" . button_x . " y" . button_y . " w" . obj.button_w . " h" . obj.button_h . " background" . obj.active_color . " +Hidden -E0x200")
+            (key!="Maximize") ? MyGui.AddPicture("v" active_name " x" . button_x . " y" . button_y . " w" . obj.button_w . " h" . obj.button_h . " background" . obj.active_color . " +Hidden -E0x200") : False
             ; 文本按钮
-            FontSymbol( {name:button_name, x:button_x, y:button_y, w:obj.button_w, h:obj.button_h, unicode:value, font_name:"Segoe UI Symbol", text_color:"ffffff", back_color:"Trans", font_options:"s" obj.button_h/2, text_options:"+0x200 center"} )
-            (key="Maximize") ? "" : MyGui[button_name].OnEvent("Click", ButtonFunc)            
+            FontSymbol( {name:button_name, x:button_x, y:button_y, w:obj.button_w, h:obj.button_h, unicode:value, font_name:"Segoe UI Symbol", text_color:text_color, back_color:"Trans", font_options:"s" obj.button_h/2, text_options:"+0x200 center"} )
+            (key!="Maximize") ? MyGui[button_name].OnEvent("Click", ButtonFunc) : False
         }
     }
 

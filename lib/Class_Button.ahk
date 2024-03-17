@@ -50,14 +50,13 @@ Class CreateButton
         active_name := StrReplace(this._name, "`s") . "_ACTIVE"
         button_name := StrReplace(this._name, "`s") . "_BUTTON"
         ; Normal PNG image (常态的PNG图片)
-        MyGui.AddPicture("x" . this._x . " y" . this._y . " w" . this._w . " h" . this._h , "HICON:" Base64PNG_to_HICON(obj.normal_png_base64, obj.png_quality))
+        ; Top button (顶层按钮) (+0x4000000：Top level buttons are displayed below other controls (顶层控件的显示在其他控件下方) )
+        MyGui.AddPicture("v" . button_name . " x" . this._x . " y" . this._y . " w" . this._w . " h" . this._h, "HICON:" Base64PNG_to_HICON(obj.normal_png_base64, obj.png_quality)).OnEvent("Click", ButtonFunc)
         ; 若PNG的Base64不存在或为空，则返回
         If (!obj.HasOwnProp("active_png_base64") or !obj.active_png_base64)
             Return
         ; Active PNG image (活跃态的PNG图片)
         MyGui.AddPicture("v" . active_name . " x" . this._x . " y" . this._y . " w" . this._w . " h" . this._h . " Hidden", "HICON:" Base64PNG_to_HICON(obj.active_png_base64, obj.png_quality))
-        ; Top button (顶层按钮) (+0x4000000：Top level buttons are displayed below other controls (顶层控件的显示在其他控件下方) )
-        MyGui.AddButton("v" . button_name . " x" . this._x . " y" . this._y . " w" . this._w . " h" . this._h . " -Tabstop +0x4000000").OnEvent("Click", ButtonFunc)
     }
 
     ;========================================================================================================
@@ -107,7 +106,6 @@ Class CreateButton
             MyGui.AddPicture("x" . this._x . " y" . this._y . " w" . this._w*(A_ScreenDPI/96) . " h" . this._h*(A_ScreenDPI/96) . " v" . active_name . " +0xE -E0x200 Hidden BackgroundTrans")
             Gdip_SetPicRoundedRectangle(MyGui[active_name], obj.active_color, obj.r, isFill:="True")
         }
-
         ; Top text button (顶层文本按钮)
         MyGui.AddText("x" . this._x . " y" . this._y . " w" . this._w . " h" . this._h . " v" . button_name . " BackgroundTrans " . obj.text_options, obj.Text)
         If (obj.HasOwnProp("font_options") and obj.HasOwnProp("font"))

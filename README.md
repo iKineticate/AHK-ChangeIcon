@@ -54,6 +54,10 @@
 
 ![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/Introduction/other_zh.png)
 
+4.浏览系统大部分图标或用户自选图标，支持双击更换左侧列表快捷方式图标
+
+![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/Introduction/system_icons.gif)
+
 ## 已知问题
 
 1.仅支持更换快捷方式(.lnk)图标，暂不支持更换非快捷方式图标（如.url、pdf、exe等图标）
@@ -88,6 +92,8 @@
 
     尚无解决办法
 
+9.Windows10不支持圆角
+
 ## 下载
 
 Github：[AHK-ChangeIcon](https://github.com/iKineticate/AHK-ChangeIcon/releases)
@@ -115,14 +121,10 @@ Github：[AHK-ChangeIcon](https://github.com/iKineticate/AHK-ChangeIcon/releases
 
 ## 更新内容
 
-1.文字图标代替PNG显示图标
+1.新功能：浏览系统内置图标或用户自选文件夹图标，并支持双击功能（随主窗口移动而移动）
 
-2.检索配置内容
+2.优化了搜索的Edit控件内的显示内容和tooltip位置
 
-3.默认字体更换为UI
+3.新增关闭时的渐进淡化隐藏和关闭的效果
 
-4.垂直标签页添加图标
-
-5.修复部分问题，优化部分代码
-
-6.垂直标签页的"帮助"更换为"设置"（设置内的功能未上线）
+4.优化了判断快捷方式是否更换过图标的能力
