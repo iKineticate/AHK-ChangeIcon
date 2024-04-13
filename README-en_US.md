@@ -1,4 +1,4 @@
-![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/introduction/homepage.png)
+![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/intro-images/homepage.png)
 
 ## About
 
@@ -17,11 +17,11 @@ This is a software written in AHK, which can solves the tedious operation when r
     （1）The full name of the icon is included in the name of the shortcut(e.g. the icon name is "Chrome.ico" and the shortcut name is "Chrome Canary.lnk")
     （2）The full name of the shortcut should be included in the name of the icon(e.g. the icon name is "Honkai: Star Rail.ico" and the shortcut name is "Star Rail.lnk")
 
-![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/introduction/change_and_restore.gif)
+![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/intro-images/change_and_restore.gif)
 
 3.Change/Restore the icon of a single shortcut
 
-![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/introduction/change_one.gif)
+![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/intro-images/change_one.gif)
 
 4.List context menu
 *  Lanuch the shortcut
@@ -33,7 +33,7 @@ This is a software written in AHK, which can solves the tedious operation when r
 *  Adds the non-desktop shortcut to the desktop
 *  View and copy the properties of shortcuts
 
-![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/introduction/menu.jpg)
+![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/intro-images/menu.jpg)
 
 ## Other Function
 
@@ -45,7 +45,7 @@ This is a software written in AHK, which can solves the tedious operation when r
 
 4.Backup shortcuts from the list to a desktop folder
 
-![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/introduction/other_en.png)
+![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/intro-images/other_en.png)
 
 ## ISSUES：
 
