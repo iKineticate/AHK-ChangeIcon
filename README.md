@@ -1,4 +1,4 @@
-![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/Introduction/homepage.png)
+![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/introduction/homepage.png)
 
 <h3 align="center"> 简体中文 | <a href='./README-en_US.md'>English</a></h3>
 
@@ -20,11 +20,11 @@
 
     * 快捷方式的全名称包含于图标的名称（例如图标名称为"崩坏：星穹铁道.ico"，快捷方式名称为"星穹铁道.lnk"）
 
-![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/Introduction/change_and_restore.gif)
+![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/introduction/change_and_restore.gif)
 
 3.更换/恢复单个快捷方式图标
 
-![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/Introduction/change_one.gif)
+![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/introduction/change_one.gif)
 
 4.右键上下文菜单
 
@@ -34,6 +34,8 @@
 
 * 恢复快捷方式默认图标
 
+* 提取快捷方式图标
+
 * 打开快捷方式目标目录
 
 * 重新命名桌面快捷方式
@@ -42,21 +44,23 @@
 
 * 查看和复制快捷方式的属性
 
-![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/Introduction/menu.jpg)
+![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/introduction/menu.jpg)
 
 ## 其他功能
 
-1.管理桌面、"开始"菜单或其他文件夹的快捷方式，进行如更换图标、恢复默认图标、重命名等操作
+1.管理桌面、"开始"菜单或其他文件夹的快捷方式
 
-2.手动添加UWP/WSA等应用的快捷方式至桌面
+2.显示系统图标或用户文件夹图标（支持提取系统图标）
 
-3.备份列表中的快捷方式至桌面指定名称的文件夹
+2.创建UWP/WSA等应用的快捷方式至桌面
 
-![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/Introduction/other_zh.png)
+3.备份列表快捷方式至桌面指定的文件夹
+
+![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/introduction/other_zh.png)
 
 4.浏览系统大部分图标或用户自选图标，支持双击更换左侧列表快捷方式图标
 
-![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/Introduction/system_icons.gif)
+![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/introduction/system_icons.gif)
 
 ## 已知问题
 
@@ -88,15 +92,11 @@
 
     解决办法：单独更换其他快捷方式图标
 
-8.快捷方式图标手动更换为系统内置图标时（如shell32.dll），误判为未更换
-
-    尚无解决办法
-
-9.Windows10不支持圆角
+8.Windows10不支持圆角
 
 ## 下载
 
-Github：[AHK-ChangeIcon](https://github.com/iKineticate/AHK-ChangeIcon/releases)
+Github：[AHK-ChangeIcon](https://github.com/iKineticate/AHK-ChangeIcon/releases/latest)
 
 蓝奏云：[AHK-ChangeIcon](https://wwu.lanzoul.com/b03rjy4ud) (密码：6666)
 
@@ -121,10 +121,10 @@ Github：[AHK-ChangeIcon](https://github.com/iKineticate/AHK-ChangeIcon/releases
 
 ## 更新内容
 
-1.新功能：浏览系统内置图标或用户自选文件夹图标，并支持双击功能（随主窗口移动而移动）
+1.新功能：浏览系统内置图标或用户自选文件夹图标，支持双击更换快捷方式图标
 
-2.优化了搜索的Edit控件内的显示内容和tooltip位置
+2.新功能：支持提取快捷方式、系统的图标
 
-3.新增关闭时的渐进淡化隐藏和关闭的效果
+3.优化了判断快捷方式是否更换过图标的能力
 
-4.优化了判断快捷方式是否更换过图标的能力
+4.在指定控件上更换鼠标样式 

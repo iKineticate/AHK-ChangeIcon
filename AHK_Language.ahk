@@ -1,29 +1,32 @@
-; zh: LCID_7804 := "Chinese"（中文）
-; zh-Hans: LCID_0004 := "Chinese (中文简体)"
-; zh-Hant: LCID_7C04 := "Chinese (中文繁体)"
-; zh-CN: LCID_0804 := "Chinese (中文简体-中国大陆)"
-; zh-HK: LCID_0C04 := "Chinese (中文繁体-中国香港)"
-; zh-MO: LCID_1404 := "Chinese (中文繁体-中国澳门)"
-; zh-TW: LCID_0404 := "Chinese (中文繁体-中国台湾)"
-; zh-SG: LCID_1004 := "Chinese (中文简体-新加坡)"
-Switch A_Language
-{
-Case "0804": zh := True
-Case "7804": zh := True
-Case "0004": zh := True
-Case "1004": zh := True
-Case "7C04": zh := True
-Case "0C04": zh := True
-Case "1404": zh := True
-Case "0404": zh := True
-Default    : zh := False
+
+/*
+    zh        LCID_7804 = "Chinese（中文）"
+    zh-Hans   LCID_0004 = "Chinese (中文简体)"
+    zh-Hant   LCID_7C04 = "Chinese (中文繁体)"
+    zh-CN     LCID_0804 = "Chinese (中文简体-中国大陆)"
+    zh-HK     LCID_0C04 = "Chinese (中文繁体-中国香港)"
+    zh-MO     LCID_1404 = "Chinese (中文繁体-中国澳门)"
+    zh-TW     LCID_0404 = "Chinese (中文繁体-中国台湾)"
+    zh-SG     LCID_1004 = "Chinese (中文简体-新加坡)"
+*/
+Switch A_Language {
+    Case "0804": zh := True
+    Case "7804": zh := True
+    Case "0004": zh := True
+    Case "1004": zh := True
+    Case "7C04": zh := True
+    Case "0C04": zh := True
+    Case "1404": zh := True
+    Case "0404": zh := True
+    Default    : zh := False
 }
 
-; Note:     This a object, not an array， ":" (√), ":="（×）
-; Format:   name_ZH and name_EN
-Text :=
-{
+
+Text := {
+    ;==========================================================================
     ; Label Name
+    ;==========================================================================
+
      HOME_ZH : "  主 页"
     ,HOME_EN : "  Home"
 
@@ -31,10 +34,10 @@ Text :=
     ,OTHER_EN : "  Other"
 
     ,LOG_ZH : "  日 志"
-    ,LOG_EN : "Log "
+    ,LOG_EN : "Logs"
 
     ,HELP_ZH : "  设 置"
-    ,HELP_EN : "      Settings"
+    ,HELP_EN : "      Options"
 
     ,ABOUT_ZH : "  关 于"
     ,ABOUT_EN : "   About"
@@ -42,6 +45,7 @@ Text :=
     ;==========================================================================
     ; Tab: Home
     ;==========================================================================
+
     ; Count (计数) 
     ,CHANGED_ICON_ZH : "已更换:"
     ,CHANGED_ICON_EN : "Yes.C`s:"
@@ -68,6 +72,9 @@ Text :=
     
     ,MENU_RESTORE_ZH : "恢复默认图标"
     ,MENU_RESTORE_EN : "Restore"
+
+    ,MENU_EXTRACT_ZH : '提取文件图标'
+    ,MENU_EXTRACT_EN : 'Extract'
     
     ,MENU_OPEN_ZH : "打开目标目录"
     ,MENU_OPEN_EN : "Explore"
@@ -105,22 +112,26 @@ Text :=
     ,SAME_NAME_ZH : "存在重复名称，请重新命名"
     ,SAME_NAME_EN : "Duplicate name exists, please rename"
 
+    ,LINK_ICON_FROM_EXIST_ICO_ZH : '该快捷方式图标源于已存在的图标，是否复制它到桌面？'
+    ,LINK_ICON_FROM_EXIST_ICO_EN : "The shortcut s icon is from an existing .ico file, is it copied to the desktop?"
+
     ;==========================================================================
     ; Tab: Other
     ;==========================================================================
-    ,ADD_DESKTOP_TO_LV_ZH : "重新加载桌面快捷方式至主页列表"
-    ,ADD_DESKTOP_TO_LV_EN : "Reload the desktop shortcuts"
 
-    ,ADD_START_TO_LV_ZH : "管理`"开始`"菜单的快捷方式的图标"
-    ,ADD_START_TO_LV_EN : "Manage shortcuts to Start Menu"
+    ,ADD_DESKTOP_TO_LV_ZH : ' 管理所有用户的桌面快捷方式的图标'   ; "重新加载桌面快捷方式至主页列表"
+    ,ADD_DESKTOP_TO_LV_EN : 'Manage shortcuts from Desktops' ;"Reload the desktop shortcuts"
 
-    ,ADD_OTHER_TO_LV_ZH : "管理其他文件夹的快捷方式的图标"
-    ,ADD_OTHER_TO_LV_EN : "Manage shortcuts to other folder"
+    ,ADD_START_TO_LV_ZH : " 管理系统开始菜单的快捷方式的图标"
+    ,ADD_START_TO_LV_EN : "Manage shortcuts from Start menu"
 
-    ,ADD_UWP_WSA_TO_LV_ZH : "添加UWP/WSA的快捷方式至桌面"
-    ,ADD_UWP_WSA_TO_LV_EN : "Add UWP/WSA shortcuts to desktop"
+    ,ADD_OTHER_TO_LV_ZH : " 管理其他的文件夹的快捷方式的图标"
+    ,ADD_OTHER_TO_LV_EN : "Manage shortcuts from Directories"
 
-    ,BACKUP_LV_LINK_ZH : "备份列表的快捷方式至桌面文件夹"
+    ,ADD_UWP_WSA_TO_LV_ZH : " 创建UWP或WSA等的桌面快捷方式"
+    ,ADD_UWP_WSA_TO_LV_EN : "Create UWP/APP desktop shortcuts"
+
+    ,BACKUP_LV_LINK_ZH : " 备份列表所有快捷方式至桌面文件夹"
     ,BACKUP_LV_LINK_EN : "Backup shortcuts to a desktop folder"
     
     ,ERROE_ADD_LINK_TO_DESKTOP_ZH : "桌面已存在相同名称的快捷方式"
@@ -130,13 +141,13 @@ Text :=
     ,IS_ADD_DESKTOP_TO_LV_EN : "Do you want to reload desktop shortcuts to the list and manage shortcuts on the home page?"
 
     ,IS_ADD_START_TO_LV_ZH : "是否添加`"开始`"菜单的快捷方式至列表，并在`"主页`"进行更换图标等操作？`n`s①对于开始菜单的快捷方式，不建议使用`"更换所有快捷方式图标`"的功能`n`s②右键可添加`"开始`"菜单的快捷方式至桌面`n`s③`"开始`"菜单的文件夹中不存在UWP应用"
-    ,IS_ADD_START_TO_LV_EN : "Do you want to add Start Menu shortcuts to the list and manage shortcuts on the home page?`n`s①It is not recommended to change the icons of all shortcuts in Start Menu`n`s②Context menu has the function called `"Add to the desktop`"`n`s③There are no UWP apps in Start Menu"
+    ,IS_ADD_START_TO_LV_EN : "Do you want to add Start menu shortcuts to the list and manage shortcuts on the home page?`n`s①It is not recommended to change the icons of all shortcuts in Start menu`n`s②Context menu has the function called `"Add to the desktop`"`n`s③There are no UWP apps in Start menu"
 
-    ,IS_ADD_OTHER_ZH : "是否添加其他文件夹的快捷方式至列表，并在`"主页`"进行更换图标等操作？"
-    ,IS_ADD_OTHER_EN : "Do you want to add shortcuts from other folder to the list and change icons on the home page?"
+    ,IS_ADD_OTHER_TO_LV_ZH : "是否添加其他文件夹的快捷方式至列表，并在`"主页`"进行更换图标等操作？"
+    ,IS_ADD_OTHER_TO_LV_EN : "Do you want to add shortcuts from other folder to the list and change icons on the home page?"
     
-    ,IS_ADD_UWP_APP_TO_LV_ZH : "是否添加UWP或APP等应用的快捷方式至桌面？`n`s①建议从(`"开始`"菜单--所有应用)中拖拽UWP/APP快捷方式至桌面`n`s②右键呼出菜单并添加指定的快捷方式至桌面"
-    ,IS_ADD_UWP_APP_TO_LV_EN : "Do you want to add UWP or APP shortcuts to the desktops?`n`s①Suggest dragging UWP or APP shortcuts from `"Start Menu--All Apps`" to the desktop`n`s②Context menu The menu has the function `"Add to the desktop`""
+    ,IS_ADD_UWP_APP_TO_DESKTOP_ZH : "是否添加UWP或APP等应用的快捷方式至桌面？`n`s①建议从(`"开始`"菜单--所有应用)中拖拽UWP/APP快捷方式至桌面`n`s②右键呼出菜单并添加指定的快捷方式至桌面"
+    ,IS_ADD_UWP_APP_TO_DESKTOP_EN : "Do you want to add UWP or APP shortcuts to the desktops?`n`s①Suggest dragging UWP or APP shortcuts from `"Start menu--All Apps`" to the desktop`n`s②Context menu The menu has the function `"Add to the desktop`""
     
     ,IS_BACKUP_TO_FOLDER_ZH : "是否备份列表的快捷方式至桌面文件夹——`""
     ,IS_BACKUP_TO_FOLDER_EN : "Do you want to back up the list's shortcuts to a desktop folder named `""
@@ -207,6 +218,7 @@ Text :=
     ;==========================================================================
     ; Tab: About
     ;==========================================================================
+
     ,GITHUB_ZH : "     官   网"
     ,GITHUB_EN : "Github"
 
@@ -221,19 +233,31 @@ Text :=
 
     ,CONTRIBUTORS_ZH : "     贡献者"
     ,CONTRIBUTORS_EN : "Contributors"
+
+    ;==========================================================================
+    ; IconGUI
+    ;==========================================================================
+
+    ,EXTRACT_ICON_ZH : '提取图标至桌面'
+    ,EXTRACT_ICON_EN : 'Extract the icon to desktop'
+
+    ,EXTRACTED_ZH : '已成功提取图标至桌面：'
+    ,EXTRACTED_EN : 'The icon have been successfully extracted to the desktop -  '
+
+    ,FAILED_TO_EXTRACT_ZH : '提取图标失败，若有疑问，请前往Github提交ISSUES'
+    ,FAILED_TO_EXTRACT_EN : 'Failed to extract the icon, if in doubt, go to Github and submit ISSUES!'
+
+    ,LINK_TARGET_NOT_EXIST_ZH : '快捷方式的目标文件不存在或路径错误'
+    ,LINK_TARGET_NOT_EXIST_EN : 'The target file of the shortcut does not exist or its path is wrong'
 }
 
-For name, Descriptor in Text.OwnProps()
-{
-    If zh = True
-    {
+For name, Descriptor in Text.OwnProps() {
+    If zh = True {
         If !Instr(name, "_ZH")
             Continue
         name := StrReplace(name, "_ZH")
         Text.%name%:=Descriptor
-    }
-    Else
-    {
+    } Else {
         If !Instr(name, "_EN")
             Continue
         name := StrReplace(name, "_EN")

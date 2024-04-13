@@ -1,4 +1,4 @@
-![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/Introduction/homepage.png)
+![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/introduction/homepage.png)
 
 ## About
 
@@ -17,32 +17,35 @@ This is a software written in AHK, which can solves the tedious operation when r
     （1）The full name of the icon is included in the name of the shortcut(e.g. the icon name is "Chrome.ico" and the shortcut name is "Chrome Canary.lnk")
     （2）The full name of the shortcut should be included in the name of the icon(e.g. the icon name is "Honkai: Star Rail.ico" and the shortcut name is "Star Rail.lnk")
 
-![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/Introduction/change_and_restore.gif)
+![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/introduction/change_and_restore.gif)
 
 3.Change/Restore the icon of a single shortcut
 
-![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/Introduction/change_one.gif)
+![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/introduction/change_one.gif)
 
 4.List context menu
 *  Lanuch the shortcut
 *  Change the shortcut icon
 *  Restore the default icon for the shortcut
+*  Extract shortcut icon
 *  Explore the shortcut target directory
 *  Rename the shortcut
 *  Adds the non-desktop shortcut to the desktop
 *  View and copy the properties of shortcuts
 
-![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/Introduction/menu.jpg)
+![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/introduction/menu.jpg)
 
 ## Other Function
 
-1.Manage shortcuts to the desktop, Start menu or other folders, such as changing icons, restoring default icons, renaming, etc.
+1.Manage shortcuts to the desktop, Start menu or other folders
 
-2.Manually add shortcuts to desktop for apps like UWP and WSA
+2.Display system icons or user folder icons (supports extracting system icons)
 
-3.Backup shortcuts from the list to a desktop folder
+3.Create shortcuts to desktop for UWP/WSA etc. applications
 
-![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/Introduction/other_en.png)
+4.Backup shortcuts from the list to a desktop folder
+
+![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/introduction/other_en.png)
 
 ## ISSUES：
 
