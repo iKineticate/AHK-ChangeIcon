@@ -1,4 +1,4 @@
-![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/introduction/homepage.png)
+![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/intro-images/homepage.png)
 
 <h3 align="center"> 简体中文 | <a href='./README-en_US.md'>English</a></h3>
 
@@ -20,11 +20,11 @@
 
     * 快捷方式的全名称包含于图标的名称（例如图标名称为"崩坏：星穹铁道.ico"，快捷方式名称为"星穹铁道.lnk"）
 
-![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/introduction/change_and_restore.gif)
+![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/intro-images/change_and_restore.gif)
 
 3.更换/恢复单个快捷方式图标
 
-![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/introduction/change_one.gif)
+![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/intro-images/change_one.gif)
 
 4.右键上下文菜单
 
@@ -44,7 +44,7 @@
 
 * 查看和复制快捷方式的属性
 
-![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/introduction/menu.jpg)
+![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/intro-images/menu.jpg)
 
 ## 其他功能
 
@@ -56,11 +56,11 @@
 
 3.备份列表快捷方式至桌面指定的文件夹
 
-![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/introduction/other_zh.png)
+![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/intro-images/other_zh.png)
 
 4.浏览系统大部分图标或用户自选图标，支持双击更换左侧列表快捷方式图标
 
-![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/introduction/system_icons.gif)
+![image](https://github.com/iKineticate/AHK-ChangeIcon/blob/main/intro-images/system_icons.gif)
 
 ## 已知问题
 
