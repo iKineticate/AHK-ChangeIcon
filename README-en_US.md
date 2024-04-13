@@ -4,6 +4,8 @@
 
 This is a software written in AHK, which can solves the tedious operation when replacing shortcut icons. With just **one step**, users can change or restore their icons at will. Whether it's replacing a single icon or **batch replacement**, it can be easily satisfied.It not only supports changing Desktop shortcut icons, but also supports changine shortcut icons in the Start Menu and Other Folders
 
+In the future, I plan to rebuild this project using the Rust programming language; therefore, this project may not receive further updates.
+
 ## Usage
 
 1.In order to use it properly, please grant the software administrator privileges before using it
